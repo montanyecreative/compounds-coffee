@@ -2,28 +2,18 @@
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import Promotion from "@/components/promotion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import BrewLogForm from "@/components/brewLogForm";
 
 export default function Home() {
 	return (
 		<main>
 			<Navbar />
-			<div className="banner-home">
-				<div className="container sm:mx-auto md:mx-auto flex banner-home-copy items-center">
-					<h1 className="text-[42px] text-center">
-						For the love of coffee <br /> by coffee lovers
-					</h1>
-				</div>
-			</div>
+			<div className="page-banner-filler bg-mediumRoast"></div>
 			<div className="container-fluid">
-				<div className="container sm:mx-auto md:mx-auto text-center copy text-black">
-					<h2 className="mb-5 pt-10 md:pt-unset text-black">About this site</h2>
-					<p className="mb-5">
-						This site was created for coffee lovers so that we can better appreciate, understand, and enjoy coffee. Here's to
-						the never ending quest of the perfect cup of coffee.
-					</p>
+				<div className="container sm:mx-auto md:mx-auto copy text-black">
+					<BrewLogForm />
 				</div>
 			</div>
 			<div className="container-fluid">
@@ -39,7 +29,6 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-			{/* <Promotion /> */}
 			<Footer />
 		</main>
 	);

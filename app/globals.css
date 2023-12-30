@@ -67,7 +67,7 @@ main {
 }
 
 nav {
-	background-color: #222;
+	background-color: #4f3018;
 	position: fixed;
 	top: 0;
 	z-index: 999;
@@ -306,13 +306,13 @@ h2 {
 	.custom-underline {
 		padding-bottom: 5px;
 		transition: border-width 0.2s ease-in;
-		border-bottom: 2px solid #c6284a;
+		border-bottom: 2px solid #00c9ad;
 	}
 
 	.custom-hover {
 		padding-bottom: 5px;
 		transition: border-width 0.2s ease-in;
-		border-bottom: 2px solid #c6284a;
+		border-bottom: 2px solid #00c9ad;
 	}
 
 	.centered-hr-primary {
@@ -356,11 +356,11 @@ h2 {
 	}
 
 	.page-banner-filler {
-		height: 100px;
+		height: 85px;
 	}
 
 	.banner-home {
-		/* background-image: url("../public/banners/banner-home.webp"); */
+		background-image: url("../public/banner-home.webp");
 		background-size: cover;
 		background-position: bottom;
 		height: 600px;

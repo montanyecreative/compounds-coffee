@@ -10,23 +10,13 @@ const close = "/cross-1.svg";
 export const navLinks = [
 	{
 		id: 1,
-		title: "Photography",
-		link: "photography",
+		title: "Brew Log",
+		link: "brew-log",
 	},
 	{
 		id: 2,
-		title: "Photo/VHS Digitization",
-		link: "photo-vhs-digitization",
-	},
-	{
-		id: 3,
-		title: "Website Development",
-		link: "website-development",
-	},
-	{
-		id: 4,
-		title: "Resume",
-		link: "resume",
+		title: "Favorite Coffees",
+		link: "favorite-coffees",
 	},
 	{
 		id: 5,
@@ -66,7 +56,7 @@ export default function Navbar() {
 					<div className="logo">
 						<Link href="/" className="flex">
 							<Image src={logo} alt="logo" width="40" height="25" />
-							<span className="text-white ml-2 text-[20px]">Montanye Creative</span>
+							<span className="text-white ml-2 text-[20px]">Compounds Coffee</span>
 						</Link>
 					</div>
 
@@ -99,7 +89,7 @@ export default function Navbar() {
 						<div
 							className={`${
 								!toggle ? "hidden" : "flex"
-							} p-6 text-white bg-black absolute top-20 right-0 md:mx-4 md:my-2 min-w-[100%] sidebar`}
+							} p-6 text-white bg-mediumRoast absolute top-20 right-0 md:mx-4 md:my-2 min-w-[100%] sidebar`}
 						>
 							<ul className="list-none flex justify-end items-start flex-1 flex-col">
 								{navLinks.map((nav, index) => (

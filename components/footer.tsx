@@ -8,42 +8,31 @@ export default function Footer() {
 	const currentYear = date.getFullYear();
 
 	return (
-		<footer className="container sm:mx-auto md:mx-auto grid text-center py-10 bg-black text-white" id="footer">
+		<footer className="container sm:mx-auto md:mx-auto grid text-center py-10 bg-mediumRoast text-white" id="footer">
 			<div className="logo mb-10">
 				<Link href="/" className="flex justify-center" aria-label="Go to Home page">
 					<Image src={logo} alt="logo" width="40" height="25" />
-					<span className="text-white ml-2 text-[20px]">Montanye Creative</span>
+					<span className="text-white ml-2 text-[20px]">Compounds Coffee</span>
 				</Link>{" "}
 			</div>
 			<div className="grid md:flex justify-center">
 				<Link
-					href="/photography"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-red"
-					aria-label="Go to Photography page"
+					href="/brew-log"
+					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-highlight"
+					aria-label="Go to Brew Log page"
 				>
-					Photography
+					Brew Log
 				</Link>
 				<Link
-					href="/photo-vhs-digitization"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-red"
-					aria-label="Go to Photo/VHS Digitization page"
+					href="/favorite-coffees"
+					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-highlight"
+					aria-label="Go to Favorite Coffees page"
 				>
-					Photo/VHS Digitization
-				</Link>
-
-				<Link
-					href="/website-development"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-red"
-					aria-label="Go to Website Development page"
-				>
-					Website Development
-				</Link>
-				<Link href="/resume" className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-red" aria-label="Go to Resume page">
-					Resume
+					Favorite Coffees
 				</Link>
 				<Link
 					href="/contact"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-red"
+					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-highlight"
 					aria-label="Go to Contact page"
 				>
 					Contact
@@ -51,24 +40,8 @@ export default function Footer() {
 			</div>
 			<div className="social-media-links flex items-center mx-auto my-5">
 				<Link
-					href="https://www.linkedin.com/in/johnmontanye/"
-					className="mx-5 social-media-link-outline hover:bg-red"
-					aria-label="Leave site to go to LinkedIn page"
-					target="_blank"
-					rel="noopener"
-				>
-					<svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path
-							d="M2 1C1.44772 1 1 1.44772 1 2V13C1 13.5523 1.44772 14 2 14H13C13.5523 14 14 13.5523 14 13V2C14 1.44772 13.5523 1 13 1H2ZM3.05 6H4.95V12H3.05V6ZM5.075 4.005C5.075 4.59871 4.59371 5.08 4 5.08C3.4063 5.08 2.925 4.59871 2.925 4.005C2.925 3.41129 3.4063 2.93 4 2.93C4.59371 2.93 5.075 3.41129 5.075 4.005ZM12 8.35713C12 6.55208 10.8334 5.85033 9.67449 5.85033C9.29502 5.83163 8.91721 5.91119 8.57874 6.08107C8.32172 6.21007 8.05265 6.50523 7.84516 7.01853H7.79179V6.00044H6V12.0047H7.90616V8.8112C7.8786 8.48413 7.98327 8.06142 8.19741 7.80987C8.41156 7.55832 8.71789 7.49825 8.95015 7.46774H9.02258C9.62874 7.46774 10.0786 7.84301 10.0786 8.78868V12.0047H11.9847L12 8.35713Z"
-							fill="currentColor"
-							fillRule="evenodd"
-							clipRule="evenodd"
-						></path>
-					</svg>
-				</Link>
-				<Link
 					href="mailto:montanyecreative@outlook.com"
-					className="mx-5 social-media-link-outline hover:bg-red"
+					className="mx-5 social-media-link-outline hover:bg-highlight"
 					aria-label="Email montanyecreative@outlook.com"
 				>
 					<svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,8 +61,8 @@ export default function Footer() {
 				</Link>
 			</div>
 			<div className="copy-right grid md:flex items-center mx-auto mt-2 text-[12px]">
-				Copyright © {currentYear} Montanye Creative |{" "}
-				<Link className="ml-1 underline hover:text-red" href="/privacy-policy" aria-label="Go to Privacy Policy page">
+				Copyright © {currentYear} Compounds Coffee |{" "}
+				<Link className="ml-1 underline hover:text-highlight" href="/privacy-policy" aria-label="Go to Privacy Policy page">
 					Privacy Policy
 				</Link>
 			</div>
@@ -100,7 +73,7 @@ export default function Footer() {
 				data-id="johnmontanye"
 				data-description="Support me on Buy me a coffee!"
 				data-message=""
-				data-color="#c6284a"
+				data-color="#00C9AD"
 				data-position="Right"
 				data-x_margin="25"
 				data-y_margin="25"
