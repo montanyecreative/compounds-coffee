@@ -1,0 +1,479 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theming Begin */
+/* :root {
+	--foreground-rgb: 0, 0, 0;
+	--background-start-rgb: 214, 219, 220;
+	--background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--foreground-rgb: 255, 255, 255;
+		--background-start-rgb: 0, 0, 0;
+		--background-end-rgb: 0, 0, 0;
+	}
+} */
+/* Theming End */
+
+/* Fonts */
+h2,
+button,
+.fonts-special,
+.subtitle,
+#footer li,
+.learn-more-link span {
+	font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: normal;
+}
+
+/* HTML Elements */
+body {
+	color: #000;
+	background: #fff;
+	display: flex;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #909090;
+	border-radius: 5px;
+	height: 25px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+main {
+	width: 100%;
+}
+
+nav {
+	background-color: #222;
+	position: fixed;
+	top: 0;
+	z-index: 999;
+	transition-timing-function: ease-in;
+	transition: 0.3s;
+	top: -75px;
+	height: 80px;
+}
+
+button {
+	font-style: normal;
+	letter-spacing: 1.5px;
+}
+
+h2 {
+	font-style: normal;
+	font-weight: 600;
+	letter-spacing: 0;
+	font-size: 2.5em;
+	color: #002b49;
+	line-height: 1.3;
+}
+
+/* IDs & Classes */
+.nav-show {
+	position: fixed;
+	top: 0px;
+}
+
+/* Content Fixes */
+
+.resume-page,
+.webdev-page {
+	padding-bottom: 4em;
+}
+
+/* Container & Page Fixes End */
+
+/* Tablet & Up */
+@media (min-width: 640px) {
+	body {
+		display: block;
+	}
+
+	/* Container & Page Fixes */
+
+	/* Container Fixes */
+	#footer,
+	.banner-promotion,
+	.digitization-page,
+	.team-page,
+	.about-page,
+	.contact-page,
+	.privacy-page {
+		min-width: 100%;
+	}
+
+	/* Banner Fixes */
+	.banner-expertise,
+	.banner-team,
+	.banner-employers,
+	.banner-candidates,
+	.banner-about,
+	.banner-contact {
+		height: 450px;
+	}
+
+	.banner-employers-copy,
+	.banner-candidates-copy,
+	.banner-about-copy,
+	.banner-contact-copy {
+		color: #fff;
+		flex-direction: column;
+		position: relative;
+		padding-top: 10em;
+	}
+
+	/* Content Fixes */
+
+	.copy,
+	.banner-promotion,
+	.team-page {
+		padding-top: 5em;
+		padding-bottom: 4em;
+	}
+
+	.digitization-page {
+		padding-top: 5em;
+	}
+
+	/* Container & Page Fixes End */
+}
+
+/* Desktop & Up */
+@media (min-width: 900px) {
+}
+
+/* Tailwind Utilities */
+@layer utilities {
+	.py-4 {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+
+	.px-30 {
+		padding-left: 10rem;
+		padding-right: 10rem;
+	}
+
+	.px-40 {
+		padding-left: 15rem;
+		padding-right: 15rem;
+	}
+
+	.px-50 {
+		padding-left: 20rem;
+		padding-right: 20rem;
+	}
+
+	.mx-30 {
+		margin-left: 10rem;
+		margin-right: 10rem;
+	}
+
+	.mx-40 {
+		margin-left: 15rem;
+		margin-right: 15rem;
+	}
+
+	.mx-50 {
+		margin-left: 20rem;
+		margin-right: 20rem;
+	}
+
+	.m-unset {
+		margin: unset;
+	}
+
+	.mx-unset {
+		margin-left: unset;
+		margin-right: unset;
+	}
+
+	.my-unset {
+		margin-top: unset;
+		margin-bottom: unset;
+	}
+
+	.mt-unset {
+		margin-top: unset;
+	}
+
+	.mb-unset {
+		margin-bottom: unset;
+	}
+
+	.ml-unset {
+		margin-left: unset;
+	}
+
+	.mr-unset {
+		margin-right: unset;
+	}
+
+	.p-unset {
+		padding: unset;
+	}
+
+	.px-unset {
+		padding-left: unset;
+		padding-right: unset;
+	}
+
+	.py-unset {
+		padding-top: unset;
+		padding-bottom: unset;
+	}
+
+	.pt-unset {
+		padding-top: unset;
+	}
+
+	.pb-unset {
+		padding-bottom: unset;
+	}
+
+	.pl-unset {
+		padding-left: unset;
+	}
+
+	.pr-unset {
+		padding-right: unset;
+	}
+
+	.shadow-black {
+		box-shadow: rgb(29, 29, 29) -7px 7px 13px, rgb(39, 39, 39) 7px -7px 13px;
+	}
+
+	.opacity-filter {
+		background-color: black;
+	}
+
+	.rounded {
+		border-radius: 0.5rem;
+	}
+
+	.navbar {
+		box-shadow: -7px 7px 13px #1d1d1d, 7px -7px 13px #272727;
+	}
+
+	.nav-links {
+		justify-content: flex-end;
+		display: inline-flex;
+	}
+
+	.nav-link {
+		font-size: 17px;
+		font-weight: 700;
+		letter-spacing: 4.4px;
+		align-self: center;
+	}
+
+	.subtitle {
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		margin-bottom: 1.0625em;
+		text-transform: uppercase;
+		font-size: 16px;
+	}
+
+	.fonts-special {
+		font-weight: 600;
+		letter-spacing: 0.12em;
+	}
+
+	.custom-underline {
+		padding-bottom: 5px;
+		transition: border-width 0.2s ease-in;
+		border-bottom: 2px solid #c6284a;
+	}
+
+	.custom-hover {
+		padding-bottom: 5px;
+		transition: border-width 0.2s ease-in;
+		border-bottom: 2px solid #c6284a;
+	}
+
+	.centered-hr-primary {
+		height: 5px;
+		width: 40px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.5em;
+		background-color: #40609c;
+		border: none;
+	}
+
+	.centered-hr-primary-left {
+		height: 5px;
+		width: 40px;
+		margin-bottom: 1em;
+		background-color: #40609c;
+		border: none;
+	}
+
+	.centered-hr-secondary {
+		height: 5px;
+		width: 40px;
+		margin-bottom: 1.5em;
+		background-color: #e25b26;
+		border: none;
+	}
+
+	.centered-hr-secondary-left {
+		height: 5px;
+		width: 40px;
+		margin-bottom: 1em;
+		background-color: #e25b26;
+		border: none;
+	}
+
+	.social-media-link-outline {
+		border: 1px solid #9d9e9e;
+		border-radius: 50%;
+		padding: 0.5em;
+	}
+
+	.page-banner-filler {
+		height: 100px;
+	}
+
+	.banner-home {
+		/* background-image: url("../public/banners/banner-home.webp"); */
+		background-size: cover;
+		background-position: bottom;
+		height: 600px;
+		z-index: 1;
+	}
+
+	.banner-home-copy {
+		color: #fff;
+		top: 40%;
+		justify-content: center;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.banner-promotion {
+		/* background-image: url("../public/banners/promotion.webp"); */
+		background-size: cover;
+		background-position: center;
+		height: 335px;
+		z-index: 1;
+	}
+
+	.banner-salesforce {
+		/* background-image: url("../public/banners/trailhead.webp"); */
+		background-size: cover;
+		background-position: bottom;
+		height: 350px;
+	}
+
+	.comparison-slider {
+		height: 500px;
+	}
+
+	.slider-image-override {
+		object-position: top !important;
+	}
+
+	.avatar {
+		height: 175px;
+		width: 175px;
+	}
+
+	.skill {
+		height: 75px;
+		width: 75px;
+	}
+
+	.table-shadow {
+		box-shadow: 8px 9px 27px -9px #000, 0px 8px 16px -8px #222;
+	}
+
+	.avatar-shadow {
+		box-shadow: 0px 13px 27px -5px #000, 0px 8px 16px -8px #222;
+	}
+
+	.infrared-photo {
+		background-size: cover;
+		background-position: center;
+		height: auto;
+		width: 500px;
+	}
+
+	.job-logo {
+		height: 20px !important;
+		width: 20px !important;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.education-logo {
+		height: auto !important;
+		width: 50px !important;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.card-content {
+		min-height: 250px;
+	}
+
+	.choices-field {
+		height: 200px;
+	}
+
+	@media (min-width: 767px) {
+		.cards svg {
+			max-width: 25px;
+		}
+
+		.card-title {
+			min-height: 75px;
+		}
+
+		.card-price {
+			min-height: 40px;
+		}
+
+		.card-content {
+			min-height: 400px;
+		}
+
+		.comparison-slider {
+			height: 700px;
+		}
+	}
+
+	@media (min-width: 1100px) {
+		.card-content {
+			min-height: 300px;
+		}
+
+		.card-title {
+			min-height: 50px;
+		}
+	}
+}
