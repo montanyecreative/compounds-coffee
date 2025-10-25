@@ -17,7 +17,6 @@ export default function ContactUs() {
 					<ContactForm />
 				</div>
 			</div>
-			<Promotion />
 			<Footer />
 		</main>
 	);

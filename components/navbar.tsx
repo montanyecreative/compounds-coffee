@@ -8,11 +8,11 @@ const open = "/hamburger-menu.svg";
 const close = "/cross-1.svg";
 
 export const navLinks = [
-	{
-		id: 1,
-		title: "Add a Brew",
-		link: "add-a-brew",
-	},
+	// {
+	// 	id: 1,
+	// 	title: "Add a Brew",
+	// 	link: "add-a-brew",
+	// },
 	{
 		id: 2,
 		title: "Coffee Brews",

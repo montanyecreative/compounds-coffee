@@ -9,63 +9,68 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-// import { CoffeeTastingWheel } from "@/components/coffeeTastingWheel";
 
 const formSchema = z.object({
 	todaysDate: z.string().max(100, {
 		message: "Incorrect date.",
 	}),
-	coffee: z.string().min(2, {
-		message: "Name must be at least 1 character.",
+	coffeeName: z.string().min(2, {
+		message: "Coffee name must be at least 1 character.",
 	}),
 	region: z.string().min(2, {
-		message: "Name must be at least 1 character.",
+		message: "Region must be at least 1 character.",
 	}),
 	roastLevel: z.string().min(2, {
-		message: "Name must be at least 1 character.",
+		message: "Roast level must be at least 1 character.",
 	}),
 	process: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+		message: "Process must be at least 1 character.",
 	}),
 	brewMethod: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+		message: "Brew method must be at least 1 character.",
 	}),
 	brewDate: z.string().max(100, {
-		message: "Incorrect date.",
+		message: "Incorrect brew date.",
 	}),
-	grindSetting: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+	grindSetting: z.number().max(100, {
+		message: "Grind setting must be at least 1 number.",
 	}),
-	waterTemp: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+	waterTemp: z.number().max(100, {
+		message: "Water temp must be at least 1 number.",
 	}),
-	dose: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+	coffeeDose: z.number().max(100, {
+		message: "Coffee dose must be at least 1 number.",
 	}),
-	yield: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+	bloomYield: z.number().max(100, {
+		message: "Bloom yield setting must be at least 1 number.",
+	}),
+	coffeeYield: z.number().max(100, {
+		message: "Coffee yield setting must be at least 1 number.",
+	}),
+	bloomTime: z.string().max(100, {
+		message: "Bloom time must be at least 1 character.",
 	}),
 	brewTime: z.string().max(100, {
-		message: "Name must be at least 1 character.",
+		message: "Bloom time must be at least 1 character.",
 	}),
 	tastingHighlights: z.string().max(1000, {
-		message: "Name must be at least 1 character.",
+		message: "Tasting highlights must be at least 1 character.",
 	}),
 	tastingNotes: z.string().max(1000, {
-		message: "Name must be at least 1 character.",
+		message: "Tasting notes must be at least 1 character.",
 	}),
 	notes: z.string().max(1000, {
-		message: "Message must be at least 1 character.",
+		message: "Notes must be at least 1 character.",
 	}),
 	link: z.string().max(1000, {
-		message: "Message must be at least 1 character.",
+		message: "Link must be at least 1 character.",
 	}),
-	price: z.string().max(1000, {
-		message: "Message must be at least 1 character.",
+	price: z.number().max(1000, {
+		message: "Price must be at least 1 number.",
 	}),
 });
 
-export default function BrewLogForm() {
+export default function AddABrewForm() {
 	const date = new Date().toDateString();
 	var hours = new Date().getHours();
 	var minutes = new Date().getMinutes();
@@ -81,22 +86,24 @@ export default function BrewLogForm() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			todaysDate: currentDate,
-			coffee: "",
+			coffeeName: "",
 			region: "",
 			roastLevel: "",
 			process: "",
 			brewMethod: "",
 			brewDate: "",
-			grindSetting: "",
-			waterTemp: "",
-			dose: "",
-			yield: "",
+			grindSetting: 0,
+			waterTemp: 0,
+			coffeeDose: 0,
+			bloomYield: 0,
+			coffeeYield: 0,
+			bloomTime: "",
 			brewTime: "",
 			tastingHighlights: "",
 			tastingNotes: "",
 			notes: "",
 			link: "",
-			price: "",
+			price: 0,
 		},
 	});
 
@@ -132,7 +139,7 @@ export default function BrewLogForm() {
 			<form onSubmit={form.handleSubmit(onSubmit)} method="POST" className="space-y-8">
 				<FormField
 					control={form.control}
-					name="coffee"
+					name="coffeeName"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Coffee</FormLabel>
@@ -258,7 +265,7 @@ export default function BrewLogForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="dose"
+					name="coffeeDose"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Coffee Dose</FormLabel>
@@ -272,10 +279,38 @@ export default function BrewLogForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="yield"
+					name="bloomYield"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Bloom Yield</FormLabel>
+							<FormControl>
+								<Input placeholder="" {...field} className="text-[16px]" />
+							</FormControl>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="coffeeYield"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Coffee Yield</FormLabel>
+							<FormControl>
+								<Input placeholder="" {...field} className="text-[16px]" />
+							</FormControl>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="bloomTime"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Bloom Time</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>

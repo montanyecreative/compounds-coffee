@@ -11,9 +11,7 @@ export default function Home() {
 			<Navbar />
 			<div className="banner-home">
 				<div className="container sm:mx-auto md:mx-auto flex banner-home-copy items-center">
-					<h1 className="text-[42px] text-center">
-						For the love of coffee <br /> by coffee lovers
-					</h1>
+					<h1 className="text-[42px] text-center">For the love of coffee</h1>
 				</div>
 			</div>
 			<div className="container-fluid">

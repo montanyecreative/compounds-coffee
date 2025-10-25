@@ -16,13 +16,13 @@ export default function Footer() {
 				</Link>{" "}
 			</div>
 			<div className="grid md:flex justify-center">
-				<Link
+				{/* <Link
 					href="/brew-log"
 					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
 					aria-label="Go to Add a Brew page"
 				>
 					Add a brew
-				</Link>
+				</Link> */}
 				<Link
 					href="/coffee-brews"
 					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"

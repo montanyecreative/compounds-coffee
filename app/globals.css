@@ -362,7 +362,7 @@ h2 {
 	.banner-home {
 		background-image: url("../public/banner-home.webp");
 		background-size: cover;
-		background-position: bottom;
+		background-position: center;
 		height: 600px;
 		z-index: 1;
 	}
