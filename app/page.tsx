@@ -2,7 +2,6 @@
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import Promotion from "@/components/promotion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -29,17 +28,16 @@ export default function Home() {
 			<div className="container-fluid">
 				<div className="banner-salesforce">
 					<div className="container sm:mx-auto md:mx-auto text-center copy text-black">
-						<h2 className="mb-5 pt-5 md:pt-unset text-black">Favorite Coffees</h2>
-						<p className="mb-5 text-black">To the Favorite Coffees page.</p>
-						<Link href="/favorite-coffees" aria-label="Go to the Favorite Coffees page">
-							<Button className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-highlight hover:border-highlight hover:text-white cursor-pointer uppercase text-[12px]">
-								See Favorite Coffees
+						<h2 className="mb-5 pt-5 md:pt-unset text-black">Coffee Brews</h2>
+						<p className="mb-5 text-black">To the Coffee Brews page.</p>
+						<Link href="/coffee-brews" aria-label="Go to the Coffee Brews page">
+							<Button className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
+								See Coffee Brews
 							</Button>
 						</Link>
 					</div>
 				</div>
 			</div>
-			{/* <Promotion /> */}
 			<Footer />
 		</main>
 	);

@@ -8,7 +8,7 @@ export default function Footer() {
 	const currentYear = date.getFullYear();
 
 	return (
-		<footer className="container sm:mx-auto md:mx-auto grid text-center py-10 bg-mediumRoast text-white" id="footer">
+		<footer className="container sm:mx-auto md:mx-auto grid text-center py-10 bg-black text-white" id="footer">
 			<div className="logo mb-10">
 				<Link href="/" className="flex justify-center" aria-label="Go to Home page">
 					<Image src={logo} alt="logo" width="40" height="25" />
@@ -18,21 +18,21 @@ export default function Footer() {
 			<div className="grid md:flex justify-center">
 				<Link
 					href="/brew-log"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-highlight"
-					aria-label="Go to Brew Log page"
+					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
+					aria-label="Go to Add a Brew page"
 				>
-					Brew Log
+					Add a brew
 				</Link>
 				<Link
-					href="/favorite-coffees"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-highlight"
-					aria-label="Go to Favorite Coffees page"
+					href="/coffee-brews"
+					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
+					aria-label="Go to Coffee Brews page"
 				>
-					Favorite Coffees
+					Coffee Brews
 				</Link>
 				<Link
 					href="/contact"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-highlight"
+					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
 					aria-label="Go to Contact page"
 				>
 					Contact
@@ -41,7 +41,7 @@ export default function Footer() {
 			<div className="social-media-links flex items-center mx-auto my-5">
 				<Link
 					href="mailto:montanyecreative@outlook.com"
-					className="mx-5 social-media-link-outline hover:bg-highlight"
+					className="mx-5 social-media-link-outline hover:bg-brown"
 					aria-label="Email montanyecreative@outlook.com"
 				>
 					<svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +62,7 @@ export default function Footer() {
 			</div>
 			<div className="copy-right grid md:flex items-center mx-auto mt-2 text-[12px]">
 				Copyright © {currentYear} Compounds Coffee |{" "}
-				<Link className="ml-1 underline hover:text-highlight" href="/privacy-policy" aria-label="Go to Privacy Policy page">
+				<Link className="ml-1 underline hover:text-brown" href="/privacy-policy" aria-label="Go to Privacy Policy page">
 					Privacy Policy
 				</Link>
 			</div>
@@ -73,7 +73,7 @@ export default function Footer() {
 				data-id="johnmontanye"
 				data-description="Support me on Buy me a coffee!"
 				data-message=""
-				data-color="#00C9AD"
+				data-color="#CD9564"
 				data-position="Right"
 				data-x_margin="25"
 				data-y_margin="25"

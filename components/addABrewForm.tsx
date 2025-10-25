@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+// import { CoffeeTastingWheel } from "@/components/coffeeTastingWheel";
 
 const formSchema = z.object({
 	todaysDate: z.string().max(100, {
@@ -22,14 +24,14 @@ const formSchema = z.object({
 	roastLevel: z.string().min(2, {
 		message: "Name must be at least 1 character.",
 	}),
-	roastDate: z.string().max(100, {
-		message: "Incorrect date.",
-	}),
 	process: z.string().max(100, {
 		message: "Name must be at least 1 character.",
 	}),
 	brewMethod: z.string().max(100, {
 		message: "Name must be at least 1 character.",
+	}),
+	brewDate: z.string().max(100, {
+		message: "Incorrect date.",
 	}),
 	grindSetting: z.string().max(100, {
 		message: "Name must be at least 1 character.",
@@ -46,10 +48,19 @@ const formSchema = z.object({
 	brewTime: z.string().max(100, {
 		message: "Name must be at least 1 character.",
 	}),
+	tastingHighlights: z.string().max(1000, {
+		message: "Name must be at least 1 character.",
+	}),
 	tastingNotes: z.string().max(1000, {
 		message: "Name must be at least 1 character.",
 	}),
 	notes: z.string().max(1000, {
+		message: "Message must be at least 1 character.",
+	}),
+	link: z.string().max(1000, {
+		message: "Message must be at least 1 character.",
+	}),
+	price: z.string().max(1000, {
 		message: "Message must be at least 1 character.",
 	}),
 });
@@ -73,20 +84,27 @@ export default function BrewLogForm() {
 			coffee: "",
 			region: "",
 			roastLevel: "",
-			roastDate: "",
 			process: "",
 			brewMethod: "",
+			brewDate: "",
 			grindSetting: "",
 			waterTemp: "",
 			dose: "",
 			yield: "",
 			brewTime: "",
+			tastingHighlights: "",
 			tastingNotes: "",
 			notes: "",
+			link: "",
+			price: "",
 		},
 	});
 
 	// const FORM_URL = "https://usebasin.com/f/720ce3ef2f52";
+
+	function selectRoastLevel() {
+		console.log("roast selected");
+	}
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		// fetch(FORM_URL, {
@@ -147,21 +165,21 @@ export default function BrewLogForm() {
 						<FormItem>
 							<FormLabel>Roast Level</FormLabel>
 							<FormControl>
-								<Input placeholder="" {...field} className="text-[16px]" />
-							</FormControl>
-							<FormDescription></FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="roastDate"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Roast Date</FormLabel>
-							<FormControl>
-								<Input placeholder="" {...field} className="text-[16px]" />
+								{/* <Input placeholder="" {...field} className="text-[16px]" /> */}
+								<ToggleGroup type="single">
+									<ToggleGroupItem value="light" aria-label="Toggle light" className="block" onClick={selectRoastLevel}>
+										<div className="roast-profile light-profile mx-auto hover:opacity-75 focus-visible:opacity-75"></div>
+										<p className="mt-1">Light</p>
+									</ToggleGroupItem>
+									<ToggleGroupItem value="medium" aria-label="Toggle medium" className="block" onClick={selectRoastLevel}>
+										<div className="roast-profile medium-profile mx-auto hover:opacity-75"></div>
+										<p className="mt-1">Medium</p>
+									</ToggleGroupItem>
+									<ToggleGroupItem value="dark" aria-label="Toggle dark" className="block" onClick={selectRoastLevel}>
+										<div className="roast-profile dark-profile mx-auto hover:opacity-75"></div>
+										<p className="mt-1">Dark</p>
+									</ToggleGroupItem>
+								</ToggleGroup>
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -188,6 +206,20 @@ export default function BrewLogForm() {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Brew Method</FormLabel>
+							<FormControl>
+								<Input placeholder="" {...field} className="text-[16px]" />
+							</FormControl>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="brewDate"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Brew Date</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -229,7 +261,7 @@ export default function BrewLogForm() {
 					name="dose"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Dose</FormLabel>
+							<FormLabel>Coffee Dose</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -243,7 +275,7 @@ export default function BrewLogForm() {
 					name="yield"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Yield</FormLabel>
+							<FormLabel>Coffee Yield</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -268,12 +300,28 @@ export default function BrewLogForm() {
 				/>
 				<FormField
 					control={form.control}
+					name="tastingHighlights"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Tasting Highlights</FormLabel>
+							<FormControl>
+								{/* <Input placeholder="" {...field} className="text-[16px]" /> */}
+								{/* <CoffeeTastingWheel /> */}
+							</FormControl>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
 					name="tastingNotes"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Tasting Notes</FormLabel>
 							<FormControl>
-								<Input placeholder="" {...field} className="text-[16px]" />
+								{/* <Input placeholder="" {...field} className="text-[16px]" /> */}
+								{/* <CoffeeTastingWheel /> */}
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -294,10 +342,38 @@ export default function BrewLogForm() {
 						</FormItem>
 					)}
 				/>
+				<FormField
+					control={form.control}
+					name="link"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Link</FormLabel>
+							<FormControl>
+								<Textarea placeholder="" {...field} className="text-[16px]" />
+							</FormControl>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="price"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Price</FormLabel>
+							<FormControl>
+								<Textarea placeholder="" {...field} className="text-[16px]" />
+							</FormControl>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				<Button
 					type="submit"
 					variant="outline"
-					className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-highlight hover:border-highlight hover:text-white cursor-pointer uppercase text-[12px]"
+					className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]"
 				>
 					Submit
 				</Button>

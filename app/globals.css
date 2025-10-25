@@ -67,7 +67,7 @@ main {
 }
 
 nav {
-	background-color: #4f3018;
+	background-color: #222;
 	position: fixed;
 	top: 0;
 	z-index: 999;
@@ -306,13 +306,13 @@ h2 {
 	.custom-underline {
 		padding-bottom: 5px;
 		transition: border-width 0.2s ease-in;
-		border-bottom: 2px solid #00c9ad;
+		border-bottom: 2px solid #cd9564;
 	}
 
 	.custom-hover {
 		padding-bottom: 5px;
 		transition: border-width 0.2s ease-in;
-		border-bottom: 2px solid #00c9ad;
+		border-bottom: 2px solid #cd9564;
 	}
 
 	.centered-hr-primary {
@@ -443,6 +443,36 @@ h2 {
 
 	.choices-field {
 		height: 200px;
+	}
+
+	.dialog-container {
+		width: 1000px;
+		max-width: 1000px;
+	}
+
+	.flavor-wheel-container {
+		height: 550px;
+	}
+
+	.roast-profile {
+		height: 40px;
+		width: 40px;
+		border-radius: 50%;
+	}
+
+	.light-profile {
+		background-color: #946234;
+		border: #946234;
+	}
+
+	.medium-profile {
+		background-color: #4f3018;
+		border: #4f3018;
+	}
+
+	.dark-profile {
+		background-color: #1f1007;
+		border: #1f1007;
 	}
 
 	@media (min-width: 767px) {

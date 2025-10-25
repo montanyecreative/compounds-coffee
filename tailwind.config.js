@@ -47,6 +47,7 @@ module.exports = {
 				mediumRoast: "#4F3018",
 				darkRoast: "#1F1007",
 				highlight: "#00C9AD",
+				brown: "#CD9564",
 				gray: "#9d9e9e",
 				lightGray: "#f2f2f2",
 				charcoal: "#646464",
