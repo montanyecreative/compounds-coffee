@@ -11,6 +11,7 @@ interface CoffeeBrewSkeleton extends EntrySkeletonType {
 	contentTypeId: "coffee";
 	fields: {
 		name: string;
+		slug?: string;
 		region: string;
 		roastLevel: string;
 		process: string;
@@ -48,17 +49,36 @@ export async function getCoffeeBrews(): Promise<CoffeeBrewPost[]> {
 	}
 }
 
-// Fetch a single coffee brew by slug
+// Fetch a single coffee brew by slug or ID
 export async function getCoffeeBrewBySlug(slug: string): Promise<CoffeeBrewPost | null> {
 	try {
-		const entries = await client.getEntries<CoffeeBrewSkeleton>({
-			content_type: "coffee",
-			limit: 1,
-			...({ "fields.slug": slug } as any), // Type assertion needed for dynamic field queries
-		});
+		console.log("Searching for brew with slug:", slug);
 
-		if (entries.items.length > 0) {
-			return entries.items[0];
+		// Try to fetch by slug field if it exists
+		try {
+			const entries = await client.getEntries<CoffeeBrewSkeleton>({
+				content_type: "coffee",
+				limit: 1,
+				...({ "fields.slug": slug } as any),
+			});
+
+			console.log("Entries found by slug:", entries.items.length);
+
+			if (entries.items.length > 0) {
+				return entries.items[0];
+			}
+		} catch (slugError: any) {
+			// Slug field doesn't exist, continue to ID lookup
+			console.log("Slug field not found in content type, trying by ID");
+		}
+
+		// Try to fetch by entry ID
+		console.log("Trying to fetch by entry ID:", slug);
+		const entry = await client.getEntry<CoffeeBrewSkeleton>(slug);
+		console.log("Entry found by ID:", entry.sys.id);
+
+		if (entry.sys.contentType.sys.id === "coffee") {
+			return entry as CoffeeBrewPost;
 		}
 
 		return null;

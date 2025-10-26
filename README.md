@@ -51,7 +51,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 -   https://www.radix-ui.com/icons
 -   https://animate.style/
+-   https://gsap.com/docs/v3/
 -   https://ui.shadcn.com/docs
 -   https://tailwindcss.com/docs/installation
 -   https://nextjs.org/docs
 -   https://react.dev/
+-   https://www.contentful.com/nextjs-starter/
