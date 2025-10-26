@@ -22,46 +22,54 @@ export default function BrewsTable({ brews }: BrewsTableProps) {
 					<Table key={brew.sys.id}>
 						<TableHeader>
 							<TableRow>
-								<TableHead>Name</TableHead>
-								<TableHead>Region</TableHead>
-								<TableHead>Roast Level</TableHead>
-								<TableHead>Process</TableHead>
-								<TableHead>Brew Method</TableHead>
-								<TableHead>Brew Date</TableHead>
-								<TableHead>Grind Setting</TableHead>
-								<TableHead>Water Temp</TableHead>
-								<TableHead>Coffee Dose</TableHead>
-								<TableHead>Bloom Yield</TableHead>
-								<TableHead>Coffee Yield</TableHead>
-								<TableHead>Bloom Time</TableHead>
-								<TableHead>Brew Time</TableHead>
-								<TableHead>Tasting Highlights</TableHead>
-								<TableHead>Tasting Notes</TableHead>
-								<TableHead>Notes</TableHead>
-								<TableHead>Link</TableHead>
-								<TableHead>Price</TableHead>
+								<TableHead>
+									<b>Name</b>
+								</TableHead>
+								<TableHead>
+									<b>Region</b>
+								</TableHead>
+								<TableHead>
+									<b>Roast Level</b>
+								</TableHead>
+								<TableHead>
+									<b>Process</b>
+								</TableHead>
+								<TableHead>
+									<b>Brew Method</b>
+								</TableHead>
+								<TableHead>
+									<b>Brew Date</b>
+								</TableHead>
+								<TableHead>
+									<b>Coffee Dose</b>
+								</TableHead>
+								<TableHead>
+									<b>Coffee Yield</b>
+								</TableHead>
+								<TableHead>
+									<b>Tasting Highlights</b>
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							<TableRow onClick={handleRowClick} className="cursor-pointer">
-								<TableCell>{brew.fields.name}</TableCell>
+								<TableCell>
+									<b>{brew.fields.name}</b>
+								</TableCell>
 								<TableCell>{brew.fields.region}</TableCell>
 								<TableCell>{brew.fields.roastLevel}</TableCell>
 								<TableCell>{brew.fields.process}</TableCell>
 								<TableCell>{brew.fields.brewMethod}</TableCell>
 								<TableCell>{brew.fields.brewDate}</TableCell>
-								<TableCell>{brew.fields.grindSetting}</TableCell>
-								<TableCell>{brew.fields.waterTemp}&deg;F</TableCell>
-								<TableCell>{brew.fields.coffeeDose}g</TableCell>
-								<TableCell>{brew.fields.bloomYield}g</TableCell>
-								<TableCell>{brew.fields.coffeeYield}g</TableCell>
-								<TableCell>{brew.fields.bloomTime}</TableCell>
-								<TableCell>{brew.fields.brewTime}</TableCell>
+								<TableCell>
+									{brew.fields.coffeeDose}
+									{brew.fields.coffeeDose ? "g" : ""}
+								</TableCell>
+								<TableCell>
+									{brew.fields.coffeeYield}
+									{brew.fields.coffeeYield ? "g" : ""}
+								</TableCell>
 								<TableCell>{brew.fields.tastingHighlights}</TableCell>
-								<TableCell>{brew.fields.tastingNotes}</TableCell>
-								<TableCell>{brew.fields.notes}</TableCell>
-								<TableCell>{brew.fields.link}</TableCell>
-								<TableCell>${brew.fields.price}</TableCell>
 							</TableRow>
 						</TableBody>
 					</Table>
