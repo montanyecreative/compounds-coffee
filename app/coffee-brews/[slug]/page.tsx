@@ -4,6 +4,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCoffeeBrewBySlug, getCoffeeBrews } from "@/lib/contentful";
+import { gramsToFluidOunces } from "@/lib/utils";
 
 interface BrewDetailPageProps {
 	params: {
@@ -131,7 +132,7 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 											<span className="font-medium">Coffee Yield:</span>
 											<span>
 												{brew.fields.coffeeYield}
-												{brew.fields.coffeeYield ? "g" : ""}
+												{brew.fields.coffeeYield ? `g (${gramsToFluidOunces(brew.fields.coffeeYield)} fl oz)` : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
