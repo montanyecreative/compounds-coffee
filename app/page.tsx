@@ -18,8 +18,8 @@ export default function Home() {
 				<div className="container sm:mx-auto md:mx-auto text-center copy text-black">
 					<h2 className="mb-5 pt-10 md:pt-unset text-black">About this site</h2>
 					<p className="mb-5">
-						This site was created for coffee lovers so that we can better appreciate, understand, and enjoy coffee. Here's to
-						the never ending quest of the perfect cup of coffee.
+						This site was created for coffee lovers so that we can better appreciate, understand, and enjoy coffee. Here&apos;s
+						to the never ending quest of the perfect cup of coffee.
 					</p>
 				</div>
 			</div>

@@ -39,7 +39,7 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
 					<div className="pt-10 md:pt-unset">
 						<Link href="/coffee-brews">
-							<Button variant="outline" className="mb-5">
+							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
 								← Back to Coffee Brews
 							</Button>
 						</Link>
@@ -175,7 +175,7 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 						</div>
 
 						<Link href="/coffee-brews">
-							<Button variant="outline" className="mb-10">
+							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
 								← Back to Coffee Brews
 							</Button>
 						</Link>
