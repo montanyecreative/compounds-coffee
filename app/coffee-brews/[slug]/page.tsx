@@ -66,6 +66,10 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 											<span className="font-medium">Price:</span>
 											<span>${brew.fields.price}</span>
 										</div>
+										<div className="flex justify-between border-b pb-2">
+											<span className="font-medium">Roaster:</span>
+											<span>{brew.fields.roaster}</span>
+										</div>
 										{brew.fields.link && (
 											<div className="pt-2">
 												<a
@@ -87,12 +91,16 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 									<h2 className="text-2xl font-semibold mb-4 text-brown">Brew Parameters</h2>
 									<div className="space-y-3">
 										<div className="flex justify-between border-b pb-2">
+											<span className="font-medium">Date:</span>
+											<span>{brew.fields.brewDate}</span>
+										</div>
+										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Method:</span>
 											<span>{brew.fields.brewMethod}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Date:</span>
-											<span>{brew.fields.brewDate}</span>
+											<span className="font-medium">Grinder:</span>
+											<span>{brew.fields.grinder}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Grind Setting:</span>
@@ -100,23 +108,38 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Water Temp:</span>
-											<span>{brew.fields.waterTemp}°F</span>
+											<span>
+												{brew.fields.waterTemp}
+												{brew.fields.waterTemp ? "°F" : ""}
+											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Coffee Dose:</span>
-											<span>{brew.fields.coffeeDose}g</span>
+											<span>
+												{brew.fields.coffeeDose}
+												{brew.fields.coffeeDose ? "g" : ""}
+											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Bloom Yield:</span>
-											<span>{brew.fields.bloomYield}g</span>
+											<span>
+												{brew.fields.bloomYield}
+												{brew.fields.bloomYield ? "g" : ""}
+											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Coffee Yield:</span>
-											<span>{brew.fields.coffeeYield}g</span>
+											<span>
+												{brew.fields.coffeeYield}
+												{brew.fields.coffeeYield ? "g" : ""}
+											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Bloom Time:</span>
-											<span>{brew.fields.bloomTime}</span>
+											<span>
+												{brew.fields.bloomTime}
+												{brew.fields.bloomTime ? " seconds" : ""}
+											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">Brew Time:</span>

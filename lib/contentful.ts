@@ -17,6 +17,7 @@ interface CoffeeBrewSkeleton extends EntrySkeletonType {
 		process: string;
 		brewMethod: string;
 		brewDate: string;
+		grinder: string;
 		grindSetting: number;
 		waterTemp: number;
 		coffeeDose: number;
@@ -27,6 +28,7 @@ interface CoffeeBrewSkeleton extends EntrySkeletonType {
 		tastingHighlights: string;
 		tastingNotes: string;
 		notes: string;
+		roaster: string;
 		link: string;
 		price: number;
 	};
