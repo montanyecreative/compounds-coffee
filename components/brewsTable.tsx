@@ -12,47 +12,47 @@ export default function BrewsTable({ brews }: BrewsTableProps) {
 	const router = useRouter();
 
 	return (
-		<div className="grid grid-cols-1 gap-1">
-			{brews.map((brew) => {
-				const handleRowClick = () => {
-					router.push(`/coffee-brews/${brew.fields.slug || brew.sys.id}`);
-				};
+		<div className="pb-10">
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead>
+							<b>Name</b>
+						</TableHead>
+						<TableHead>
+							<b>Region</b>
+						</TableHead>
+						<TableHead>
+							<b>Roast Level</b>
+						</TableHead>
+						<TableHead>
+							<b>Process</b>
+						</TableHead>
+						<TableHead>
+							<b>Brew Method</b>
+						</TableHead>
+						<TableHead>
+							<b>Brew Date</b>
+						</TableHead>
+						<TableHead>
+							<b>Coffee Dose</b>
+						</TableHead>
+						<TableHead>
+							<b>Coffee Yield</b>
+						</TableHead>
+						<TableHead>
+							<b>Tasting Highlights</b>
+						</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{brews.map((brew) => {
+						const handleRowClick = () => {
+							router.push(`/coffee-brews/${brew.fields.slug || brew.sys.id}`);
+						};
 
-				return (
-					<Table key={brew.sys.id}>
-						<TableHeader>
-							<TableRow>
-								<TableHead>
-									<b>Name</b>
-								</TableHead>
-								<TableHead>
-									<b>Region</b>
-								</TableHead>
-								<TableHead>
-									<b>Roast Level</b>
-								</TableHead>
-								<TableHead>
-									<b>Process</b>
-								</TableHead>
-								<TableHead>
-									<b>Brew Method</b>
-								</TableHead>
-								<TableHead>
-									<b>Brew Date</b>
-								</TableHead>
-								<TableHead>
-									<b>Coffee Dose</b>
-								</TableHead>
-								<TableHead>
-									<b>Coffee Yield</b>
-								</TableHead>
-								<TableHead>
-									<b>Tasting Highlights</b>
-								</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							<TableRow onClick={handleRowClick} className="cursor-pointer">
+						return (
+							<TableRow key={brew.sys.id} onClick={handleRowClick} className="cursor-pointer">
 								<TableCell>
 									<b>{brew.fields.name}</b>
 								</TableCell>
@@ -71,10 +71,10 @@ export default function BrewsTable({ brews }: BrewsTableProps) {
 								</TableCell>
 								<TableCell>{brew.fields.tastingHighlights}</TableCell>
 							</TableRow>
-						</TableBody>
-					</Table>
-				);
-			})}
+						);
+					})}
+				</TableBody>
+			</Table>
 		</div>
 	);
 }
