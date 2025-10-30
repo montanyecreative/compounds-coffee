@@ -8,6 +8,7 @@ import { gramsToFluidOunces } from "@/lib/utils";
 
 export default async function BrewMethodsPage() {
 	const brewMethods = await getBrewMethods();
+	const visibleBrewMethods = brewMethods.filter((method) => !method.metadata?.tags?.some((tag) => tag.sys.id === "ninetailTest"));
 
 	return (
 		<main>
@@ -17,13 +18,13 @@ export default async function BrewMethodsPage() {
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
 					<h1 className="text-3xl font-bold mb-6 pt-10 md:pt-unset">Brew Methods</h1>
 
-					{brewMethods.length === 0 ? (
+					{visibleBrewMethods.length === 0 ? (
 						<div className="text-center py-10">
 							<p className="text-gray-600 mb-4">No brew methods found in Contentful.</p>
 						</div>
 					) : (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
-							{brewMethods.map((brewMethod) => {
+							{visibleBrewMethods.map((brewMethod) => {
 								const to = `/brew-methods/${encodeURIComponent(brewMethod.fields.brewMethod)}`;
 								return (
 									<Card key={brewMethod.sys.id} className="p-5 border hover:shadow-md transition-shadow">
