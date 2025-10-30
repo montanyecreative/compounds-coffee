@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const logo = "/logo.webp";
 const open = "/hamburger-menu.svg";
@@ -36,6 +36,15 @@ export default function Navbar() {
 	const [active, setActive] = useState("Home");
 	const [toggle, setToggle] = useState(false);
 	const currentRoute = usePathname();
+	const searchParams = useSearchParams();
+	const currentLang = searchParams.get("lang") || "en-US";
+
+	const buildHrefWithLang = (pathname: string, lang: string) => {
+		const params = new URLSearchParams(searchParams?.toString() || "");
+		params.set("lang", lang);
+		const query = params.toString();
+		return query ? `${pathname}?${query}` : pathname;
+	};
 
 	const [show, setShow] = useState(true);
 
@@ -76,13 +85,28 @@ export default function Navbar() {
 							>
 								<a
 									className={`hover:custom-hover ${currentRoute === "/" + nav.link ? "custom-underline" : ""}`}
-									href={`/${nav.link}`}
+									href={buildHrefWithLang(`/${nav.link}`, currentLang)}
 								>
 									{nav.title}
 								</a>
 							</li>
 						))}
 					</ul>
+					<div className="ml-2 flex items-center gap-2 text-white text-[12px]">
+						<a
+							href={buildHrefWithLang(currentRoute || "/", "en-US")}
+							className={`uppercase ${currentLang === "en-US" ? "font-bold" : "opacity-80"}`}
+						>
+							EN
+						</a>
+						<span>|</span>
+						<a
+							href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
+							className={`uppercase ${currentLang === "fr-CA" ? "font-bold" : "opacity-80"}`}
+						>
+							FR
+						</a>
+					</div>
 					<div className="sm:hidden flex flex-1 justify-end items-center">
 						<Image
 							src={toggle ? close : open}
@@ -107,10 +131,24 @@ export default function Navbar() {
 										}`}
 										onClick={() => setActive(nav.title)}
 									>
-										<a href={`/${nav.link}`}>{nav.title}</a>
+										<a href={buildHrefWithLang(`/${nav.link}`, currentLang)}>{nav.title}</a>
 									</li>
 								))}
 							</ul>
+							<div className="mt-4 text-[14px]">
+								<a
+									href={buildHrefWithLang(currentRoute || "/", "en-US")}
+									className={`uppercase mr-2 ${currentLang === "en-US" ? "font-bold" : "opacity-80"}`}
+								>
+									EN
+								</a>
+								<a
+									href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
+									className={`uppercase ${currentLang === "fr-CA" ? "font-bold" : "opacity-80"}`}
+								>
+									FR
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>

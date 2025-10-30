@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 
 export default async function BrewMethodPage({ params, searchParams }: BrewMethodPageProps) {
 	const decoded = decodeURIComponent(params.brewMethod);
-	const brewMethod = await getBrewMethodByName(decoded);
+	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
+	const brewMethod = await getBrewMethodByName(decoded, langParam);
 
 	if (!brewMethod) {
 		notFound();
@@ -35,7 +36,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 			<div className="container-fluid">
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
 					<div className="pt-10 md:pt-unset">
-						<Link href="/brew-methods">
+						<Link href={{ pathname: "/brew-methods", query: langParam ? { lang: langParam } : {} }}>
 							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
 								← Back to Brew Methods
 							</Button>
@@ -128,7 +129,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 							</>
 						)}
 
-						<Link href="/brew-methods">
+						<Link href={{ pathname: "/brew-methods", query: langParam ? { lang: langParam } : {} }}>
 							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
 								← Back to Brew Methods
 							</Button>

@@ -57,11 +57,12 @@ export type CoffeeBrewPost = Entry<CoffeeBrewSkeleton, undefined, string>;
 export type BrewMethod = Entry<BrewMethodSkeleton, undefined, string>;
 
 // Fetch all coffee brew posts
-export async function getCoffeeBrews(): Promise<CoffeeBrewPost[]> {
+export async function getCoffeeBrews(locale?: string): Promise<CoffeeBrewPost[]> {
 	try {
 		const entries = await client.getEntries<CoffeeBrewSkeleton>({
 			content_type: "coffee",
 			order: ["-sys.createdAt"], // Sort by newest first
+			...(locale ? { locale } : {}),
 		});
 
 		return entries.items;
@@ -72,7 +73,7 @@ export async function getCoffeeBrews(): Promise<CoffeeBrewPost[]> {
 }
 
 // Fetch a single coffee brew by slug or ID
-export async function getCoffeeBrewBySlug(slug: string): Promise<CoffeeBrewPost | null> {
+export async function getCoffeeBrewBySlug(slug: string, locale?: string): Promise<CoffeeBrewPost | null> {
 	try {
 		console.log("Searching for brew with slug:", slug);
 
@@ -82,6 +83,7 @@ export async function getCoffeeBrewBySlug(slug: string): Promise<CoffeeBrewPost 
 				content_type: "coffee",
 				limit: 1,
 				...({ "fields.slug": slug } as any),
+				...(locale ? { locale } : {}),
 			});
 
 			console.log("Entries found by slug:", entries.items.length);
@@ -96,7 +98,7 @@ export async function getCoffeeBrewBySlug(slug: string): Promise<CoffeeBrewPost 
 
 		// Try to fetch by entry ID
 		console.log("Trying to fetch by entry ID:", slug);
-		const entry = await client.getEntry<CoffeeBrewSkeleton>(slug);
+		const entry = await client.getEntry<CoffeeBrewSkeleton>(slug, locale ? { locale } : undefined);
 		console.log("Entry found by ID:", entry.sys.id);
 
 		if (entry.sys.contentType.sys.id === "coffee") {
@@ -110,11 +112,12 @@ export async function getCoffeeBrewBySlug(slug: string): Promise<CoffeeBrewPost 
 	}
 }
 
-export async function getBrewMethods(): Promise<BrewMethod[]> {
+export async function getBrewMethods(locale?: string): Promise<BrewMethod[]> {
 	try {
 		const entries = await client.getEntries<BrewMethodSkeleton>({
 			content_type: "brewMethod",
 			// Contentful types for order are strict; omit if not supported by typings
+			...(locale ? { locale } : {}),
 		});
 		return entries.items as BrewMethod[];
 	} catch (error) {
@@ -123,7 +126,7 @@ export async function getBrewMethods(): Promise<BrewMethod[]> {
 	}
 }
 
-export async function getBrewMethodBySlug(slug: string): Promise<BrewMethod | null> {
+export async function getBrewMethodBySlug(slug: string, locale?: string): Promise<BrewMethod | null> {
 	try {
 		// Try slug if present in the model
 		try {
@@ -131,12 +134,13 @@ export async function getBrewMethodBySlug(slug: string): Promise<BrewMethod | nu
 				content_type: "brewMethod",
 				limit: 1,
 				...({ "fields.slug": slug } as any),
+				...(locale ? { locale } : {}),
 			});
 			if (entries.items.length > 0) return entries.items[0] as BrewMethod;
 		} catch {}
 
 		// Fallback to entry ID
-		const entry = await client.getEntry<BrewMethodSkeleton>(slug);
+		const entry = await client.getEntry<BrewMethodSkeleton>(slug, locale ? { locale } : undefined);
 		if (entry.sys.contentType.sys.id === "brewMethod") return entry as BrewMethod;
 		return null;
 	} catch (error) {
@@ -146,12 +150,13 @@ export async function getBrewMethodBySlug(slug: string): Promise<BrewMethod | nu
 }
 
 // Fetch a single coffee brew by its name
-export async function getCoffeeBrewByName(name: string): Promise<CoffeeBrewPost | null> {
+export async function getCoffeeBrewByName(name: string, locale?: string): Promise<CoffeeBrewPost | null> {
 	try {
 		const entries = await client.getEntries<CoffeeBrewSkeleton>({
 			content_type: "coffee",
 			limit: 1,
 			...({ "fields.name": name } as any),
+			...(locale ? { locale } : {}),
 		});
 		if (entries.items.length > 0) return entries.items[0] as CoffeeBrewPost;
 		return null;
@@ -162,14 +167,34 @@ export async function getCoffeeBrewByName(name: string): Promise<CoffeeBrewPost 
 }
 
 // Fetch a single brew method by its name (brewMethod field)
-export async function getBrewMethodByName(name: string): Promise<BrewMethod | null> {
+export async function getBrewMethodByName(name: string, locale?: string): Promise<BrewMethod | null> {
 	try {
 		const entries = await client.getEntries<BrewMethodSkeleton>({
 			content_type: "brewMethod",
 			limit: 1,
 			...({ "fields.brewMethod": name } as any),
+			...(locale ? { locale } : {}),
 		});
+
 		if (entries.items.length > 0) return entries.items[0] as BrewMethod;
+
+		// Fallback: if localized lookup failed (e.g., path has EN name but locale is FR),
+		// try default locale to find the entry ID, then refetch by ID with requested locale
+		const defaultLocale = "en-US";
+		if (locale && locale !== defaultLocale) {
+			const fallback = await client.getEntries<BrewMethodSkeleton>({
+				content_type: "brewMethod",
+				limit: 1,
+				...({ "fields.brewMethod": name } as any),
+				locale: defaultLocale,
+			});
+			if (fallback.items.length > 0) {
+				const id = fallback.items[0].sys.id;
+				const byId = await client.getEntry<BrewMethodSkeleton>(id, { locale });
+				if (byId.sys.contentType.sys.id === "brewMethod") return byId as BrewMethod;
+			}
+		}
+
 		return null;
 	} catch (error) {
 		console.error("Error fetching brew method by name:", error);

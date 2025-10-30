@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { gramsToFluidOunces } from "@/lib/utils";
@@ -13,11 +13,14 @@ interface BrewMethodsGridProps {
 
 export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const currentLang = searchParams.get("lang");
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 			{brewMethods.map((brewMethod) => {
-				const to = `/brew-methods/${encodeURIComponent(brewMethod.fields.brewMethod)}`;
+				const base = `/brew-methods/${encodeURIComponent(brewMethod.fields.brewMethod)}`;
+				const to = currentLang ? `${base}?lang=${encodeURIComponent(currentLang)}` : base;
 				return (
 					<Card key={brewMethod.sys.id} className="p-5 border hover:shadow-md transition-shadow">
 						<div className="flex items-start justify-between mb-3">
@@ -29,7 +32,8 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 									// 50% chance to show alt view using a simple math check
 									const showAlt = Math.random() < 0.5;
 									if (showAlt) {
-										router.push(`${to}?alt=1`);
+										const hasQuery = to.includes("?");
+										router.push(`${to}${hasQuery ? "&" : "?"}alt=1`);
 									} else {
 										router.push(to);
 									}

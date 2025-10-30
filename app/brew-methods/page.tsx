@@ -7,8 +7,13 @@ import { getBrewMethods } from "@/lib/contentful";
 import { gramsToFluidOunces } from "@/lib/utils";
 import BrewMethodsGrid from "@/components/brewMethodsGrid";
 
-export default async function BrewMethodsPage() {
-	const brewMethods = await getBrewMethods();
+interface PageProps {
+	searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export default async function BrewMethodsPage({ searchParams }: PageProps) {
+	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
+	const brewMethods = await getBrewMethods(langParam);
 	const visibleBrewMethods = brewMethods.filter((method) => !method.metadata?.tags?.some((tag) => tag.sys.id === "ninetailTest"));
 
 	return (
