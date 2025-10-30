@@ -3,20 +3,20 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getBrewMethodBySlug, getBrewMethods } from "@/lib/contentful";
+import { getBrewMethodByName, getBrewMethods } from "@/lib/contentful";
 
 interface BrewMethodPageProps {
-	params: { slug: string };
+	params: { brewMethod: string };
 }
 
 export async function generateStaticParams() {
 	const brewMethods = await getBrewMethods();
-	return brewMethods.map((brewMethod) => ({ slug: brewMethod.fields.slug || brewMethod.sys.id }));
+	return brewMethods.map((brewMethod) => ({ brewMethod: encodeURIComponent(brewMethod.fields.brewMethod) }));
 }
 
 export default async function BrewMethodPage({ params }: BrewMethodPageProps) {
-	const { slug } = await params;
-	const brewMethod = await getBrewMethodBySlug(slug);
+	const decoded = decodeURIComponent(params.brewMethod);
+	const brewMethod = await getBrewMethodByName(decoded);
 
 	if (!brewMethod) {
 		notFound();

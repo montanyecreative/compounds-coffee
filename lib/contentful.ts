@@ -144,3 +144,35 @@ export async function getBrewMethodBySlug(slug: string): Promise<BrewMethod | nu
 		return null;
 	}
 }
+
+// Fetch a single coffee brew by its name
+export async function getCoffeeBrewByName(name: string): Promise<CoffeeBrewPost | null> {
+	try {
+		const entries = await client.getEntries<CoffeeBrewSkeleton>({
+			content_type: "coffee",
+			limit: 1,
+			...({ "fields.name": name } as any),
+		});
+		if (entries.items.length > 0) return entries.items[0] as CoffeeBrewPost;
+		return null;
+	} catch (error) {
+		console.error("Error fetching coffee brew by name:", error);
+		return null;
+	}
+}
+
+// Fetch a single brew method by its name (brewMethod field)
+export async function getBrewMethodByName(name: string): Promise<BrewMethod | null> {
+	try {
+		const entries = await client.getEntries<BrewMethodSkeleton>({
+			content_type: "brewMethod",
+			limit: 1,
+			...({ "fields.brewMethod": name } as any),
+		});
+		if (entries.items.length > 0) return entries.items[0] as BrewMethod;
+		return null;
+	} catch (error) {
+		console.error("Error fetching brew method by name:", error);
+		return null;
+	}
+}

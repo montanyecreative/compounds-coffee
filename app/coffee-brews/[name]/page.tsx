@@ -3,29 +3,23 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getCoffeeBrewBySlug, getCoffeeBrews } from "@/lib/contentful";
+import { getCoffeeBrewByName, getCoffeeBrews } from "@/lib/contentful";
 import { gramsToFluidOunces } from "@/lib/utils";
 
 interface BrewDetailPageProps {
 	params: {
-		slug: string;
+		name: string;
 	};
 }
 
 export async function generateStaticParams() {
 	const brews = await getCoffeeBrews();
-	return brews.map((brew) => ({
-		slug: brew.fields.slug || brew.sys.id,
-	}));
+	return brews.map((brew) => ({ name: encodeURIComponent(brew.fields.name) }));
 }
 
 export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
-	const { slug } = await params;
-
-	console.log("Fetching brew with slug:", slug);
-	const brew = await getCoffeeBrewBySlug(slug);
-
-	console.log("Brew found:", brew ? "Yes" : "No");
+	const decodedName = decodeURIComponent(params.name);
+	const brew = await getCoffeeBrewByName(decodedName);
 
 	if (!brew) {
 		notFound();
@@ -132,7 +126,7 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 											<span className="font-medium">Coffee Yield:</span>
 											<span>
 												{brew.fields.coffeeYield}
-												{brew.fields.coffeeYield ? `g (${gramsToFluidOunces(brew.fields.coffeeYield)} fl oz)` : ""}
+												{brew.fields.coffeeYield ? `${gramsToFluidOunces(brew.fields.coffeeYield)} fl oz` : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">

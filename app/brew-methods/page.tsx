@@ -24,7 +24,7 @@ export default async function BrewMethodsPage() {
 					) : (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 							{brewMethods.map((brewMethod) => {
-								const to = `/brew-methods/${brewMethod.fields.slug || brewMethod.sys.id}`;
+								const to = `/brew-methods/${encodeURIComponent(brewMethod.fields.brewMethod)}`;
 								return (
 									<Card key={brewMethod.sys.id} className="p-5 border hover:shadow-md transition-shadow">
 										<div className="flex items-start justify-between mb-3">

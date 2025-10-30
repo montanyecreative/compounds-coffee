@@ -48,7 +48,7 @@ export default function BrewsTable({ brews }: BrewsTableProps) {
 				<TableBody>
 					{brews.map((brew) => {
 						const handleRowClick = () => {
-							router.push(`/coffee-brews/${brew.fields.slug || brew.sys.id}`);
+							router.push(`/coffee-brews/${encodeURIComponent(brew.fields.name)}`);
 						};
 
 						return (
