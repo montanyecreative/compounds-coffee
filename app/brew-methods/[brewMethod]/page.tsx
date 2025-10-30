@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getBrewMethodByName, getBrewMethods } from "@/lib/contentful";
 import AltBrewMethodDetail from "@/components/altBrewMethodDetail";
+import { gramsToFluidOunces } from "@/lib/utils";
 
 interface BrewMethodPageProps {
 	params: { brewMethod: string };
@@ -46,8 +47,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 							<AltBrewMethodDetail brewMethod={brewMethod} />
 						) : (
 							<>
-								<h1 className="text-4xl font-bold mb-2">{brewMethod.fields.brewMethod}</h1>
-								<p className="text-gray-600 mb-8">Brew Method Recipe</p>
+								<h1 className="text-4xl font-bold mb-10">{brewMethod.fields.brewMethod}</h1>
 
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 									<section>
@@ -56,25 +56,39 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 											{brewMethod.fields.brewTempRange && (
 												<div className="flex justify-between border-b pb-2">
 													<span className="font-medium">Temp Range:</span>
-													<span>{brewMethod.fields.brewTempRange}</span>
+													<span>
+														{brewMethod.fields.brewTempRange}
+														{brewMethod.fields.brewTempRange ? "°F" : ""}
+													</span>
 												</div>
 											)}
 											{brewMethod.fields.optimalCoffeeDose && (
 												<div className="flex justify-between border-b pb-2">
 													<span className="font-medium">Optimal Dose:</span>
-													<span>{brewMethod.fields.optimalCoffeeDose}</span>
+													<span>
+														{brewMethod.fields.optimalCoffeeDose}
+														{brewMethod.fields.optimalCoffeeDose ? "g" : ""}
+													</span>
 												</div>
 											)}
 											{brewMethod.fields.targetBloomYield && (
 												<div className="flex justify-between border-b pb-2">
 													<span className="font-medium">Target Bloom Yield:</span>
-													<span>{brewMethod.fields.targetBloomYield}</span>
+													<span>
+														{brewMethod.fields.targetBloomYield}
+														{brewMethod.fields.targetBloomYield ? "g" : ""}
+													</span>
 												</div>
 											)}
 											{brewMethod.fields.targetBrewYield && (
 												<div className="flex justify-between border-b pb-2">
 													<span className="font-medium">Target Brew Yield:</span>
-													<span>{brewMethod.fields.targetBrewYield}</span>
+													<span>
+														{brewMethod.fields.targetBrewYield}
+														{brewMethod.fields.targetBrewYield
+															? `g (${gramsToFluidOunces(brewMethod.fields.targetBrewYield)} fl oz)`
+															: ""}
+													</span>
 												</div>
 											)}
 										</div>
