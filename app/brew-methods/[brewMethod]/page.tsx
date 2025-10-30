@@ -8,6 +8,7 @@ import AltBrewMethodDetail from "@/components/altBrewMethodDetail";
 
 interface BrewMethodPageProps {
 	params: { brewMethod: string };
+	searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateStaticParams() {
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 	return brewMethods.map((brewMethod) => ({ brewMethod: encodeURIComponent(brewMethod.fields.brewMethod) }));
 }
 
-export default async function BrewMethodPage({ params }: BrewMethodPageProps) {
+export default async function BrewMethodPage({ params, searchParams }: BrewMethodPageProps) {
 	const decoded = decodeURIComponent(params.brewMethod);
 	const brewMethod = await getBrewMethodByName(decoded);
 
@@ -25,6 +26,7 @@ export default async function BrewMethodPage({ params }: BrewMethodPageProps) {
 
 	const hasNinetailTag =
 		Array.isArray(brewMethod.metadata?.tags) && brewMethod.metadata.tags.some((tag) => tag.sys.id === "ninetailTest");
+	const forceAlt = typeof searchParams?.alt !== "undefined";
 
 	return (
 		<main>
@@ -39,7 +41,7 @@ export default async function BrewMethodPage({ params }: BrewMethodPageProps) {
 							</Button>
 						</Link>
 
-						{hasNinetailTag ? (
+						{hasNinetailTag || forceAlt ? (
 							<AltBrewMethodDetail brewMethod={brewMethod} />
 						) : (
 							<>
