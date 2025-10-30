@@ -93,12 +93,12 @@ export default async function BrewMethodPage({ params }: BrewMethodPageProps) {
 								<section>
 									<h2 className="text-2xl font-semibold mb-4 text-brown">Notes</h2>
 									<p className="text-gray-700 leading-relaxed">{brewMethod.fields.textField1}</p>
-								</section>
-							)}
-							{brewMethod.fields.textField2 && (
-								<section>
-									<h2 className="text-2xl font-semibold mb-4 text-brown">More Tips</h2>
-									<p className="text-gray-700 leading-relaxed">{brewMethod.fields.textField2}</p>
+									{brewMethod.fields.textField2 && (
+										<div>
+											<br />
+											<p className="text-gray-700 leading-relaxed">{brewMethod.fields.textField2}</p>
+										</div>
+									)}
 								</section>
 							)}
 
