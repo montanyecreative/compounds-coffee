@@ -21,6 +21,11 @@ export const navLinks = [
 		link: "coffee-brews",
 	},
 	{
+		id: 3,
+		title: "Brew Methods",
+		link: "brew-methods",
+	},
+	{
 		id: 5,
 		title: "Contact",
 		link: "contact",

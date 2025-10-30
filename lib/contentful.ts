@@ -34,7 +34,27 @@ interface CoffeeBrewSkeleton extends EntrySkeletonType {
 	};
 }
 
+// -------------------- Brew Method Content --------------------
+interface BrewMethodSkeleton extends EntrySkeletonType {
+	contentTypeId: "brewMethod";
+	fields: {
+		brewMethod: string;
+		slug?: string;
+		brewTempRange?: string; // e.g., "195-205°F"
+		optimalCoffeeDose?: number;
+		targetBloomYield?: number;
+		targetBrewYield?: number;
+		targetBloomTime?: string;
+		targetBrewTime?: string;
+		textField1?: string;
+		textField2?: string;
+		linkToProduct?: string;
+		nt_experiences?: string;
+	};
+}
+
 export type CoffeeBrewPost = Entry<CoffeeBrewSkeleton, undefined, string>;
+export type BrewMethod = Entry<BrewMethodSkeleton, undefined, string>;
 
 // Fetch all coffee brew posts
 export async function getCoffeeBrews(): Promise<CoffeeBrewPost[]> {
@@ -86,6 +106,41 @@ export async function getCoffeeBrewBySlug(slug: string): Promise<CoffeeBrewPost 
 		return null;
 	} catch (error) {
 		console.error("Error fetching coffee brew:", error);
+		return null;
+	}
+}
+
+export async function getBrewMethods(): Promise<BrewMethod[]> {
+	try {
+		const entries = await client.getEntries<BrewMethodSkeleton>({
+			content_type: "brewMethod",
+			// Contentful types for order are strict; omit if not supported by typings
+		});
+		return entries.items as BrewMethod[];
+	} catch (error) {
+		console.error("Error fetching brew methods:", error);
+		return [];
+	}
+}
+
+export async function getBrewMethodBySlug(slug: string): Promise<BrewMethod | null> {
+	try {
+		// Try slug if present in the model
+		try {
+			const entries = await client.getEntries<BrewMethodSkeleton>({
+				content_type: "brewMethod",
+				limit: 1,
+				...({ "fields.slug": slug } as any),
+			});
+			if (entries.items.length > 0) return entries.items[0] as BrewMethod;
+		} catch {}
+
+		// Fallback to entry ID
+		const entry = await client.getEntry<BrewMethodSkeleton>(slug);
+		if (entry.sys.contentType.sys.id === "brewMethod") return entry as BrewMethod;
+		return null;
+	} catch (error) {
+		console.error("Error fetching brew method:", error);
 		return null;
 	}
 }
