@@ -16,11 +16,26 @@
 		"tempRange": "Temp Range",
 		"optimalDose": "Optimal Dose",
 		"bloomYield": "Bloom Yield",
+		"targetBloomYield": "Target Bloom Yield",
 		"brewYield": "Brew Yield",
+		"targetBrewYield": "Target Brew Yield",
 		"bloomTime": "Bloom Time",
-		"brewTime": "Brew Time"
+		"targetBloomTime": "Target Bloom Time",
+		"brewTime": "Brew Time",
+		"targetBrewTime": "Target Brew Time",
+		"view": "View",
+		"brewMethod": "Brew Method",
+		"temperatureRange": "temperature range",
+		"coffeeNeeded": "coffee needed",
+		"coffeeMade": "coffee made"
 	},
 	"alt": {
 		"specsTitle": "Specifications"
+	},
+	"copy": {
+		"brewMethodsPageTitle": "Brew Methods"
+	},
+	"errors": {
+		"noBrewMethodsFound": "No brew methods found in Contentful."
 	}
 }

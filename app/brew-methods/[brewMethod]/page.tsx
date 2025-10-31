@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getBrewMethodByName, getBrewMethods } from "@/lib/contentful";
 import AltBrewMethodDetail from "@/components/altBrewMethodDetail";
+import { getBrewMethodByName, getBrewMethods } from "@/lib/contentful";
 import { gramsToFluidOunces } from "@/lib/utils";
+import { getTranslations } from "@/lib/i18n";
 
 interface BrewMethodPageProps {
 	params: { brewMethod: string };
@@ -26,6 +27,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 		notFound();
 	}
 
+	const translations = getTranslations(langParam);
 	const hasNinetailTag =
 		Array.isArray(brewMethod.metadata?.tags) && brewMethod.metadata.tags.some((tag) => tag.sys.id === "ninetailTest");
 	const forceAlt = typeof searchParams?.alt !== "undefined";
@@ -39,7 +41,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 					<div className="pt-10 md:pt-unset">
 						<Link href={{ pathname: "/brew-methods", query: langParam ? { lang: langParam } : {} }}>
 							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
-								← Back to Brew Methods
+								{translations("brewMethods.back")}
 							</Button>
 						</Link>
 
@@ -51,11 +53,11 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 									<section>
-										<h2 className="text-2xl font-semibold mb-4 text-brown">Targets</h2>
+										<h2 className="text-2xl font-semibold mb-4 text-brown">{translations("labels.targets")}</h2>
 										<div className="space-y-3">
 											{brewMethod.fields.brewTempRange && (
 												<div className="flex justify-between border-b pb-2">
-													<span className="font-medium">Temp Range:</span>
+													<span className="font-medium">{translations("labels.tempRange")}:</span>
 													<span>
 														{brewMethod.fields.brewTempRange}
 														{brewMethod.fields.brewTempRange ? "°F" : ""}
@@ -64,7 +66,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 											)}
 											{brewMethod.fields.optimalCoffeeDose && (
 												<div className="flex justify-between border-b pb-2">
-													<span className="font-medium">Optimal Dose:</span>
+													<span className="font-medium">{translations("labels.optimalDose")}:</span>
 													<span>
 														{brewMethod.fields.optimalCoffeeDose}
 														{brewMethod.fields.optimalCoffeeDose ? "g" : ""}
@@ -73,7 +75,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 											)}
 											{brewMethod.fields.targetBloomYield && (
 												<div className="flex justify-between border-b pb-2">
-													<span className="font-medium">Target Bloom Yield:</span>
+													<span className="font-medium">{translations("labels.targetBloomYield")}:</span>
 													<span>
 														{brewMethod.fields.targetBloomYield}
 														{brewMethod.fields.targetBloomYield ? "g" : ""}
@@ -82,7 +84,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 											)}
 											{brewMethod.fields.targetBrewYield && (
 												<div className="flex justify-between border-b pb-2">
-													<span className="font-medium">Target Brew Yield:</span>
+													<span className="font-medium">{translations("labels.targetBrewYield")}:</span>
 													<span>
 														{brewMethod.fields.targetBrewYield}
 														{brewMethod.fields.targetBrewYield
@@ -95,11 +97,11 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 									</section>
 
 									<section>
-										<h2 className="text-2xl font-semibold mb-4 text-brown">Timing</h2>
+										<h2 className="text-2xl font-semibold mb-4 text-brown">{translations("labels.timing")}</h2>
 										<div className="space-y-3">
 											{brewMethod.fields.targetBloomTime && (
 												<div className="flex justify-between border-b pb-2">
-													<span className="font-medium">Target Bloom Time:</span>
+													<span className="font-medium">{translations("labels.targetBloomTime")}:</span>
 													<span>
 														{brewMethod.fields.targetBloomTime}
 														{brewMethod.fields.targetBloomTime ? " seconds" : ""}
@@ -108,7 +110,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 											)}
 											{brewMethod.fields.targetBrewTime && (
 												<div className="flex justify-between border-b pb-2">
-													<span className="font-medium">Target Brew Time:</span>
+													<span className="font-medium">{translations("labels.targetBrewTime")}:</span>
 													<span>{brewMethod.fields.targetBrewTime}</span>
 												</div>
 											)}
@@ -119,7 +121,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 								<div className="space-y-6 mb-10">
 									{brewMethod.fields.textField1 && (
 										<section>
-											<h2 className="text-2xl font-semibold mb-4 text-brown">Notes</h2>
+											<h2 className="text-2xl font-semibold mb-4 text-brown">{translations("labels.notes")}</h2>
 											<p className="text-gray-700 leading-relaxed">{brewMethod.fields.textField1}</p>
 											{brewMethod.fields.textField2 && (
 												<div>
@@ -138,7 +140,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 												rel="noopener noreferrer"
 												className="text-brown hover:underline"
 											>
-												Recommended Product →
+												{translations("labels.recommendedProduct")}
 											</a>
 										</div>
 									)}
@@ -148,7 +150,7 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 
 						<Link href={{ pathname: "/brew-methods", query: langParam ? { lang: langParam } : {} }}>
 							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
-								← Back to Brew Methods
+								{translations("brewMethods.back")}
 							</Button>
 						</Link>
 					</div>

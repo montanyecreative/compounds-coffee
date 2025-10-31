@@ -3,8 +3,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { gramsToFluidOunces } from "@/lib/utils";
 import { BrewMethod } from "@/lib/contentful";
+import { gramsToFluidOunces } from "@/lib/utils";
+import { useTranslations } from "@/lib/useTranslations";
 
 interface BrewMethodsGridProps {
 	brewMethods: BrewMethod[];
@@ -14,6 +15,7 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
+	const { translations } = useTranslations();
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
@@ -39,14 +41,14 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 									}
 								}}
 							>
-								View
+								{translations("labels.view")}
 							</Button>
 						</div>
 
 						<div className="space-y-2 text-sm">
 							{brewMethod.fields.brewTempRange && (
 								<div className="flex justify-between border-b pb-2">
-									<span className="font-medium">Temp Range</span>
+									<span className="font-medium">{translations("labels.tempRange")}</span>
 									<span>
 										{brewMethod.fields.brewTempRange}
 										{brewMethod.fields.brewTempRange ? "°F" : ""}
@@ -55,7 +57,7 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 							)}
 							{brewMethod.fields.optimalCoffeeDose && (
 								<div className="flex justify-between border-b pb-2">
-									<span className="font-medium">Optimal Dose</span>
+									<span className="font-medium">{translations("labels.optimalDose")}</span>
 									<span>
 										{brewMethod.fields.optimalCoffeeDose}
 										{brewMethod.fields.optimalCoffeeDose ? "g" : ""}
@@ -64,7 +66,7 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 							)}
 							{brewMethod.fields.targetBloomYield && (
 								<div className="flex justify-between border-b pb-2">
-									<span className="font-medium">Bloom Yield</span>
+									<span className="font-medium">{translations("labels.bloomYield")}</span>
 									<span>
 										{brewMethod.fields.targetBloomYield}
 										{brewMethod.fields.targetBloomYield ? "g" : ""}
@@ -73,7 +75,7 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 							)}
 							{brewMethod.fields.targetBrewYield && (
 								<div className="flex justify-between border-b pb-2">
-									<span className="font-medium">Brew Yield</span>
+									<span className="font-medium">{translations("labels.brewYield")}</span>
 									<span>
 										{brewMethod.fields.targetBrewYield}
 										{brewMethod.fields.targetBrewYield
@@ -84,7 +86,7 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 							)}
 							{brewMethod.fields.targetBloomTime && (
 								<div className="flex justify-between border-b pb-2">
-									<span className="font-medium">Bloom Time</span>
+									<span className="font-medium">{translations("labels.bloomTime")}</span>
 									<span>
 										{brewMethod.fields.targetBloomTime}
 										{brewMethod.fields.targetBloomYield ? " seconds" : ""}
@@ -93,7 +95,7 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 							)}
 							{brewMethod.fields.targetBrewTime && (
 								<div className="flex justify-between border-b pb-2">
-									<span className="font-medium">Brew Time</span>
+									<span className="font-medium">{translations("labels.brewTime")}</span>
 									<span>{brewMethod.fields.targetBrewTime}</span>
 								</div>
 							)}

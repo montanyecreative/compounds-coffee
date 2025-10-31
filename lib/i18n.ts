@@ -15,7 +15,7 @@ function getFromPath(obj: any, path: string): any {
 	return path.split(".").reduce((acc: any, key: string) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);
 }
 
-export function getT(lang?: string) {
+export function getTranslations(lang?: string) {
 	const selected = (lang as SupportedLang) || DEFAULT_LANG;
 	const dict = dictionaries[selected] || dictionaries[DEFAULT_LANG];
 	const fallback = dictionaries[DEFAULT_LANG];

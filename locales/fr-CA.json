@@ -16,11 +16,26 @@
 		"tempRange": "Plage de température",
 		"optimalDose": "Dose optimale",
 		"bloomYield": "Rendement de pré-infusion",
-		"brewYield": "Rendement d’infusion",
+		"targetBloomYield": "Rendement de pré-infusion cible",
+		"brewYield": "Rendement d'infusion",
+		"targetBrewYield": "Rendement d'infusion cible",
 		"bloomTime": "Temps de pré-infusion",
-		"brewTime": "Temps d’infusion"
+		"targetBloomTime": "Temps de pré-infusion cible",
+		"brewTime": "Temps d'infusion",
+		"targetBrewTime": "Temps d'infusion cible",
+		"view": "Voir",
+		"brewMethod": "Méthode d'infusion",
+		"temperatureRange": "plage de température",
+		"coffeeNeeded": "de café nécessaire",
+		"coffeeMade": "de café préparé"
 	},
 	"alt": {
 		"specsTitle": "Spécifications"
+	},
+	"copy": {
+		"brewMethodsPageTitle": "Méthodes d’infusion"
+	},
+	"errors": {
+		"noBrewMethodsFound": "Aucune méthode d’infusion trouvée dans Contentful."
 	}
 }
