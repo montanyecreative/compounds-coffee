@@ -9,18 +9,29 @@ import { useTranslations } from "@/lib/useTranslations";
 
 interface BrewMethodsGridProps {
 	brewMethods: BrewMethod[];
+	defaultLocaleMethods?: BrewMethod[] | null;
 }
 
-export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
+export default function BrewMethodsGrid({ brewMethods, defaultLocaleMethods }: BrewMethodsGridProps) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
 	const { translations } = useTranslations();
 
+	// Create a map of entry IDs to default locale names for consistent URL generation
+	const defaultNameMap = new Map<string, string>();
+	if (defaultLocaleMethods) {
+		defaultLocaleMethods.forEach((method) => {
+			defaultNameMap.set(method.sys.id, method.fields.brewMethod);
+		});
+	}
+
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 			{brewMethods.map((brewMethod) => {
-				const base = `/brew-methods/${encodeURIComponent(brewMethod.fields.brewMethod)}`;
+				// Use default locale name for URL if available, otherwise fallback to current locale name
+				const urlName = defaultNameMap.get(brewMethod.sys.id) || brewMethod.fields.brewMethod;
+				const base = `/brew-methods/${encodeURIComponent(urlName)}`;
 				const to = currentLang ? `${base}?lang=${encodeURIComponent(currentLang)}` : base;
 				return (
 					<Card key={brewMethod.sys.id} className="p-5 border rounded">

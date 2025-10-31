@@ -12,6 +12,10 @@ export default async function BrewMethodsPage({ searchParams }: PageProps) {
 	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
 	const brewMethods = await getBrewMethods(langParam);
 	const visibleBrewMethods = brewMethods.filter((method) => !method.metadata?.tags?.some((tag) => tag.sys.id === "ninetailTest"));
+
+	// Also fetch default locale versions for consistent URL generation
+	const defaultLocaleMethods = langParam && langParam !== "en-US" ? await getBrewMethods("en-US") : null;
+
 	const translations = getTranslations(langParam);
 
 	return (
@@ -27,7 +31,7 @@ export default async function BrewMethodsPage({ searchParams }: PageProps) {
 							<p className="text-gray-600 mb-4">{translations("errors.noBrewMethodsFound")}</p>
 						</div>
 					) : (
-						<BrewMethodsGrid brewMethods={visibleBrewMethods} />
+						<BrewMethodsGrid brewMethods={visibleBrewMethods} defaultLocaleMethods={defaultLocaleMethods} />
 					)}
 				</div>
 			</div>

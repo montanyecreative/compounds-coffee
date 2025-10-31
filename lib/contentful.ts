@@ -179,18 +179,36 @@ export async function getBrewMethodByName(name: string, locale?: string): Promis
 
 		if (entries.items.length > 0) return entries.items[0] as BrewMethod;
 
-		// Fallback: if localized lookup failed (e.g., path has EN name but locale is FR),
-		// try default locale to find the entry ID, then refetch by ID with requested locale
+		// Fallback: if localized lookup failed, try other locales to find the entry
+		// This handles cases where the URL has a name from a different locale
 		const defaultLocale = "en-US";
-		if (locale && locale !== defaultLocale) {
-			const fallback = await client.getEntries<BrewMethodSkeleton>({
+		const alternateLocale = locale === "fr-CA" ? defaultLocale : "fr-CA";
+
+		// Try alternate locale to find the entry
+		const fallback = await client.getEntries<BrewMethodSkeleton>({
+			content_type: "brewMethod",
+			limit: 1,
+			...({ "fields.brewMethod": name } as any),
+			locale: alternateLocale,
+		});
+
+		if (fallback.items.length > 0) {
+			const id = fallback.items[0].sys.id;
+			// Fetch the entry with the requested locale
+			const byId = await client.getEntry<BrewMethodSkeleton>(id, locale ? { locale } : undefined);
+			if (byId.sys.contentType.sys.id === "brewMethod") return byId as BrewMethod;
+		}
+
+		// Also try default locale if we haven't already
+		if (locale && locale !== defaultLocale && alternateLocale !== defaultLocale) {
+			const defaultFallback = await client.getEntries<BrewMethodSkeleton>({
 				content_type: "brewMethod",
 				limit: 1,
 				...({ "fields.brewMethod": name } as any),
 				locale: defaultLocale,
 			});
-			if (fallback.items.length > 0) {
-				const id = fallback.items[0].sys.id;
+			if (defaultFallback.items.length > 0) {
+				const id = defaultFallback.items[0].sys.id;
 				const byId = await client.getEntry<BrewMethodSkeleton>(id, { locale });
 				if (byId.sys.contentType.sys.id === "brewMethod") return byId as BrewMethod;
 			}
