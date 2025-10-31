@@ -100,7 +100,10 @@ export default async function BrewMethodPage({ params, searchParams }: BrewMetho
 											{brewMethod.fields.targetBloomTime && (
 												<div className="flex justify-between border-b pb-2">
 													<span className="font-medium">Target Bloom Time:</span>
-													<span>{brewMethod.fields.targetBloomTime}</span>
+													<span>
+														{brewMethod.fields.targetBloomTime}
+														{brewMethod.fields.targetBloomTime ? " seconds" : ""}
+													</span>
 												</div>
 											)}
 											{brewMethod.fields.targetBrewTime && (

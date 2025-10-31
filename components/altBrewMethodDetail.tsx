@@ -115,7 +115,10 @@ export default function AltBrewMethodDetail({ brewMethod }: AltBrewMethodDetailP
 								{brewMethod.fields.targetBloomTime && (
 									<div className="flex items-center justify-between">
 										<dt className="text-gray-500">Target Bloom Time</dt>
-										<dd className="font-medium">{brewMethod.fields.targetBloomTime}</dd>
+										<dd className="font-medium">
+											{brewMethod.fields.targetBloomTime}
+											{brewMethod.fields.targetBloomTime ? " seconds" : ""}
+										</dd>
 									</div>
 								)}
 								{brewMethod.fields.targetBrewTime && (

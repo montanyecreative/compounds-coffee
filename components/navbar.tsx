@@ -95,14 +95,14 @@ export default function Navbar() {
 					<div className="ml-2 flex items-center gap-2 text-white text-[12px]">
 						<a
 							href={buildHrefWithLang(currentRoute || "/", "en-US")}
-							className={`uppercase ${currentLang === "en-US" ? "font-bold" : "opacity-80"}`}
+							className={`uppercase ${currentLang === "en-US" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"}`}
 						>
 							EN
 						</a>
 						<span>|</span>
 						<a
 							href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
-							className={`uppercase ${currentLang === "fr-CA" ? "font-bold" : "opacity-80"}`}
+							className={`uppercase ${currentLang === "fr-CA" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"}`}
 						>
 							FR
 						</a>
@@ -138,13 +138,17 @@ export default function Navbar() {
 							<div className="mt-4 text-[14px]">
 								<a
 									href={buildHrefWithLang(currentRoute || "/", "en-US")}
-									className={`uppercase mr-2 ${currentLang === "en-US" ? "font-bold" : "opacity-80"}`}
+									className={`uppercase mr-2 ${
+										currentLang === "en-US" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"
+									}`}
 								>
 									EN
 								</a>
 								<a
 									href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
-									className={`uppercase ${currentLang === "fr-CA" ? "font-bold" : "opacity-80"}`}
+									className={`uppercase ${
+										currentLang === "fr-CA" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"
+									}`}
 								>
 									FR
 								</a>

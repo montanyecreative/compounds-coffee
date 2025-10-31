@@ -49,6 +49,7 @@ interface BrewMethodSkeleton extends EntrySkeletonType {
 		textField1?: string;
 		textField2?: string;
 		linkToProduct?: string;
+		brewMethodIcon?: object;
 		nt_experiences?: string;
 	};
 }

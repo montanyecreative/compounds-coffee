@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -22,12 +21,13 @@ export default function BrewMethodsGrid({ brewMethods }: BrewMethodsGridProps) {
 				const base = `/brew-methods/${encodeURIComponent(brewMethod.fields.brewMethod)}`;
 				const to = currentLang ? `${base}?lang=${encodeURIComponent(currentLang)}` : base;
 				return (
-					<Card key={brewMethod.sys.id} className="p-5 border hover:shadow-md transition-shadow">
+					<Card key={brewMethod.sys.id} className="p-5 border rounded">
 						<div className="flex items-start justify-between mb-3">
 							<h2 className="text-xl font-semibold">{brewMethod.fields.brewMethod}</h2>
 							<Button
 								size="sm"
 								variant="outline"
+								className="bg-white text-black border-black rounded hover:bg-black hover:text-white hover:cursor-pointer"
 								onClick={() => {
 									// 50% chance to show alt view using a simple math check
 									const showAlt = Math.random() < 0.5;
