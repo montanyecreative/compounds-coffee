@@ -1,0 +1,26 @@
+{
+	"nav": {
+		"coffeeBrews": "Coffee Brews",
+		"brewMethods": "Brew Methods",
+		"contact": "Contact"
+	},
+	"brewMethods": {
+		"title": "Brew Methods",
+		"back": "← Back to Brew Methods"
+	},
+	"labels": {
+		"targets": "Targets",
+		"timing": "Timing",
+		"notes": "Notes",
+		"recommendedProduct": "Recommended Product →",
+		"tempRange": "Temp Range",
+		"optimalDose": "Optimal Dose",
+		"bloomYield": "Bloom Yield",
+		"brewYield": "Brew Yield",
+		"bloomTime": "Bloom Time",
+		"brewTime": "Brew Time"
+	},
+	"alt": {
+		"specsTitle": "Specifications"
+	}
+}

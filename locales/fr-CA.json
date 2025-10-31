@@ -1,0 +1,26 @@
+{
+	"nav": {
+		"coffeeBrews": "Infusions de café",
+		"brewMethods": "Méthodes d’infusion",
+		"contact": "Contact"
+	},
+	"brewMethods": {
+		"title": "Méthodes d’infusion",
+		"back": "← Retour aux méthodes d’infusion"
+	},
+	"labels": {
+		"targets": "Cibles",
+		"timing": "Chronométrage",
+		"notes": "Notes",
+		"recommendedProduct": "Produit recommandé →",
+		"tempRange": "Plage de température",
+		"optimalDose": "Dose optimale",
+		"bloomYield": "Rendement de pré-infusion",
+		"brewYield": "Rendement d’infusion",
+		"bloomTime": "Temps de pré-infusion",
+		"brewTime": "Temps d’infusion"
+	},
+	"alt": {
+		"specsTitle": "Spécifications"
+	}
+}

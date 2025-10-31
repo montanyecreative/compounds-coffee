@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useTranslations } from "@/lib/useTranslations";
 
 const logo = "/logo.webp";
 const open = "/hamburger-menu.svg";
@@ -17,17 +18,17 @@ export const navLinks = [
 	// },
 	{
 		id: 2,
-		title: "Coffee Brews",
+		titleKey: "nav.coffeeBrews",
 		link: "coffee-brews",
 	},
 	{
 		id: 3,
-		title: "Brew Methods",
+		titleKey: "nav.brewMethods",
 		link: "brew-methods",
 	},
 	{
 		id: 5,
-		title: "Contact",
+		titleKey: "nav.contact",
 		link: "contact",
 	},
 ];
@@ -38,6 +39,7 @@ export default function Navbar() {
 	const currentRoute = usePathname();
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang") || "en-US";
+	const { translations } = useTranslations();
 
 	const buildHrefWithLang = (pathname: string, lang: string) => {
 		const params = new URLSearchParams(searchParams?.toString() || "");
@@ -81,13 +83,13 @@ export default function Navbar() {
 							<li
 								key={nav.id}
 								className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5 lg:mr-8"
-								onClick={() => setActive(nav.title)}
+								onClick={() => setActive(nav.link)}
 							>
 								<a
 									className={`hover:custom-hover ${currentRoute === "/" + nav.link ? "custom-underline" : ""}`}
 									href={buildHrefWithLang(`/${nav.link}`, currentLang)}
 								>
-									{nav.title}
+									{translations(nav.titleKey)}
 								</a>
 							</li>
 						))}
@@ -129,9 +131,9 @@ export default function Navbar() {
 										className={`font-medium cursor-pointer text-[18px] ${
 											index === navLinks.length - 1 ? "mb-0" : "mb-4"
 										}`}
-										onClick={() => setActive(nav.title)}
+										onClick={() => setActive(nav.link)}
 									>
-										<a href={buildHrefWithLang(`/${nav.link}`, currentLang)}>{nav.title}</a>
+										<a href={buildHrefWithLang(`/${nav.link}`, currentLang)}>{translations(nav.titleKey)}</a>
 									</li>
 								))}
 							</ul>
