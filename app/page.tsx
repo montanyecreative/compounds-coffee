@@ -21,6 +21,16 @@ export default function Home() {
 						This site was created for coffee lovers so that we can better appreciate, understand, and enjoy coffee. Here&apos;s
 						to the never ending quest of the perfect cup of coffee.
 					</p>
+					<Link
+						href="https://github.com/montanyecreative/compounds-coffee"
+						aria-label="Go to the GitHub page"
+						target="_blank"
+						rel="noopener"
+					>
+						<Button className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
+							See How I&apos;m Made
+						</Button>
+					</Link>
 				</div>
 			</div>
 			<div className="container-fluid">
