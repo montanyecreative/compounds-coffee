@@ -1,11 +1,29 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useTranslations } from "@/lib/useTranslations";
+import { navLinks } from "@/lib/navLinks";
 
 const logo = "/logo.webp";
 
 export default function Footer() {
 	const date = new Date();
 	const currentYear = date.getFullYear();
+	const [active, setActive] = useState("Home");
+	const currentRoute = usePathname();
+	const searchParams = useSearchParams();
+	const currentLang = searchParams.get("lang") || "en-US";
+	const { translations } = useTranslations();
+
+	const buildHrefWithLang = (pathname: string, lang: string) => {
+		const params = new URLSearchParams(searchParams?.toString() || "");
+		params.set("lang", lang);
+		const query = params.toString();
+		return query ? `${pathname}?${query}` : pathname;
+	};
 
 	return (
 		<footer className="container sm:mx-auto md:mx-auto grid text-center py-10 bg-black text-white" id="footer">
@@ -16,27 +34,20 @@ export default function Footer() {
 				</Link>{" "}
 			</div>
 			<div className="grid md:flex justify-center">
-				{/* <Link
-					href="/brew-log"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
-					aria-label="Go to Add a Brew page"
-				>
-					Add a brew
-				</Link> */}
-				<Link
-					href="/coffee-brews"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
-					aria-label="Go to Coffee Brews page"
-				>
-					Coffee Brews
-				</Link>
-				<Link
-					href="/contact"
-					className="mx-5 my-2 md:my-unset text-[13px] uppercase hover:text-brown"
-					aria-label="Go to Contact page"
-				>
-					Contact
-				</Link>
+				{navLinks.map((nav, index) => (
+					<span
+						key={nav.id}
+						className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5 lg:mr-8"
+						onClick={() => setActive(nav.link)}
+					>
+						<a
+							className={`hover:custom-hover ${currentRoute === "/" + nav.link ? "custom-underline" : ""}`}
+							href={buildHrefWithLang(`/${nav.link}`, currentLang)}
+						>
+							{translations(nav.titleKey)}
+						</a>
+					</span>
+				))}
 			</div>
 			<div className="social-media-links flex items-center mx-auto my-5">
 				<Link

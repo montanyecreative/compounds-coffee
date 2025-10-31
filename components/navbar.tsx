@@ -5,33 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/useTranslations";
+import { navLinks } from "@/lib/navLinks";
 
 const logo = "/logo.webp";
 const open = "/hamburger-menu.svg";
 const close = "/cross-1.svg";
-
-export const navLinks = [
-	// {
-	// 	id: 1,
-	// 	title: "Add a Brew",
-	// 	link: "add-a-brew",
-	// },
-	{
-		id: 2,
-		titleKey: "nav.coffeeBrews",
-		link: "coffee-brews",
-	},
-	{
-		id: 3,
-		titleKey: "nav.brewMethods",
-		link: "brew-methods",
-	},
-	{
-		id: 5,
-		titleKey: "nav.contact",
-		link: "contact",
-	},
-];
 
 export default function Navbar() {
 	const [active, setActive] = useState("Home");
