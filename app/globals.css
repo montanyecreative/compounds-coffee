@@ -367,10 +367,18 @@ h2 {
 		z-index: 1;
 	}
 
-	.banner-coffee-brews {
+	.banner-brew-methods {
 		background-image: url("../public/banner-brew-methods.webp");
 		background-size: cover;
 		background-position: top;
+		height: 600px;
+		z-index: 1;
+	}
+
+	.banner-coffee-brews {
+		background-image: url("../public/banner-coffee-brews.webp");
+		background-size: cover;
+		background-position: center;
 		height: 600px;
 		z-index: 1;
 	}
@@ -389,13 +397,6 @@ h2 {
 		background-position: center;
 		height: 335px;
 		z-index: 1;
-	}
-
-	.banner-salesforce {
-		/* background-image: url("../public/banners/trailhead.webp"); */
-		background-size: cover;
-		background-position: bottom;
-		height: 350px;
 	}
 
 	.comparison-slider {

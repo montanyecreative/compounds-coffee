@@ -19,7 +19,9 @@ export default async function CoffeeBrews({ searchParams }: CoffeeBrewsPageProps
 	return (
 		<main>
 			<Navbar />
-			<div className="page-banner-filler bg-mediumRoast"></div>
+			<div className="banner-coffee-brews">
+				<div className="container sm:mx-auto md:mx-auto flex banner-coffee-brews-copy items-center"></div>
+			</div>
 			<div className="container-fluid">
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
 					<h2 className="mb-5 pt-10 md:pt-unset text-black">{translations("copy.coffeeBrewsPageTitle")}</h2>
