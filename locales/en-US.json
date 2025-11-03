@@ -24,7 +24,22 @@
 		"brewTime": "Brew Time",
 		"targetBrewTime": "Target Brew Time",
 		"view": "View",
+		"name": "Name",
+		"region": "Region",
+		"roastLevel": "Roast Level",
+		"process": "Process",
 		"brewMethod": "Brew Method",
+		"brewDate": "Brew Date",
+		"coffeeDose": "Coffee Dose",
+		"coffeeYield": "Coffee Yield",
+		"tastingHighlights": "Tasting Highlights",
+		"price": "Price",
+		"roaster": "Roaster",
+		"date": "Date",
+		"method": "Method",
+		"grinder": "Grinder",
+		"grindSetting": "Grind Setting",
+		"waterTemp": "Water Temp",
 		"temperatureRange": "temperature range",
 		"coffeeNeeded": "coffee needed",
 		"coffeeMade": "coffee made"
@@ -33,9 +48,58 @@
 		"specsTitle": "Specifications"
 	},
 	"copy": {
-		"brewMethodsPageTitle": "Brew Methods"
+		"brewMethodsPageTitle": "Brew Methods",
+		"coffeeBrewsPageTitle": "Coffee Brews"
+	},
+	"addABrew": {
+		"title": "Add a brew",
+		"ctaTitle": "Coffee Brews",
+		"ctaDesc": "To the Coffee Brews page.",
+		"ctaButton": "See Coffee Brews",
+		"ctaAria": "Go to the Brews page"
+	},
+	"contact": {
+		"title": "Contact Us",
+		"intro": "Please fill out the form below and we will get in touch with you as soon as we can.",
+		"labels": {
+			"name": "Name",
+			"email": "Email",
+			"phone": "Phone",
+			"message": "Message",
+			"submit": "Submit"
+		},
+		"success": "Thank you for your submission! We'll be in contact soon!",
+		"errors": {
+			"date": "Incorrect date.",
+			"nameMin": "Name must be at least 1 character.",
+			"email": "Please enter a valid email address.",
+			"phone": "Please enter a valid phone number.",
+			"messageMin": "Message must be at least 1 character."
+		}
 	},
 	"errors": {
-		"noBrewMethodsFound": "No brew methods found in Contentful."
+		"noBrewMethodsFound": "No brew methods found in Contentful.",
+		"noCoffeeBrewsFound": "No coffee brews found. Make sure your Contentful credentials are set up correctly."
+	},
+	"coffeeBrews": {
+		"addFirstBrew": "Add Your First Brew",
+		"back": "← Back to Coffee Brews",
+		"coffeeDetails": "Coffee Details",
+		"brewParameters": "Brew Parameters",
+		"tastingHighlights": "Tasting Highlights",
+		"tastingNotes": "Tasting Notes",
+		"additionalNotes": "Additional Notes",
+		"viewProduct": "View Product →"
+	},
+	"home": {
+		"title": "For the love of coffee",
+		"aboutTitle": "About this site",
+		"aboutBody": "This site was created for coffee lovers so that we can better appreciate, understand, and enjoy coffee. Here's to the never ending quest of the perfect cup of coffee.",
+		"githubButton": "See How I'm Made",
+		"githubAria": "Go to the GitHub page",
+		"ctaTitle": "Coffee Brews",
+		"ctaDesc": "To the Coffee Brews page.",
+		"ctaButton": "See Coffee Brews",
+		"ctaAria": "Go to the Coffee Brews page"
 	}
 }

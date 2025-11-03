@@ -1,8 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CoffeeBrewPost } from "@/lib/contentful";
+import { useTranslations } from "@/lib/useTranslations";
 
 interface BrewsTableProps {
 	brews: CoffeeBrewPost[];
@@ -10,6 +11,9 @@ interface BrewsTableProps {
 
 export default function BrewsTable({ brews }: BrewsTableProps) {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const currentLang = searchParams.get("lang");
+	const { translations } = useTranslations();
 
 	return (
 		<div className="pb-10">
@@ -17,38 +21,40 @@ export default function BrewsTable({ brews }: BrewsTableProps) {
 				<TableHeader>
 					<TableRow>
 						<TableHead>
-							<b>Name</b>
+							<b>{translations("labels.name")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Region</b>
+							<b>{translations("labels.region")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Roast Level</b>
+							<b>{translations("labels.roastLevel")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Process</b>
+							<b>{translations("labels.process")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Brew Method</b>
+							<b>{translations("labels.brewMethod")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Brew Date</b>
+							<b>{translations("labels.brewDate")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Coffee Dose</b>
+							<b>{translations("labels.coffeeDose")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Coffee Yield</b>
+							<b>{translations("labels.coffeeYield")}</b>
 						</TableHead>
 						<TableHead>
-							<b>Tasting Highlights</b>
+							<b>{translations("labels.tastingHighlights")}</b>
 						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{brews.map((brew) => {
 						const handleRowClick = () => {
-							router.push(`/coffee-brews/${encodeURIComponent(brew.fields.name)}`);
+							const base = `/coffee-brews/${encodeURIComponent(brew.fields.name)}`;
+							const to = currentLang ? `${base}?lang=${encodeURIComponent(currentLang)}` : base;
+							router.push(to);
 						};
 
 						return (

@@ -5,11 +5,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCoffeeBrewByName, getCoffeeBrews } from "@/lib/contentful";
 import { gramsToFluidOunces } from "@/lib/utils";
+import { getTranslations } from "@/lib/i18n";
 
 interface BrewDetailPageProps {
 	params: {
 		name: string;
 	};
+	searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateStaticParams() {
@@ -17,9 +19,12 @@ export async function generateStaticParams() {
 	return brews.map((brew) => ({ name: encodeURIComponent(brew.fields.name) }));
 }
 
-export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
+export default async function BrewDetailPage({ params, searchParams }: BrewDetailPageProps) {
 	const decodedName = decodeURIComponent(params.name);
-	const brew = await getCoffeeBrewByName(decodedName);
+	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
+	const brew = await getCoffeeBrewByName(decodedName, langParam);
+	const translations = getTranslations(langParam);
+	const brewsHref = langParam ? `/coffee-brews?lang=${encodeURIComponent(langParam)}` : "/coffee-brews";
 
 	if (!brew) {
 		notFound();
@@ -32,9 +37,9 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 			<div className="container-fluid">
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
 					<div className="pt-10 md:pt-unset">
-						<Link href="/coffee-brews">
+						<Link href={brewsHref}>
 							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
-								← Back to Coffee Brews
+								{translations("coffeeBrews.back")}
 							</Button>
 						</Link>
 
@@ -43,26 +48,26 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 							<div className="space-y-6">
 								<section>
-									<h2 className="text-2xl font-semibold mb-4 text-brown">Coffee Details</h2>
+									<h2 className="text-2xl font-semibold mb-4 text-brown">{translations("coffeeBrews.coffeeDetails")}</h2>
 									<div className="space-y-3">
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Region:</span>
+											<span className="font-medium">{translations("labels.region")}:</span>
 											<span>{brew.fields.region}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Roast Level:</span>
+											<span className="font-medium">{translations("labels.roastLevel")}:</span>
 											<span>{brew.fields.roastLevel}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Process:</span>
+											<span className="font-medium">{translations("labels.process")}:</span>
 											<span>{brew.fields.process}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Price:</span>
+											<span className="font-medium">{translations("labels.price")}:</span>
 											<span>${brew.fields.price}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Roaster:</span>
+											<span className="font-medium">{translations("labels.roaster")}:</span>
 											<span>{brew.fields.roaster}</span>
 										</div>
 										{brew.fields.link && (
@@ -73,7 +78,7 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 													rel="noopener noreferrer"
 													className="text-brown hover:underline"
 												>
-													View Product →
+													{translations("coffeeBrews.viewProduct")}
 												</a>
 											</div>
 										)}
@@ -83,61 +88,61 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 
 							<div className="space-y-6">
 								<section>
-									<h2 className="text-2xl font-semibold mb-4 text-brown">Brew Parameters</h2>
+									<h2 className="text-2xl font-semibold mb-4 text-brown">{translations("coffeeBrews.brewParameters")}</h2>
 									<div className="space-y-3">
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Date:</span>
+											<span className="font-medium">{translations("labels.date")}:</span>
 											<span>{brew.fields.brewDate}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Method:</span>
+											<span className="font-medium">{translations("labels.method")}:</span>
 											<span>{brew.fields.brewMethod}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Grinder:</span>
+											<span className="font-medium">{translations("labels.grinder")}:</span>
 											<span>{brew.fields.grinder}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Grind Setting:</span>
+											<span className="font-medium">{translations("labels.grindSetting")}:</span>
 											<span>{brew.fields.grindSetting}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Water Temp:</span>
+											<span className="font-medium">{translations("labels.waterTemp")}:</span>
 											<span>
 												{brew.fields.waterTemp}
 												{brew.fields.waterTemp ? "°F" : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Coffee Dose:</span>
+											<span className="font-medium">{translations("labels.coffeeDose")}:</span>
 											<span>
 												{brew.fields.coffeeDose}
 												{brew.fields.coffeeDose ? "g" : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Bloom Yield:</span>
+											<span className="font-medium">{translations("labels.bloomYield")}:</span>
 											<span>
 												{brew.fields.bloomYield}
 												{brew.fields.bloomYield ? "g" : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Coffee Yield:</span>
+											<span className="font-medium">{translations("labels.coffeeYield")}:</span>
 											<span>
 												{brew.fields.coffeeYield}
 												{brew.fields.coffeeYield ? `${gramsToFluidOunces(brew.fields.coffeeYield)} fl oz` : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Bloom Time:</span>
+											<span className="font-medium">{translations("labels.bloomTime")}:</span>
 											<span>
 												{brew.fields.bloomTime}
 												{brew.fields.bloomTime ? " seconds" : ""}
 											</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
-											<span className="font-medium">Brew Time:</span>
+											<span className="font-medium">{translations("labels.brewTime")}:</span>
 											<span>{brew.fields.brewTime}</span>
 										</div>
 									</div>
@@ -148,29 +153,33 @@ export default async function BrewDetailPage({ params }: BrewDetailPageProps) {
 						<div className="space-y-6 mb-10">
 							{brew.fields.tastingHighlights && (
 								<section>
-									<h2 className="text-2xl font-semibold mb-4 text-brown">Tasting Highlights</h2>
+									<h2 className="text-2xl font-semibold mb-4 text-brown">
+										{translations("coffeeBrews.tastingHighlights")}
+									</h2>
 									<p className="text-gray-700 leading-relaxed">{brew.fields.tastingHighlights}</p>
 								</section>
 							)}
 
 							{brew.fields.tastingNotes && (
 								<section>
-									<h2 className="text-2xl font-semibold mb-4 text-brown">Tasting Notes</h2>
+									<h2 className="text-2xl font-semibold mb-4 text-brown">{translations("coffeeBrews.tastingNotes")}</h2>
 									<p className="text-gray-700 leading-relaxed">{brew.fields.tastingNotes}</p>
 								</section>
 							)}
 
 							{brew.fields.notes && (
 								<section>
-									<h2 className="text-2xl font-semibold mb-4 text-brown">Additional Notes</h2>
+									<h2 className="text-2xl font-semibold mb-4 text-brown">
+										{translations("coffeeBrews.additionalNotes")}
+									</h2>
 									<p className="text-gray-700 leading-relaxed">{brew.fields.notes}</p>
 								</section>
 							)}
 						</div>
 
-						<Link href="/coffee-brews">
+						<Link href={brewsHref}>
 							<Button className="rounded-full px-10 mb-10 md:mb-10 text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
-								← Back to Coffee Brews
+								{translations("coffeeBrews.back")}
 							</Button>
 						</Link>
 					</div>

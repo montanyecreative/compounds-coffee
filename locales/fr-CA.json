@@ -24,7 +24,22 @@
 		"brewTime": "Temps d'infusion",
 		"targetBrewTime": "Temps d'infusion cible",
 		"view": "Voir",
+		"name": "Nom",
+		"region": "Région",
+		"roastLevel": "Degré de torréfaction",
+		"process": "Procédé",
 		"brewMethod": "Méthode d'infusion",
+		"brewDate": "Date d'infusion",
+		"coffeeDose": "Dose de café",
+		"coffeeYield": "Rendement de café",
+		"tastingHighlights": "Points forts de dégustation",
+		"price": "Prix",
+		"roaster": "Torréfacteur",
+		"date": "Date",
+		"method": "Méthode",
+		"grinder": "Moulin",
+		"grindSetting": "Réglage de mouture",
+		"waterTemp": "Température de l'eau",
 		"temperatureRange": "plage de température",
 		"coffeeNeeded": "de café nécessaire",
 		"coffeeMade": "de café préparé"
@@ -33,9 +48,58 @@
 		"specsTitle": "Spécifications"
 	},
 	"copy": {
-		"brewMethodsPageTitle": "Méthodes d’infusion"
+		"brewMethodsPageTitle": "Méthodes d'infusion",
+		"coffeeBrewsPageTitle": "Infusions de café"
+	},
+	"addABrew": {
+		"title": "Ajouter une infusion",
+		"ctaTitle": "Infusions de café",
+		"ctaDesc": "Vers la page des infusions de café.",
+		"ctaButton": "Voir les infusions de café",
+		"ctaAria": "Accéder à la page des infusions"
+	},
+	"contact": {
+		"title": "Nous joindre",
+		"intro": "Veuillez remplir le formulaire ci-dessous et nous communiquerons avec vous dès que possible.",
+		"labels": {
+			"name": "Nom",
+			"email": "Courriel",
+			"phone": "Téléphone",
+			"message": "Message",
+			"submit": "Envoyer"
+		},
+		"success": "Merci pour votre envoi! Nous vous contacterons bientôt!",
+		"errors": {
+			"date": "Date incorrecte.",
+			"nameMin": "Le nom doit contenir au moins 1 caractère.",
+			"email": "Veuillez saisir une adresse courriel valide.",
+			"phone": "Veuillez saisir un numéro de téléphone valide.",
+			"messageMin": "Le message doit contenir au moins 1 caractère."
+		}
 	},
 	"errors": {
-		"noBrewMethodsFound": "Aucune méthode d’infusion trouvée dans Contentful."
+		"noBrewMethodsFound": "Aucune méthode d'infusion trouvée dans Contentful.",
+		"noCoffeeBrewsFound": "Aucune infusion de café trouvée. Assurez-vous que vos identifiants Contentful sont correctement configurés."
+	},
+	"coffeeBrews": {
+		"addFirstBrew": "Ajouter votre première infusion",
+		"back": "← Retour aux infusions de café",
+		"coffeeDetails": "Détails du café",
+		"brewParameters": "Paramètres d'infusion",
+		"tastingHighlights": "Points forts de dégustation",
+		"tastingNotes": "Notes de dégustation",
+		"additionalNotes": "Notes supplémentaires",
+		"viewProduct": "Voir le produit →"
+	},
+	"home": {
+		"title": "Pour l'amour du café",
+		"aboutTitle": "À propos de ce site",
+		"aboutBody": "Ce site a été créé pour les amateurs de café afin que nous puissions mieux apprécier, comprendre et savourer le café. À la quête sans fin de la tasse parfaite.",
+		"githubButton": "Voir comment je suis fait",
+		"githubAria": "Aller à la page GitHub",
+		"ctaTitle": "Infusions de café",
+		"ctaDesc": "Vers la page des infusions de café.",
+		"ctaButton": "Voir les infusions de café",
+		"ctaAria": "Accéder à la page des infusions de café"
 	}
 }

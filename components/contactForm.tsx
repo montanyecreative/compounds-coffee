@@ -8,26 +8,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useTranslations } from "@/lib/useTranslations";
 
-const formSchema = z.object({
-	date: z.string().max(100, {
-		message: "Incorrect date.",
-	}),
-	name: z.string().min(2, {
-		message: "Name must be at least 1 character.",
-	}),
-	email: z.string().email({
-		message: "Please enter a valid email address.",
-	}),
-	phone: z.string().min(10, {
-		message: "Please enter a valid phone number.",
-	}),
-	message: z.string().min(1, {
-		message: "Message must be at least 1 character.",
-	}),
-});
+// schema is created inside the component to access translations
 
 export default function ContactForm() {
+	const { translations } = useTranslations();
+
+	const formSchema = z.object({
+		date: z.string().max(100, {
+			message: translations("contact.errors.date"),
+		}),
+		name: z.string().min(1, {
+			message: translations("contact.errors.nameMin"),
+		}),
+		email: z.string().email({
+			message: translations("contact.errors.email"),
+		}),
+		phone: z.string().min(10, {
+			message: translations("contact.errors.phone"),
+		}),
+		message: z.string().min(1, {
+			message: translations("contact.errors.messageMin"),
+		}),
+	});
 	const date = new Date().toDateString();
 	var hours = new Date().getHours();
 	var minutes = new Date().getMinutes();
@@ -64,7 +68,7 @@ export default function ContactForm() {
 			.then((res) => {
 				if (res.status === 200) {
 					form.reset();
-					alert("Thank you for your submission! We'll be in contact soon!");
+					alert(translations("contact.success"));
 				}
 			})
 			.catch((error) => {
@@ -80,7 +84,7 @@ export default function ContactForm() {
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel>{translations("contact.labels.name")}</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -94,7 +98,7 @@ export default function ContactForm() {
 					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Email</FormLabel>
+							<FormLabel>{translations("contact.labels.email")}</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -108,7 +112,7 @@ export default function ContactForm() {
 					name="phone"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Phone</FormLabel>
+							<FormLabel>{translations("contact.labels.phone")}</FormLabel>
 							<FormControl>
 								<Input placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -122,7 +126,7 @@ export default function ContactForm() {
 					name="message"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Message</FormLabel>
+							<FormLabel>{translations("contact.labels.message")}</FormLabel>
 							<FormControl>
 								<Textarea placeholder="" {...field} className="text-[16px]" />
 							</FormControl>
@@ -136,7 +140,7 @@ export default function ContactForm() {
 					variant="outline"
 					className="rounded-full px-10 text-white hover:bg-red hover:border-red hover:text-white cursor-pointer uppercase text-[12px]"
 				>
-					Submit
+					{translations("contact.labels.submit")}
 				</Button>
 			</form>
 		</Form>
