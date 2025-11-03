@@ -516,3 +516,54 @@ h2 {
 		}
 	}
 }
+
+/* Mobile Menu Animations */
+.mobile-menu {
+	transform: translateY(-100%);
+	opacity: 0;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	visibility: hidden;
+}
+
+.mobile-menu.show {
+	transform: translateY(0);
+	opacity: 1;
+	visibility: visible;
+}
+
+.mobile-menu-item {
+	transform: translateX(20px);
+	opacity: 0;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.show .mobile-menu-item {
+	transform: translateX(0);
+	opacity: 1;
+}
+
+/* Stagger animation for menu items */
+.mobile-menu.show .mobile-menu-item:nth-child(1) {
+	transition-delay: 0.1s;
+}
+.mobile-menu.show .mobile-menu-item:nth-child(2) {
+	transition-delay: 0.15s;
+}
+.mobile-menu.show .mobile-menu-item:nth-child(3) {
+	transition-delay: 0.2s;
+}
+.mobile-menu.show .mobile-menu-item:nth-child(4) {
+	transition-delay: 0.25s;
+}
+.mobile-menu.show .mobile-menu-item:nth-child(5) {
+	transition-delay: 0.3s;
+}
+
+/* Hamburger menu icon animation */
+.hamburger-icon {
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-icon.rotate {
+	transform: rotate(90deg);
+}

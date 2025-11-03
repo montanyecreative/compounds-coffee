@@ -6,10 +6,9 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/useTranslations";
 import { navLinks } from "@/lib/navLinks";
+import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 
 const logo = "/logo.webp";
-const open = "/hamburger-menu.svg";
-const close = "/cross-1.svg";
 
 export default function Navbar() {
 	const [active, setActive] = useState("Home");
@@ -88,18 +87,23 @@ export default function Navbar() {
 						</a>
 					</div>
 					<div className="sm:hidden flex flex-1 justify-end items-center">
-						<Image
-							src={toggle ? close : open}
-							alt="menu"
-							className="w-[28px] h-[28px] object-contain"
+						<button
+							className="w-[28px] h-[28px] flex items-center justify-center"
 							onClick={() => setToggle(!toggle)}
-							height={28}
-							width={28}
-						/>
+							aria-label="Toggle menu"
+						>
+							<div className={`hamburger-icon ${toggle ? "rotate" : ""}`}>
+								{toggle ? (
+									<Cross1Icon className="w-8 h-8 text-white" />
+								) : (
+									<HamburgerMenuIcon className="w-8 h-8 text-white" />
+								)}
+							</div>
+						</button>
 
 						<div
 							className={`${
-								!toggle ? "hidden" : "flex"
+								toggle ? "mobile-menu show" : "mobile-menu"
 							} p-6 text-white bg-black absolute top-20 right-0 md:mx-4 md:my-2 min-w-[100%] sidebar`}
 						>
 							<ul className="list-none flex justify-end items-start flex-1 flex-col">
