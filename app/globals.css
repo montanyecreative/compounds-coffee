@@ -367,6 +367,14 @@ h2 {
 		z-index: 1;
 	}
 
+	.banner-coffee-brews {
+		background-image: url("../public/banner-brew-methods.webp");
+		background-size: cover;
+		background-position: top;
+		height: 600px;
+		z-index: 1;
+	}
+
 	.banner-home-copy {
 		color: #fff;
 		top: 40%;

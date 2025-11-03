@@ -21,7 +21,9 @@ export default async function BrewMethodsPage({ searchParams }: PageProps) {
 	return (
 		<main>
 			<Navbar />
-			<div className="page-banner-filler bg-mediumRoast"></div>
+			<div className="banner-coffee-brews">
+				<div className="container sm:mx-auto md:mx-auto flex banner-home-copy items-center"></div>
+			</div>
 			<div className="container-fluid">
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
 					<h1 className="text-3xl font-bold mb-6 pt-10 md:pt-unset">{translations("copy.brewMethodsPageTitle")}</h1>
