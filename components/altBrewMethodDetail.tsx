@@ -16,24 +16,24 @@ export default function AltBrewMethodDetail({ brewMethod }: AltBrewMethodDetailP
 			{/* Hero header */}
 			<div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-lightRoast to-white p-8 text-black mb-10">
 				<div className="relative z-10">
-					<div className="mb-3 inline-flex items-center gap-2">
-						<span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-brown">
+					<div className="mb-3 flex items-center gap-2 overflow-x-auto overflow-y-hidden coffee-tags-scroll">
+						<span className="rounded-full bg-white/70 px-3 py-2 text-xs font-semibold tracking-wide text-brown whitespace-nowrap flex-shrink-0">
 							{translations("labels.brewMethod")}
 						</span>
 						{brewMethod.fields.brewTempRange && (
-							<span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-brown">
+							<span className="rounded-full bg-white/70 px-3 py-2 text-xs font-semibold tracking-wide text-brown whitespace-nowrap flex-shrink-0">
 								{brewMethod.fields.brewTempRange}
 								{brewMethod.fields.brewTempRange ? `°F ${translations("labels.temperatureRange")}` : ""}
 							</span>
 						)}
 						{typeof brewMethod.fields.optimalCoffeeDose === "number" && (
-							<span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-brown">
+							<span className="rounded-full bg-white/70 px-3 py-2 text-xs font-semibold tracking-wide text-brown whitespace-nowrap flex-shrink-0">
 								{brewMethod.fields.optimalCoffeeDose}
 								{brewMethod.fields.optimalCoffeeDose ? `g ${translations("labels.coffeeNeeded")}` : ""}
 							</span>
 						)}
 						{typeof brewMethod.fields.targetBrewYield === "number" && (
-							<span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold tracking-wide text-brown">
+							<span className="rounded-full bg-white/70 px-3 py-2 text-xs font-semibold tracking-wide text-brown whitespace-nowrap flex-shrink-0">
 								{brewMethod.fields.targetBrewYield}g
 								{brewMethod.fields.targetBrewYield
 									? ` (${gramsToFluidOunces(brewMethod.fields.targetBrewYield)} fl oz) ${translations(

@@ -37,7 +37,7 @@ export default function Footer() {
 				{navLinks.map((nav, index) => (
 					<span
 						key={nav.id}
-						className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5 lg:mr-8"
+						className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5 lg:mr-8 mb-4 md:mb-0"
 						onClick={() => setActive(nav.link)}
 					>
 						<a

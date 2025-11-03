@@ -71,7 +71,7 @@ export default function Navbar() {
 							</li>
 						))}
 					</ul>
-					<div className="ml-2 flex items-center gap-2 text-white text-[12px]">
+					<div className="hidden md:flex ml-2 items-center gap-2 text-white text-[12px]">
 						<a
 							href={buildHrefWithLang(currentRoute || "/", "en-US")}
 							className={`uppercase ${currentLang === "en-US" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"}`}
@@ -104,9 +104,9 @@ export default function Navbar() {
 						<div
 							className={`${
 								toggle ? "mobile-menu show" : "mobile-menu"
-							} p-6 text-white bg-black absolute top-20 right-0 md:mx-4 md:my-2 min-w-[100%] sidebar`}
+							} p-6 text-white bg-black absolute top-20 right-0 md:mx-4 md:my-2 min-w-[100%] sidebar flex flex-col`}
 						>
-							<ul className="list-none flex justify-end items-start flex-1 flex-col">
+							<ul className="list-none flex justify-end items-start flex-1 flex-col pb-4">
 								{navLinks.map((nav, index) => (
 									<li
 										key={nav.id}
@@ -119,7 +119,7 @@ export default function Navbar() {
 									</li>
 								))}
 							</ul>
-							<div className="mt-4 text-[14px]">
+							<div className="mt-auto pt-4 text-[14px] border-t border-white">
 								<a
 									href={buildHrefWithLang(currentRoute || "/", "en-US")}
 									className={`uppercase mr-2 ${
@@ -128,6 +128,8 @@ export default function Navbar() {
 								>
 									EN
 								</a>
+								<span className="mr-2">|</span>
+
 								<a
 									href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
 									className={`uppercase ${

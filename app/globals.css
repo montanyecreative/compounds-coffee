@@ -62,6 +62,30 @@ body {
 	background: #555;
 }
 
+.coffee-tags-scroll {
+	padding-bottom: 4px;
+	scrollbar-width: thin;
+	scrollbar-color: #cd9564 rgba(148, 98, 52, 0.1);
+}
+
+.coffee-tags-scroll::-webkit-scrollbar {
+	height: 6px;
+}
+
+.coffee-tags-scroll::-webkit-scrollbar-track {
+	background: rgba(148, 98, 52, 0.1); /* lightRoast with opacity */
+	border-radius: 10px;
+}
+
+.coffee-tags-scroll::-webkit-scrollbar-thumb {
+	background: #cd9564; /* brown */
+	border-radius: 10px;
+}
+
+.coffee-tags-scroll::-webkit-scrollbar-thumb:hover {
+	background: #946234; /* lightRoast on hover */
+}
+
 main {
 	width: 100%;
 }
