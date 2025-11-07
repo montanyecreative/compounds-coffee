@@ -1,7 +1,7 @@
 import React from "react";
 import Script from "next/script";
 
-const GA_TRACKING_ID = "G-00000000"; // Replace with your actual tracking ID
+const GA_TRACKING_ID = process.env.GA_TRACKING_ID!;
 
 const GoogleAnalytics = () => {
 	return (
