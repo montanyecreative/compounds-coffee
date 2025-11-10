@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getRoasterByName, getRoasters } from "@/lib/contentful";
+import { getRoasterByName, getRoasters, Roaster } from "@/lib/contentful";
 import { getTranslations } from "@/lib/i18n";
 import { ExternalLink } from "lucide-react";
 
@@ -30,14 +30,17 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 		notFound();
 	}
 
-	const websiteUrl = roaster.fields.roasterWebsite.startsWith("http")
-		? roaster.fields.roasterWebsite
-		: `https://${roaster.fields.roasterWebsite}`;
+	// TypeScript type narrowing - ensure roaster is not null and properly typed
+	const roasterTyped = roaster as Roaster;
+	const roasterFields = roasterTyped.fields;
 
-	// Format location coordinates
-	const location = roaster.fields.roasterLocation
-		? `${roaster.fields.roasterLocation.lat.toFixed(4)}, ${roaster.fields.roasterLocation.lon.toFixed(4)}`
-		: "N/A";
+	// Extract website value to help TypeScript inference
+	const website = roasterFields.roasterWebsite as string;
+	const websiteUrl = website.startsWith("http") ? website : `https://${website}`;
+
+	// Extract location value to help TypeScript inference
+	const locationData = roasterFields.roasterLocation as { lat: number; lon: number } | undefined;
+	const location = locationData ? `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}` : "N/A";
 
 	return (
 		<main>
@@ -52,7 +55,7 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 							</Button>
 						</Link>
 
-						<h1 className="text-4xl font-bold mb-8">{roaster.fields.roasterName}</h1>
+						<h1 className="text-4xl font-bold mb-8">{roasterFields.roasterName}</h1>
 
 						<div className="space-y-6 mb-10">
 							<section>
@@ -70,7 +73,7 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 											rel="noopener noreferrer"
 											className="text-brown hover:underline flex items-center gap-1"
 										>
-											{roaster.fields.roasterWebsite}
+											{website}
 											<ExternalLink className="h-4 w-4" />
 										</Link>
 									</div>

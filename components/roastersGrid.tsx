@@ -17,14 +17,13 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 			{roasters.map((roaster) => {
-				const websiteUrl = roaster.fields.roasterWebsite.startsWith("http")
-					? roaster.fields.roasterWebsite
-					: `https://${roaster.fields.roasterWebsite}`;
+				// Extract values with type assertions to help TypeScript inference
+				const website = roaster.fields.roasterWebsite as string;
+				const websiteUrl = website.startsWith("http") ? website : `https://${website}`;
 
 				// Format location coordinates
-				const location = roaster.fields.roasterLocation
-					? `${roaster.fields.roasterLocation.lat.toFixed(4)}, ${roaster.fields.roasterLocation.lon.toFixed(4)}`
-					: "N/A";
+				const locationData = roaster.fields.roasterLocation as { lat: number; lon: number } | undefined;
+				const location = locationData ? `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}` : "N/A";
 
 				const roasterDetailUrl = currentLang
 					? `/roasters/${encodeURIComponent(roaster.fields.roasterName)}?lang=${encodeURIComponent(currentLang)}`
@@ -53,7 +52,7 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 									className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
 									onClick={(e) => e.stopPropagation()}
 								>
-									{roaster.fields.roasterWebsite}
+									{website}
 									<ExternalLink className="h-3 w-3" />
 								</Link>
 							</div>
