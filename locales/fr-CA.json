@@ -49,7 +49,8 @@
 	},
 	"copy": {
 		"brewMethodsPageTitle": "Méthodes d'infusion",
-		"coffeeBrewsPageTitle": "Infusions de café"
+		"coffeeBrewsPageTitle": "Infusions de café",
+		"roastersPageTitle": "Torréfacteurs"
 	},
 	"addABrew": {
 		"title": "Ajouter une infusion",
@@ -79,7 +80,8 @@
 	},
 	"errors": {
 		"noBrewMethodsFound": "Aucune méthode d'infusion trouvée dans Contentful.",
-		"noCoffeeBrewsFound": "Aucune infusion de café trouvée. Assurez-vous que vos identifiants Contentful sont correctement configurés."
+		"noCoffeeBrewsFound": "Aucune infusion de café trouvée. Assurez-vous que vos identifiants Contentful sont correctement configurés.",
+		"noRoastersFound": "Aucun torréfacteur trouvé dans Contentful."
 	},
 	"coffeeBrews": {
 		"addFirstBrew": "Ajouter votre première infusion",

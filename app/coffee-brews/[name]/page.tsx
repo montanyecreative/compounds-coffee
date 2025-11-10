@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getCoffeeBrewByName, getCoffeeBrews } from "@/lib/contentful";
+import { getCoffeeBrewByName, getCoffeeBrews, Roaster } from "@/lib/contentful";
 import { gramsToFluidOunces } from "@/lib/utils";
 import { getTranslations } from "@/lib/i18n";
 
@@ -68,7 +68,27 @@ export default async function BrewDetailPage({ params, searchParams }: BrewDetai
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">{translations("labels.roaster")}:</span>
-											<span>{brew.fields.roaster}</span>
+											{(() => {
+												const roaster = brew.fields.roaster as Roaster | undefined;
+												if (roaster?.fields?.roasterName) {
+													const roasterName = roaster.fields.roasterName;
+													return (
+														<Link
+															href={
+																langParam
+																	? `/roasters/${encodeURIComponent(
+																			roasterName
+																	  )}?lang=${encodeURIComponent(langParam)}`
+																	: `/roasters/${encodeURIComponent(roasterName)}`
+															}
+															className="text-brown hover:underline"
+														>
+															{roasterName}
+														</Link>
+													);
+												}
+												return <span>N/A</span>;
+											})()}
 										</div>
 										{brew.fields.link && (
 											<div className="pt-2">

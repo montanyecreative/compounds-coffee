@@ -28,7 +28,7 @@ interface CoffeeBrewSkeleton extends EntrySkeletonType {
 		tastingHighlights: string;
 		tastingNotes: string;
 		notes: string;
-		roaster: string;
+		roaster?: Entry<RoasterSkeleton, undefined, string>;
 		link: string;
 		price: number;
 	};
@@ -54,8 +54,22 @@ interface BrewMethodSkeleton extends EntrySkeletonType {
 	};
 }
 
+// -------------------- Roaster Content --------------------
+interface RoasterSkeleton extends EntrySkeletonType {
+	contentTypeId: "roaster";
+	fields: {
+		roasterName: string;
+		roasterLocation: {
+			lat: number;
+			lon: number;
+		};
+		roasterWebsite: string;
+	};
+}
+
 export type CoffeeBrewPost = Entry<CoffeeBrewSkeleton, undefined, string>;
 export type BrewMethod = Entry<BrewMethodSkeleton, undefined, string>;
+export type Roaster = Entry<RoasterSkeleton, undefined, string>;
 
 // Fetch all coffee brew posts
 export async function getCoffeeBrews(locale?: string): Promise<CoffeeBrewPost[]> {
@@ -63,6 +77,7 @@ export async function getCoffeeBrews(locale?: string): Promise<CoffeeBrewPost[]>
 		const entries = await client.getEntries<CoffeeBrewSkeleton>({
 			content_type: "coffee",
 			order: ["-sys.createdAt"], // Sort by newest first
+			include: 2, // Include referenced entries (roaster) up to 2 levels deep
 			...(locale ? { locale } : {}),
 		});
 
@@ -83,6 +98,7 @@ export async function getCoffeeBrewBySlug(slug: string, locale?: string): Promis
 			const entries = await client.getEntries<CoffeeBrewSkeleton>({
 				content_type: "coffee",
 				limit: 1,
+				include: 2, // Include referenced entries (roaster)
 				...({ "fields.slug": slug } as any),
 				...(locale ? { locale } : {}),
 			});
@@ -99,7 +115,10 @@ export async function getCoffeeBrewBySlug(slug: string, locale?: string): Promis
 
 		// Try to fetch by entry ID
 		console.log("Trying to fetch by entry ID:", slug);
-		const entry = await client.getEntry<CoffeeBrewSkeleton>(slug, locale ? { locale } : undefined);
+		const entry = await client.getEntry<CoffeeBrewSkeleton>(slug, {
+			...(locale ? { locale } : {}),
+			include: 2, // Include referenced entries (roaster)
+		} as any);
 		console.log("Entry found by ID:", entry.sys.id);
 
 		if (entry.sys.contentType.sys.id === "coffee") {
@@ -156,6 +175,7 @@ export async function getCoffeeBrewByName(name: string, locale?: string): Promis
 		const entries = await client.getEntries<CoffeeBrewSkeleton>({
 			content_type: "coffee",
 			limit: 1,
+			include: 2, // Include referenced entries (roaster)
 			...({ "fields.name": name } as any),
 			...(locale ? { locale } : {}),
 		});
@@ -217,6 +237,49 @@ export async function getBrewMethodByName(name: string, locale?: string): Promis
 		return null;
 	} catch (error) {
 		console.error("Error fetching brew method by name:", error);
+		return null;
+	}
+}
+
+// Fetch all roasters
+export async function getRoasters(locale?: string): Promise<Roaster[]> {
+	try {
+		const entries = await client.getEntries<RoasterSkeleton>({
+			content_type: "roaster",
+			...(locale ? { locale } : {}),
+		});
+		return entries.items as Roaster[];
+	} catch (error) {
+		console.error("Error fetching roasters:", error);
+		return [];
+	}
+}
+
+// Fetch a single roaster by ID
+export async function getRoasterById(id: string, locale?: string): Promise<Roaster | null> {
+	try {
+		const entry = await client.getEntry<RoasterSkeleton>(id, locale ? { locale } : undefined);
+		if (entry.sys.contentType.sys.id === "roaster") return entry as Roaster;
+		return null;
+	} catch (error) {
+		console.error("Error fetching roaster:", error);
+		return null;
+	}
+}
+
+// Fetch a single roaster by name
+export async function getRoasterByName(name: string, locale?: string): Promise<Roaster | null> {
+	try {
+		const entries = await client.getEntries<RoasterSkeleton>({
+			content_type: "roaster",
+			limit: 1,
+			...({ "fields.roasterName": name } as any),
+			...(locale ? { locale } : {}),
+		});
+		if (entries.items.length > 0) return entries.items[0] as Roaster;
+		return null;
+	} catch (error) {
+		console.error("Error fetching roaster by name:", error);
 		return null;
 	}
 }
