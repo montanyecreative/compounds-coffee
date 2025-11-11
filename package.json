@@ -20,6 +20,7 @@
 		"@radix-ui/react-slot": "^1.0.2",
 		"@radix-ui/react-toggle": "^1.0.3",
 		"@radix-ui/react-toggle-group": "^1.0.4",
+		"@react-google-maps/api": "^2.20.7",
 		"@vercel/analytics": "^1.1.1",
 		"@vercel/speed-insights": "^1.0.2",
 		"class-variance-authority": "^0.7.0",
@@ -37,6 +38,7 @@
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
+		"@types/google.maps": "^3.58.1",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
