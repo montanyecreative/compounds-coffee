@@ -148,7 +148,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	};
 
 	return (
-		<div className="w-full h-[calc(100vh-300px)] min-h-[600px] flex flex-col md:flex-row border rounded-lg overflow-hidden">
+		<div className="w-full h-[calc(100vh-280px)] max-h-[calc(100vh-280px)] flex flex-col md:flex-row border rounded-lg overflow-hidden">
 			<div
 				className={`${
 					mapView === "list" ? "flex md:hidden" : "hidden md:flex"
