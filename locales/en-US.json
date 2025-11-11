@@ -51,7 +51,7 @@
 	"copy": {
 		"brewMethodsPageTitle": "Brew Methods",
 		"coffeeBrewsPageTitle": "Coffee Brews",
-		"roastersPageTitle": "Roasters/Shops"
+		"roastersPageTitle": "Roasters/Shops Locator"
 	},
 	"addABrew": {
 		"title": "Add a brew",

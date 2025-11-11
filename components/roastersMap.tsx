@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Roaster } from "@/lib/contentful";
-import Link from "next/link";
 import { ExternalLink, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
@@ -29,6 +28,8 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	const [selectedRoaster, setSelectedRoaster] = useState<string | null>(null);
 	const [mapView, setMapView] = useState<"map" | "list">("map");
 	const [map, setMap] = useState<google.maps.Map | null>(null);
+	const [addresses, setAddresses] = useState<Record<string, string>>({});
+	const geocodingRequested = useRef<Set<string>>(new Set());
 
 	// Filter roasters with valid location data
 	const roastersWithLocations = useMemo(() => {
@@ -67,6 +68,62 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 		};
 	}, [roastersWithLocations]);
 
+	const performGeocoding = useMemo(() => {
+		return () => {
+			if (
+				typeof window !== "undefined" &&
+				window.google &&
+				window.google.maps &&
+				window.google.maps.Geocoder &&
+				roastersWithLocations.length > 0
+			) {
+				try {
+					const geocoderInstance = new window.google.maps.Geocoder();
+
+					// Reverse geocode all roasters that don't have addresses yet
+					roastersWithLocations.forEach((roaster) => {
+						const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
+						const roasterId = roaster.sys.id;
+
+						// Skip if we already have an address or have already requested geocoding
+						setAddresses((prev) => {
+							if (prev[roasterId] || geocodingRequested.current.has(roasterId)) {
+								return prev;
+							}
+
+							// Mark as requested
+							geocodingRequested.current.add(roasterId);
+							geocoderInstance.geocode({ location: { lat: locationData.lat, lng: locationData.lon } }, (results, status) => {
+								if (status === "OK" && results && results[0]) {
+									setAddresses((current) => {
+										// Only update if we don't already have an address (avoid race conditions)
+										if (!current[roasterId]) {
+											return {
+												...current,
+												[roasterId]: results[0].formatted_address,
+											};
+										}
+										return current;
+									});
+								}
+							});
+
+							return prev;
+						});
+					});
+				} catch (error) {
+					console.error("Error initializing geocoder:", error);
+				}
+			}
+		};
+	}, [roastersWithLocations]);
+
+	// Initialize geocoder and reverse geocode addresses
+	useEffect(() => {
+		// Try to geocode if API is already loaded (fallback if map hasn't loaded yet)
+		performGeocoding();
+	}, [performGeocoding]);
+
 	const handleRoasterClick = (roasterId: string, lat: number, lng: number) => {
 		setSelectedRoaster(roasterId);
 		if (map) {
@@ -77,6 +134,8 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 
 	const onLoad = (mapInstance: google.maps.Map) => {
 		setMap(mapInstance);
+		// Trigger geocoding once map is loaded (ensures API is ready)
+		performGeocoding();
 	};
 
 	const onUnmount = () => {
@@ -96,11 +155,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 				} flex-col w-full md:w-96 border-r bg-white overflow-y-auto`}
 			>
 				<div className="p-4 border-b bg-gray-50">
-					<h2 className="text-lg font-semibold text-gray-900">
-						{roastersWithLocations.length} Roaster{roastersWithLocations.length !== 1 ? "s" : ""} / Shop
-						{roastersWithLocations.length !== 1 ? "s" : ""}
-					</h2>
-					<p className="text-sm text-gray-600 mt-1">Click on a roaster to view details</p>
+					<h2 className="text-lg font-semibold text-gray-900">{roastersWithLocations.length} locations near you</h2>
 				</div>
 
 				<div className="flex-1 overflow-y-auto">
@@ -110,7 +165,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 							<p>No roasters with location data available</p>
 						</div>
 					) : (
-						<div className="divide-y">
+						<div>
 							{roastersWithLocations.map((roaster) => {
 								const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
 								const website = roaster.fields.shopWebsite as string;
@@ -133,21 +188,10 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 												<div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
 													<MapPin className="h-4 w-4 flex-shrink-0" />
 													<span>
-														{locationData.lat.toFixed(4)}, {locationData.lon.toFixed(4)}
+														{addresses[roaster.sys.id] ||
+															`${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}`}
 													</span>
 												</div>
-												{website && (
-													<Link
-														href={websiteUrl}
-														target="_blank"
-														rel="noopener noreferrer"
-														className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
-														onClick={(e) => e.stopPropagation()}
-													>
-														{website}
-														<ExternalLink className="h-3 w-3" />
-													</Link>
-												)}
 											</div>
 										</div>
 									</Card>

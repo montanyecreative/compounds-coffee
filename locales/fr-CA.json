@@ -51,7 +51,7 @@
 	"copy": {
 		"brewMethodsPageTitle": "Méthodes d'infusion",
 		"coffeeBrewsPageTitle": "Infusions de café",
-		"roastersPageTitle": "Torréfacteurs/Boutiques"
+		"roastersPageTitle": "Torréfacteurs/Boutiques Locator"
 	},
 	"addABrew": {
 		"title": "Ajouter une infusion",

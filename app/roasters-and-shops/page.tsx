@@ -22,7 +22,7 @@ export default async function RoastersPage({ searchParams }: PageProps) {
 			<Navbar />
 			<div className="page-banner-filler bg-mediumRoast"></div>
 			<div className="container-fluid">
-				<div className="container-fluid sm:mx-auto md:mx-10 copy text-black">
+				<div className="container-fluid sm:mx-auto md:mx-4 copy text-black">
 					<div className="flex items-center justify-between mb-6 pt-10 md:pt-unset">
 						<h1 className="text-3xl font-bold">{translations("copy.roastersPageTitle")}</h1>
 						<RoastersViewToggle />

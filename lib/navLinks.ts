@@ -14,9 +14,9 @@ export const navLinks = [
 		titleKey: "nav.roasters",
 		link: "roasters-and-shops",
 	},
-	{
-		id: 4,
-		titleKey: "nav.contact",
-		link: "contact",
-	},
+	// {
+	// 	id: 4,
+	// 	titleKey: "nav.contact",
+	// 	link: "contact",
+	// },
 ];
