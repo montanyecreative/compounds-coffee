@@ -18,23 +18,23 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 			{roasters.map((roaster) => {
 				// Extract values with type assertions to help TypeScript inference
-				const website = roaster.fields.roasterWebsite as string;
+				const website = roaster.fields.shopWebsite as string;
 				const websiteUrl = website.startsWith("http") ? website : `https://${website}`;
 
 				// Format location coordinates
-				const locationData = roaster.fields.roasterLocation as { lat: number; lon: number } | undefined;
+				const locationData = roaster.fields.shopLocation as { lat: number; lon: number } | undefined;
 				const location = locationData ? `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}` : "N/A";
 
 				const roasterDetailUrl = currentLang
-					? `/roasters/${encodeURIComponent(roaster.fields.roasterName)}?lang=${encodeURIComponent(currentLang)}`
-					: `/roasters/${encodeURIComponent(roaster.fields.roasterName)}`;
+					? `/roasters/${encodeURIComponent(roaster.fields.shopName)}?lang=${encodeURIComponent(currentLang)}`
+					: `/roasters/${encodeURIComponent(roaster.fields.shopName)}`;
 
 				return (
 					<Card key={roaster.sys.id} className="p-5 border rounded hover:shadow-lg transition-shadow">
 						<CardHeader className="p-0 pb-4">
 							<Link href={roasterDetailUrl} className="hover:underline">
 								<CardTitle className="text-xl font-semibold text-brown hover:text-brown/80">
-									{roaster.fields.roasterName}
+									{roaster.fields.shopName}
 								</CardTitle>
 							</Link>
 						</CardHeader>

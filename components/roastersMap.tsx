@@ -33,7 +33,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	// Filter roasters with valid location data
 	const roastersWithLocations = useMemo(() => {
 		return roasters.filter((roaster) => {
-			const locationData = roaster.fields.roasterLocation as { lat: number; lon: number } | undefined;
+			const locationData = roaster.fields.shopLocation as { lat: number; lon: number } | undefined;
 			return locationData && locationData.lat && locationData.lon;
 		});
 	}, [roasters]);
@@ -45,14 +45,14 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 		}
 
 		if (roastersWithLocations.length === 1) {
-			const locationData = roastersWithLocations[0].fields.roasterLocation as { lat: number; lon: number };
+			const locationData = roastersWithLocations[0].fields.shopLocation as { lat: number; lon: number };
 			return { lat: locationData.lat, lng: locationData.lon };
 		}
 
 		// Calculate average center
 		const sum = roastersWithLocations.reduce(
 			(acc, roaster) => {
-				const locationData = roaster.fields.roasterLocation as { lat: number; lon: number };
+				const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
 				return {
 					lat: acc.lat + locationData.lat,
 					lng: acc.lng + locationData.lon,
@@ -84,7 +84,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	};
 
 	const getRoasterWebsite = (roaster: Roaster) => {
-		const website = roaster.fields.roasterWebsite as string;
+		const website = roaster.fields.shopWebsite as string;
 		return website.startsWith("http") ? website : `https://${website}`;
 	};
 
@@ -97,7 +97,8 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 			>
 				<div className="p-4 border-b bg-gray-50">
 					<h2 className="text-lg font-semibold text-gray-900">
-						{roastersWithLocations.length} Roaster{roastersWithLocations.length !== 1 ? "s" : ""}
+						{roastersWithLocations.length} Roaster{roastersWithLocations.length !== 1 ? "s" : ""} / Shop
+						{roastersWithLocations.length !== 1 ? "s" : ""}
 					</h2>
 					<p className="text-sm text-gray-600 mt-1">Click on a roaster to view details</p>
 				</div>
@@ -111,8 +112,8 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 					) : (
 						<div className="divide-y">
 							{roastersWithLocations.map((roaster) => {
-								const locationData = roaster.fields.roasterLocation as { lat: number; lon: number };
-								const website = roaster.fields.roasterWebsite as string;
+								const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
+								const website = roaster.fields.shopWebsite as string;
 								const websiteUrl = getRoasterWebsite(roaster);
 								const isSelected = selectedRoaster === roaster.sys.id;
 
@@ -127,7 +128,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 										<div className="flex items-start justify-between gap-3">
 											<div className="flex-1 min-w-0">
 												<h3 className="font-semibold text-lg text-gray-900 mb-1 hover:text-brown transition-colors">
-													{roaster.fields.roasterName}
+													{roaster.fields.shopName}
 												</h3>
 												<div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
 													<MapPin className="h-4 w-4 flex-shrink-0" />
@@ -169,9 +170,9 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 							onUnmount={onUnmount}
 						>
 							{roastersWithLocations.map((roaster) => {
-								const locationData = roaster.fields.roasterLocation as { lat: number; lon: number };
+								const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
 								const isSelected = selectedRoaster === roaster.sys.id;
-								const website = roaster.fields.roasterWebsite as string;
+								const website = roaster.fields.shopWebsite as string;
 								const websiteUrl = getRoasterWebsite(roaster);
 
 								return (
@@ -198,7 +199,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 												onCloseClick={() => setSelectedRoaster(null)}
 											>
 												<div className="p-2">
-													<h3 className="font-semibold text-sm mb-1">{roaster.fields.roasterName}</h3>
+													<h3 className="font-semibold text-sm mb-1">{roaster.fields.shopName}</h3>
 													{website && (
 														<a
 															href={websiteUrl}

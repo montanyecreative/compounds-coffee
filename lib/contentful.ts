@@ -28,7 +28,7 @@ interface CoffeeBrewSkeleton extends EntrySkeletonType {
 		tastingHighlights: string;
 		tastingNotes: string;
 		notes: string;
-		roaster?: Entry<RoasterSkeleton, undefined, string>;
+		roaster?: Entry<RoasterAndShopSkeleton, undefined, string>;
 		link: string;
 		price: number;
 	};
@@ -54,22 +54,23 @@ interface BrewMethodSkeleton extends EntrySkeletonType {
 	};
 }
 
-// -------------------- Roaster Content --------------------
-interface RoasterSkeleton extends EntrySkeletonType {
-	contentTypeId: "roaster";
+// -------------------- Roaster and Shop Content --------------------
+interface RoasterAndShopSkeleton extends EntrySkeletonType {
+	contentTypeId: "roastersAndShops";
 	fields: {
-		roasterName: string;
-		roasterLocation: {
+		shopName: string;
+		shopLocation: {
 			lat: number;
 			lon: number;
 		};
-		roasterWebsite: string;
+		shopWebsite: string;
+		shopPhoneNumber: string;
 	};
 }
 
 export type CoffeeBrewPost = Entry<CoffeeBrewSkeleton, undefined, string>;
 export type BrewMethod = Entry<BrewMethodSkeleton, undefined, string>;
-export type Roaster = Entry<RoasterSkeleton, undefined, string>;
+export type Roaster = Entry<RoasterAndShopSkeleton, undefined, string>;
 
 // Fetch all coffee brew posts
 export async function getCoffeeBrews(locale?: string): Promise<CoffeeBrewPost[]> {
@@ -241,45 +242,45 @@ export async function getBrewMethodByName(name: string, locale?: string): Promis
 	}
 }
 
-// Fetch all roasters
+// Fetch all roasters or shops
 export async function getRoasters(locale?: string): Promise<Roaster[]> {
 	try {
-		const entries = await client.getEntries<RoasterSkeleton>({
-			content_type: "roaster",
+		const entries = await client.getEntries<RoasterAndShopSkeleton>({
+			content_type: "roastersAndShops",
 			...(locale ? { locale } : {}),
 		});
 		return entries.items as Roaster[];
 	} catch (error) {
-		console.error("Error fetching roasters:", error);
+		console.error("Error fetching roasters or shops:", error);
 		return [];
 	}
 }
 
-// Fetch a single roaster by ID
+// Fetch a single roaster or shop by ID
 export async function getRoasterById(id: string, locale?: string): Promise<Roaster | null> {
 	try {
-		const entry = await client.getEntry<RoasterSkeleton>(id, locale ? { locale } : undefined);
-		if (entry.sys.contentType.sys.id === "roaster") return entry as Roaster;
+		const entry = await client.getEntry<RoasterAndShopSkeleton>(id, locale ? { locale } : undefined);
+		if (entry.sys.contentType.sys.id === "roastersAndShops") return entry as Roaster;
 		return null;
 	} catch (error) {
-		console.error("Error fetching roaster:", error);
+		console.error("Error fetching roaster or shop:", error);
 		return null;
 	}
 }
 
-// Fetch a single roaster by name
+// Fetch a single roaster or shop by name
 export async function getRoasterByName(name: string, locale?: string): Promise<Roaster | null> {
 	try {
-		const entries = await client.getEntries<RoasterSkeleton>({
-			content_type: "roaster",
+		const entries = await client.getEntries<RoasterAndShopSkeleton>({
+			content_type: "roastersAndShops",
 			limit: 1,
-			...({ "fields.roasterName": name } as any),
+			...({ "fields.shopName": name } as any),
 			...(locale ? { locale } : {}),
 		});
 		if (entries.items.length > 0) return entries.items[0] as Roaster;
 		return null;
 	} catch (error) {
-		console.error("Error fetching roaster by name:", error);
+		console.error("Error fetching roaster or shop by name:", error);
 		return null;
 	}
 }

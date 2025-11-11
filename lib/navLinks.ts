@@ -1,26 +1,21 @@
 export const navLinks = [
-	// {
-	// 	id: 1,
-	// 	title: "Add a Brew",
-	// 	link: "add-a-brew",
-	// },
 	{
-		id: 2,
+		id: 1,
 		titleKey: "nav.coffeeBrews",
 		link: "coffee-brews",
 	},
 	{
-		id: 3,
+		id: 2,
 		titleKey: "nav.brewMethods",
 		link: "brew-methods",
 	},
 	{
-		id: 4,
-		titleKey: "roasters",
-		link: "roasters",
+		id: 3,
+		titleKey: "nav.roasters",
+		link: "roasters-and-shops",
 	},
 	{
-		id: 5,
+		id: 4,
 		titleKey: "nav.contact",
 		link: "contact",
 	},

@@ -16,7 +16,7 @@ interface RoasterDetailPageProps {
 
 export async function generateStaticParams() {
 	const roasters = await getRoasters();
-	return roasters.map((roaster) => ({ name: encodeURIComponent(roaster.fields.roasterName) }));
+	return roasters.map((roaster) => ({ name: encodeURIComponent(roaster.fields.shopName) }));
 }
 
 export default async function RoasterDetailPage({ params, searchParams }: RoasterDetailPageProps) {
@@ -35,11 +35,11 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 	const roasterFields = roasterTyped.fields;
 
 	// Extract website value to help TypeScript inference
-	const website = roasterFields.roasterWebsite as string;
+	const website = roasterFields.shopWebsite as string;
 	const websiteUrl = website.startsWith("http") ? website : `https://${website}`;
 
 	// Extract location value to help TypeScript inference
-	const locationData = roasterFields.roasterLocation as { lat: number; lon: number } | undefined;
+	const locationData = roasterFields.shopLocation as { lat: number; lon: number } | undefined;
 	const location = locationData ? `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}` : "N/A";
 
 	return (
@@ -55,7 +55,7 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 							</Button>
 						</Link>
 
-						<h1 className="text-4xl font-bold mb-8">{roasterFields.roasterName}</h1>
+						<h1 className="text-4xl font-bold mb-8">{roasterFields.shopName}</h1>
 
 						<div className="space-y-6 mb-10">
 							<section>

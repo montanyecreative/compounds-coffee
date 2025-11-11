@@ -2,7 +2,8 @@
 	"nav": {
 		"coffeeBrews": "Coffee Brews",
 		"brewMethods": "Brew Methods",
-		"contact": "Contact Us"
+		"contact": "Contact Us",
+		"roasters": "Roasters/Shops"
 	},
 	"brewMethods": {
 		"title": "Brew Methods",
@@ -50,7 +51,7 @@
 	"copy": {
 		"brewMethodsPageTitle": "Brew Methods",
 		"coffeeBrewsPageTitle": "Coffee Brews",
-		"roastersPageTitle": "Roasters"
+		"roastersPageTitle": "Roasters/Shops"
 	},
 	"addABrew": {
 		"title": "Add a brew",
@@ -81,7 +82,7 @@
 	"errors": {
 		"noBrewMethodsFound": "No brew methods found in Contentful.",
 		"noCoffeeBrewsFound": "No coffee brews found. Make sure your Contentful credentials are set up correctly.",
-		"noRoastersFound": "No roasters found in Contentful."
+		"noRoastersFound": "No roasters or coffee shops found."
 	},
 	"coffeeBrews": {
 		"addFirstBrew": "Add Your First Brew",

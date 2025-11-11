@@ -70,20 +70,20 @@ export default async function BrewDetailPage({ params, searchParams }: BrewDetai
 											<span className="font-medium">{translations("labels.roaster")}:</span>
 											{(() => {
 												const roaster = brew.fields.roaster as Roaster | undefined;
-												if (roaster?.fields?.roasterName) {
-													const roasterName = roaster.fields.roasterName;
+												if (roaster?.fields?.shopName) {
+													const shopName = roaster.fields.shopName;
 													return (
 														<Link
 															href={
 																langParam
-																	? `/roasters/${encodeURIComponent(
-																			roasterName
-																	  )}?lang=${encodeURIComponent(langParam)}`
-																	: `/roasters/${encodeURIComponent(roasterName)}`
+																	? `/roasters/${encodeURIComponent(shopName)}?lang=${encodeURIComponent(
+																			langParam
+																	  )}`
+																	: `/roasters/${encodeURIComponent(shopName)}`
 															}
 															className="text-brown hover:underline"
 														>
-															{roasterName}
+															{shopName}
 														</Link>
 													);
 												}

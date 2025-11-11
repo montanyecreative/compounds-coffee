@@ -2,7 +2,8 @@
 	"nav": {
 		"coffeeBrews": "Infusions de café",
 		"brewMethods": "Méthodes d’infusion",
-		"contact": "Nous joindre"
+		"contact": "Nous joindre",
+		"roasters": "Torréfacteurs/Boutiques"
 	},
 	"brewMethods": {
 		"title": "Méthodes d’infusion",
@@ -50,7 +51,7 @@
 	"copy": {
 		"brewMethodsPageTitle": "Méthodes d'infusion",
 		"coffeeBrewsPageTitle": "Infusions de café",
-		"roastersPageTitle": "Torréfacteurs"
+		"roastersPageTitle": "Torréfacteurs/Boutiques"
 	},
 	"addABrew": {
 		"title": "Ajouter une infusion",
