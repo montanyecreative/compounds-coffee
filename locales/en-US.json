@@ -114,16 +114,16 @@
 			"toggleToStore": "Toggle to Store Search",
 			"distance": "Distance:",
 			"miles": "miles",
-			"noStoresFound": "No stores found matching \"{query}\"",
+			"noStoresFound": "No roasters or shops found matching \"{query}\"",
 			"foundStores": "Found {count} store{plural} matching \"{query}\"",
-			"noStoresInRange": "No stores found within {distance} miles",
+			"noStoresInRange": "No roasters or shops found within {distance} miles",
 			"foundStoresInRange": "Found {count} store{plural} within {distance} miles"
 		},
 		"map": {
 			"locationsNearYou": "{count} locations near you",
-			"noLocationData": "No roasters with location data available",
+			"noLocationData": "No roasters or shops with location data available",
 			"clear": "Clear",
-			"visitWebsite": "Visit Website"
+			"visitWebsite": "See location details"
 		},
 		"grid": {
 			"location": "Location:",

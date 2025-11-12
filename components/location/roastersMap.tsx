@@ -6,6 +6,7 @@ import { MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from "@react-google-maps/api";
 import { useTranslations } from "@/lib/useTranslations";
+import Link from "next/link";
 
 interface RoastersMapProps {
 	roasters: Roaster[];
@@ -26,7 +27,7 @@ const defaultMapOptions = {
 };
 
 export default function RoastersMap({ roasters }: RoastersMapProps) {
-	const { translations } = useTranslations();
+	const { translations, lang } = useTranslations();
 	const [selectedRoaster, setSelectedRoaster] = useState<string | null>(null);
 	const [mapView, setMapView] = useState<"map" | "list">("map");
 	const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -77,15 +78,21 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 		});
 
 		// If user location is set, filter by distance
+		let filteredRoasters = roastersWithValidLocations;
 		if (userLocation) {
-			return roastersWithValidLocations.filter((roaster) => {
+			filteredRoasters = roastersWithValidLocations.filter((roaster) => {
 				const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
 				const distance = calculateDistance(userLocation.lat, userLocation.lng, locationData.lat, locationData.lon);
 				return distance <= distanceFilter;
 			});
 		}
 
-		return roastersWithValidLocations;
+		// Sort alphabetically by shop name
+		return filteredRoasters.sort((a, b) => {
+			const nameA = (a.fields.shopName as string).toLowerCase();
+			const nameB = (b.fields.shopName as string).toLowerCase();
+			return nameA.localeCompare(nameB);
+		});
 	}, [roasters, userLocation, distanceFilter]);
 
 	// Calculate center point (use user location if available, otherwise average of all locations)
@@ -315,7 +322,11 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 															{roaster.fields.shopName}
 														</h3>
 														<div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-															<MapPin className="h-4 w-4 flex-shrink-0" />
+															<MapPin
+																className={`h-4 w-4 flex-shrink-0 ${
+																	isSelected ? "text-black" : "text-brown"
+																}`}
+															/>
 															<span>
 																{addresses[roaster.sys.id] ||
 																	`${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}`}
@@ -386,16 +397,18 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 												>
 													<div className="p-2">
 														<h3 className="font-semibold text-sm mb-1">{roaster.fields.shopName}</h3>
-														{website && (
-															<a
-																href={websiteUrl}
-																target="_blank"
-																rel="noopener noreferrer"
-																className="text-xs text-blue-600 hover:underline"
-															>
-																{translations("roasters.map.visitWebsite")}
-															</a>
-														)}
+														<Link
+															href={
+																lang && lang !== "en-US"
+																	? `/roasters-and-shops/${encodeURIComponent(
+																			roaster.fields.shopName
+																	  )}?lang=${encodeURIComponent(lang)}`
+																	: `/roasters-and-shops/${encodeURIComponent(roaster.fields.shopName)}`
+															}
+															className="text-xs text-blue-600 hover:underline"
+														>
+															{translations("roasters.map.visitWebsite")}
+														</Link>
 													</div>
 												</InfoWindow>
 											)}
