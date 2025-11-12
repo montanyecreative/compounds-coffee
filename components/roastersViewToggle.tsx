@@ -8,23 +8,29 @@ export default function RoastersViewToggle() {
 	const [view, setView] = useState<"grid" | "map">("map");
 
 	useEffect(() => {
-		// Toggle visibility of grid and map views
 		const gridView = document.getElementById("roasters-grid-view");
 		const mapView = document.getElementById("roasters-map-view");
 
 		if (gridView && mapView) {
-			if (view === "grid") {
-				gridView.classList.remove("hidden");
-				mapView.classList.add("hidden");
-			} else {
-				gridView.classList.add("hidden");
-				mapView.classList.remove("hidden");
+			const isDesktop = window.innerWidth >= 768;
+
+			if (isDesktop) {
+				gridView.classList.remove("md:hidden", "md:block");
+				mapView.classList.remove("md:hidden", "md:block");
+
+				if (view === "grid") {
+					gridView.classList.add("md:block");
+					mapView.classList.add("md:hidden");
+				} else {
+					mapView.classList.add("md:block");
+					gridView.classList.add("md:hidden");
+				}
 			}
 		}
 	}, [view]);
 
 	return (
-		<div className="flex gap-2 border rounded-lg p-1 bg-white">
+		<div className="hidden md:flex gap-2 border rounded-lg p-1 bg-white">
 			<Button
 				variant="ghost"
 				size="sm"

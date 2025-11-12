@@ -241,7 +241,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 										placeholder="Enter your Zipcode to Find Shops Near You"
 										value={addressInput}
 										onChange={(e) => setAddressInput(e.target.value)}
-										className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown text-sm"
+										className="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-brown text-sm"
 									/>
 								</Autocomplete>
 							</div>
@@ -249,7 +249,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								<select
 									value={distanceFilter}
 									onChange={(e) => setDistanceFilter(Number(e.target.value))}
-									className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brown"
+									className="px-3 py-2 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-brown"
 								>
 									<option value={5}>5 miles</option>
 									<option value={10}>10 miles</option>

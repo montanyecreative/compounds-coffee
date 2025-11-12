@@ -298,6 +298,18 @@ h2 {
 		border-radius: 0.5rem;
 	}
 
+	.rounded-sm {
+		border-radius: 0.25rem;
+	}
+
+	.rounded-md {
+		border-radius: 0.375rem;
+	}
+
+	.rounded-xl {
+		border-radius: 0.75rem;
+	}
+
 	.navbar {
 		box-shadow: -7px 7px 13px #1d1d1d, 7px -7px 13px #272727;
 	}

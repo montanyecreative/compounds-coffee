@@ -34,11 +34,11 @@ export default async function RoastersPage({ searchParams }: PageProps) {
 						</div>
 					) : (
 						<>
-							<div id="roasters-map-view">
+							<div id="roasters-map-view" className="hidden md:block">
 								<RoastersMap roasters={visibleRoasters} />
 							</div>
 
-							<div id="roasters-grid-view" className="hidden">
+							<div id="roasters-grid-view" className="block md:hidden">
 								<RoastersGrid roasters={visibleRoasters} />
 							</div>
 						</>
