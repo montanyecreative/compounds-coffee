@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { LayoutGrid, Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/lib/useTranslations";
 
 export default function RoastersViewToggle() {
+	const { translations } = useTranslations();
 	const [view, setView] = useState<"grid" | "map">("map");
 
 	useEffect(() => {
@@ -38,7 +40,7 @@ export default function RoastersViewToggle() {
 				className={`flex items-center gap-2 ${view === "map" ? "bg-brown text-white hover:bg-brown/90" : "hover:bg-gray-100"}`}
 			>
 				<Map className="h-4 w-4" />
-				<span className="hidden sm:inline">Map</span>
+				<span className="hidden sm:inline">{translations("roasters.toggle.map")}</span>
 			</Button>
 			<Button
 				variant="ghost"
@@ -47,7 +49,7 @@ export default function RoastersViewToggle() {
 				className={`flex items-center gap-2 ${view === "grid" ? "bg-brown text-white hover:bg-brown/90" : "hover:bg-gray-100"}`}
 			>
 				<LayoutGrid className="h-4 w-4" />
-				<span className="hidden sm:inline">Grid</span>
+				<span className="hidden sm:inline">{translations("roasters.toggle.grid")}</span>
 			</Button>
 		</div>
 	);

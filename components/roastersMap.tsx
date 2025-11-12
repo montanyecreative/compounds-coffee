@@ -5,6 +5,7 @@ import { Roaster } from "@/lib/contentful";
 import { ExternalLink, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from "@react-google-maps/api";
+import { useTranslations } from "@/lib/useTranslations";
 
 interface RoastersMapProps {
 	roasters: Roaster[];
@@ -25,6 +26,7 @@ const defaultMapOptions = {
 };
 
 export default function RoastersMap({ roasters }: RoastersMapProps) {
+	const { translations } = useTranslations();
 	const [selectedRoaster, setSelectedRoaster] = useState<string | null>(null);
 	const [mapView, setMapView] = useState<"map" | "list">("map");
 	const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -238,7 +240,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								>
 									<input
 										type="text"
-										placeholder="Enter your Zipcode to Find Shops Near You"
+										placeholder={translations("roasters.search.zipcodeMapPlaceholder")}
 										value={addressInput}
 										onChange={(e) => setAddressInput(e.target.value)}
 										className="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-brown text-sm"
@@ -251,12 +253,12 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 									onChange={(e) => setDistanceFilter(Number(e.target.value))}
 									className="px-3 py-2 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-brown"
 								>
-									<option value={5}>5 miles</option>
-									<option value={10}>10 miles</option>
-									<option value={15}>15 miles</option>
-									<option value={25}>25 miles</option>
-									<option value={300}>300 miles</option>
-									<option value={5000}>5000 miles</option>
+									<option value={5}>5 {translations("roasters.search.miles")}</option>
+									<option value={10}>10 {translations("roasters.search.miles")}</option>
+									<option value={15}>15 {translations("roasters.search.miles")}</option>
+									<option value={25}>25 {translations("roasters.search.miles")}</option>
+									<option value={300}>300 {translations("roasters.search.miles")}</option>
+									<option value={5000}>5000 {translations("roasters.search.miles")}</option>
 								</select>
 								{userLocation && (
 									<button
@@ -266,7 +268,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 										}}
 										className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm"
 									>
-										Clear
+										{translations("roasters.map.clear")}
 									</button>
 								)}
 							</>
@@ -282,14 +284,16 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 						} flex-col w-full md:w-96 border-r bg-white overflow-y-auto`}
 					>
 						<div className="p-4 border-b bg-gray-50">
-							<h2 className="text-lg font-semibold text-gray-900">{roastersWithLocations.length} locations near you</h2>
+							<h2 className="text-lg font-semibold text-gray-900">
+								{translations("roasters.map.locationsNearYou").replace("{count}", roastersWithLocations.length.toString())}
+							</h2>
 						</div>
 
 						<div className="flex-1 overflow-y-auto">
 							{roastersWithLocations.length === 0 ? (
 								<div className="p-8 text-center text-gray-500">
 									<MapPin className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-									<p>No roasters with location data available</p>
+									<p>{translations("roasters.map.noLocationData")}</p>
 								</div>
 							) : (
 								<div>
@@ -392,7 +396,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 																rel="noopener noreferrer"
 																className="text-xs text-blue-600 hover:underline"
 															>
-																Visit Website
+																{translations("roasters.map.visitWebsite")}
 															</a>
 														)}
 													</div>
@@ -406,7 +410,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 							<div className="w-full h-full flex items-center justify-center text-gray-500">
 								<div className="text-center">
 									<MapPin className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-									<p>No roasters with location data available</p>
+									<p>{translations("roasters.map.noLocationData")}</p>
 								</div>
 							</div>
 						)}

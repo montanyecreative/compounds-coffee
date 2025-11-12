@@ -104,5 +104,35 @@
 		"ctaDesc": "Vers la page des infusions de café.",
 		"ctaButton": "Voir les infusions de café",
 		"ctaAria": "Accéder à la page des infusions de café"
+	},
+	"roasters": {
+		"search": {
+			"storeNamePlaceholder": "Rechercher par nom de boutique...",
+			"zipcodePlaceholder": "Entrez votre code postal...",
+			"zipcodeMapPlaceholder": "Entrez votre code postal pour trouver des boutiques près de vous",
+			"toggleToLocation": "Basculer vers la recherche par localisation",
+			"toggleToStore": "Basculer vers la recherche par boutique",
+			"distance": "Distance :",
+			"miles": "miles",
+			"noStoresFound": "Aucune boutique trouvée correspondant à \"{query}\"",
+			"foundStores": "{count} boutique{plural} trouvée{plural2} correspondant à \"{query}\"",
+			"noStoresInRange": "Aucune boutique trouvée dans un rayon de {distance} miles",
+			"foundStoresInRange": "{count} boutique{plural} trouvée{plural2} dans un rayon de {distance} miles"
+		},
+		"map": {
+			"locationsNearYou": "{count} emplacements près de vous",
+			"noLocationData": "Aucun torréfacteur avec données de localisation disponibles",
+			"clear": "Effacer",
+			"visitWebsite": "Visiter le site Web"
+		},
+		"grid": {
+			"location": "Emplacement :",
+			"website": "Site Web :",
+			"notAvailable": "N/D"
+		},
+		"toggle": {
+			"map": "Carte",
+			"grid": "Grille"
+		}
 	}
 }

@@ -104,5 +104,35 @@
 		"ctaDesc": "To the Coffee Brews page.",
 		"ctaButton": "See Coffee Brews",
 		"ctaAria": "Go to the Coffee Brews page"
+	},
+	"roasters": {
+		"search": {
+			"storeNamePlaceholder": "Search by store name...",
+			"zipcodePlaceholder": "Enter your zipcode...",
+			"zipcodeMapPlaceholder": "Enter your Zipcode to Find Shops Near You",
+			"toggleToLocation": "Toggle to Location Search",
+			"toggleToStore": "Toggle to Store Search",
+			"distance": "Distance:",
+			"miles": "miles",
+			"noStoresFound": "No stores found matching \"{query}\"",
+			"foundStores": "Found {count} store{plural} matching \"{query}\"",
+			"noStoresInRange": "No stores found within {distance} miles",
+			"foundStoresInRange": "Found {count} store{plural} within {distance} miles"
+		},
+		"map": {
+			"locationsNearYou": "{count} locations near you",
+			"noLocationData": "No roasters with location data available",
+			"clear": "Clear",
+			"visitWebsite": "Visit Website"
+		},
+		"grid": {
+			"location": "Location:",
+			"website": "Website:",
+			"notAvailable": "N/A"
+		},
+		"toggle": {
+			"map": "Map",
+			"grid": "Grid"
+		}
 	}
 }

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ExternalLink, Search, MapPin } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Autocomplete, LoadScript } from "@react-google-maps/api";
+import { useTranslations } from "@/lib/useTranslations";
 
 interface RoastersGridProps {
 	roasters: Roaster[];
@@ -17,6 +18,7 @@ const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as strin
 export default function RoastersGrid({ roasters }: RoastersGridProps) {
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
+	const { translations } = useTranslations();
 	const [addresses, setAddresses] = useState<Record<string, string>>({});
 	const geocodingRequested = useRef<Set<string>>(new Set());
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -172,7 +174,7 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 									<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
 									<input
 										type="text"
-										placeholder="Search by store name..."
+										placeholder={translations("roasters.search.storeNamePlaceholder")}
 										value={searchQuery}
 										onChange={(e) => setSearchQuery(e.target.value)}
 										className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-brown text-sm"
@@ -191,7 +193,7 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 									>
 										<input
 											type="text"
-											placeholder="Enter your zipcode..."
+											placeholder={translations("roasters.search.zipcodePlaceholder")}
 											value={locationInput}
 											onChange={(e) => setLocationInput(e.target.value)}
 											className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-brown text-sm"
@@ -213,12 +215,12 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 							{searchMode === "name" ? (
 								<>
 									<MapPin className="h-4 w-4" />
-									Toggle to Location Search
+									{translations("roasters.search.toggleToLocation")}
 								</>
 							) : (
 								<>
 									<Search className="h-4 w-4" />
-									Toggle to Store Search
+									{translations("roasters.search.toggleToStore")}
 								</>
 							)}
 						</button>
@@ -226,19 +228,19 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 					{/* Distance selector for location search */}
 					{searchMode === "location" && locationSearch && (
 						<div className="mt-3 flex items-center gap-3">
-							<label className="text-sm text-gray-600">Distance:</label>
+							<label className="text-sm text-gray-600">{translations("roasters.search.distance")}</label>
 							<select
 								value={locationDistance}
 								onChange={(e) => setLocationDistance(Number(e.target.value))}
 								className="px-3 py-1 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-brown"
 							>
-								<option value={5}>5 miles</option>
-								<option value={10}>10 miles</option>
-								<option value={15}>15 miles</option>
-								<option value={25}>25 miles</option>
-								<option value={50}>50 miles</option>
-								<option value={300}>300 miles</option>
-								<option value={5000}>5000 miles</option>
+								<option value={5}>5 {translations("roasters.search.miles")}</option>
+								<option value={10}>10 {translations("roasters.search.miles")}</option>
+								<option value={15}>15 {translations("roasters.search.miles")}</option>
+								<option value={25}>25 {translations("roasters.search.miles")}</option>
+								<option value={50}>50 {translations("roasters.search.miles")}</option>
+								<option value={300}>300 {translations("roasters.search.miles")}</option>
+								<option value={5000}>5000 {translations("roasters.search.miles")}</option>
 							</select>
 						</div>
 					)}
@@ -250,18 +252,46 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 						{filteredRoasters.length === 0 ? (
 							<span>
 								{searchMode === "name"
-									? `No stores found matching "${searchQuery}"`
-									: `No stores found within ${locationDistance} miles`}
+									? translations("roasters.search.noStoresFound").replace("{query}", searchQuery)
+									: translations("roasters.search.noStoresInRange").replace("{distance}", locationDistance.toString())}
 							</span>
 						) : (
 							<span>
 								{searchMode === "name"
-									? `Found ${filteredRoasters.length} store${
-											filteredRoasters.length !== 1 ? "s" : ""
-									  } matching "${searchQuery}"`
-									: `Found ${filteredRoasters.length} store${
-											filteredRoasters.length !== 1 ? "s" : ""
-									  } within ${locationDistance} miles`}
+									? translations("roasters.search.foundStores")
+											.replace("{count}", filteredRoasters.length.toString())
+											.replace(
+												/\{plural\}/g,
+												filteredRoasters.length !== 1 ? (currentLang === "fr-CA" ? "s" : "s") : ""
+											)
+											.replace(
+												/\{plural2\}/g,
+												filteredRoasters.length !== 1
+													? currentLang === "fr-CA"
+														? "s"
+														: ""
+													: currentLang === "fr-CA"
+													? ""
+													: ""
+											)
+											.replace("{query}", searchQuery)
+									: translations("roasters.search.foundStoresInRange")
+											.replace("{count}", filteredRoasters.length.toString())
+											.replace(
+												/\{plural\}/g,
+												filteredRoasters.length !== 1 ? (currentLang === "fr-CA" ? "s" : "s") : ""
+											)
+											.replace(
+												/\{plural2\}/g,
+												filteredRoasters.length !== 1
+													? currentLang === "fr-CA"
+														? "s"
+														: ""
+													: currentLang === "fr-CA"
+													? ""
+													: ""
+											)
+											.replace("{distance}", locationDistance.toString())}
 							</span>
 						)}
 					</div>
@@ -297,11 +327,17 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 								</CardHeader>
 								<CardContent className="p-0 space-y-3">
 									<div className="flex items-start gap-2">
-										<span className="font-bold text-sm text-gray-700 min-w-[80px]">Location:</span>
-										<span className="text-sm text-gray-600">{location}</span>
+										<span className="font-bold text-sm text-gray-700 min-w-[80px]">
+											{translations("roasters.grid.location")}
+										</span>
+										<span className="text-sm text-gray-600">
+											{location === "N/A" ? translations("roasters.grid.notAvailable") : location}
+										</span>
 									</div>
 									<div className="flex items-start gap-2">
-										<span className="font-bold text-sm text-gray-700 min-w-[80px]">Website:</span>
+										<span className="font-bold text-sm text-gray-700 min-w-[80px]">
+											{translations("roasters.grid.website")}
+										</span>
 										<Link
 											href={websiteUrl}
 											target="_blank"
