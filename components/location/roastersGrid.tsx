@@ -4,10 +4,11 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Roaster } from "@/lib/contentful";
 import Link from "next/link";
-import { ExternalLink, Search, MapPin } from "lucide-react";
+import { Search, MapPin } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Autocomplete, LoadScript } from "@react-google-maps/api";
 import { useTranslations } from "@/lib/useTranslations";
+import { createGeocodingFunction } from "@/lib/geocoding";
 
 interface RoastersGridProps {
 	roasters: Roaster[];
@@ -18,7 +19,7 @@ const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as strin
 export default function RoastersGrid({ roasters }: RoastersGridProps) {
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
-	const { translations } = useTranslations();
+	const { translations, lang } = useTranslations();
 	const [addresses, setAddresses] = useState<Record<string, string>>({});
 	const geocodingRequested = useRef<Set<string>>(new Set());
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -69,54 +70,24 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 	}, [roasters]);
 
 	const performGeocoding = useMemo(() => {
-		return () => {
-			if (
-				typeof window !== "undefined" &&
-				window.google &&
-				window.google.maps &&
-				window.google.maps.Geocoder &&
-				roastersWithLocations.length > 0
-			) {
-				try {
-					const geocoderInstance = new window.google.maps.Geocoder();
-
-					// Reverse geocode all roasters that don't have addresses yet
-					roastersWithLocations.forEach((roaster) => {
-						const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
-						const roasterId = roaster.sys.id;
-
-						// Skip if we already have an address or have already requested geocoding
-						setAddresses((prev) => {
-							if (prev[roasterId] || geocodingRequested.current.has(roasterId)) {
-								return prev;
-							}
-
-							// Mark as requested
-							geocodingRequested.current.add(roasterId);
-							geocoderInstance.geocode({ location: { lat: locationData.lat, lng: locationData.lon } }, (results, status) => {
-								if (status === "OK" && results && results[0]) {
-									setAddresses((current) => {
-										// Only update if we don't already have an address (avoid race conditions)
-										if (!current[roasterId]) {
-											return {
-												...current,
-												[roasterId]: results[0].formatted_address,
-											};
-										}
-										return current;
-									});
-								}
-							});
-
-							return prev;
-						});
-					});
-				} catch (error) {
-					console.error("Error initializing geocoder:", error);
-				}
-			}
-		};
-	}, [roastersWithLocations]);
+		return createGeocodingFunction({
+			roasters: roastersWithLocations,
+			onAddressUpdate: (roasterId: string, address: string) => {
+				setAddresses((current) => {
+					// Only update if we don't already have an address (avoid race conditions)
+					if (!current[roasterId]) {
+						return {
+							...current,
+							[roasterId]: address,
+						};
+					}
+					return current;
+				});
+			},
+			requestedIds: geocodingRequested.current,
+			existingAddresses: addresses,
+		});
+	}, [roastersWithLocations, addresses]);
 
 	// Initialize geocoder and reverse geocode addresses
 	useEffect(() => {
@@ -225,7 +196,6 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 							)}
 						</button>
 					</div>
-					{/* Distance selector for location search */}
 					{searchMode === "location" && locationSearch && (
 						<div className="mt-3 flex items-center gap-3">
 							<label className="text-sm text-gray-600">{translations("roasters.search.distance")}</label>
@@ -246,7 +216,6 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 					)}
 				</div>
 
-				{/* Results Count */}
 				{((searchMode === "name" && searchQuery.trim()) || (searchMode === "location" && locationSearch)) && (
 					<div className="mb-4 text-sm text-gray-600">
 						{filteredRoasters.length === 0 ? (
@@ -297,13 +266,8 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 					</div>
 				)}
 
-				{/* Grid */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 					{filteredRoasters.map((roaster) => {
-						// Extract values with type assertions to help TypeScript inference
-						const website = roaster.fields.shopWebsite as string;
-						const websiteUrl = website.startsWith("http") ? website : `https://${website}`;
-
 						// Format location - use address if available, otherwise show coordinates
 						const locationData = roaster.fields.shopLocation as { lat: number; lon: number } | undefined;
 						const location = addresses[roaster.sys.id]
@@ -312,9 +276,10 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 							? `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}`
 							: "N/A";
 
-						const roasterDetailUrl = currentLang
-							? `/roasters/${encodeURIComponent(roaster.fields.shopName)}?lang=${encodeURIComponent(currentLang)}`
-							: `/roasters/${encodeURIComponent(roaster.fields.shopName)}`;
+						const roasterDetailUrl =
+							lang && lang !== "en-US"
+								? `/roasters-and-shops/${encodeURIComponent(roaster.fields.shopName)}?lang=${encodeURIComponent(lang)}`
+								: `/roasters-and-shops/${encodeURIComponent(roaster.fields.shopName)}`;
 
 						return (
 							<Card key={roaster.sys.id} className="p-5 border rounded hover:shadow-lg transition-shadow">
@@ -339,14 +304,11 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 											{translations("roasters.grid.website")}
 										</span>
 										<Link
-											href={websiteUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
+											href={roasterDetailUrl}
+											className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
 											onClick={(e) => e.stopPropagation()}
 										>
-											{website}
-											<ExternalLink className="h-3 w-3" />
+											{translations("roasters.map.visitWebsite")}
 										</Link>
 									</div>
 								</CardContent>

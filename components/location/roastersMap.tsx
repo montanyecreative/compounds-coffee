@@ -6,6 +6,7 @@ import { MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from "@react-google-maps/api";
 import { useTranslations } from "@/lib/useTranslations";
+import { createGeocodingFunction } from "@/lib/geocoding";
 import Link from "next/link";
 
 interface RoastersMapProps {
@@ -130,54 +131,24 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	}, [roastersWithLocations, userLocation]);
 
 	const performGeocoding = useMemo(() => {
-		return () => {
-			if (
-				typeof window !== "undefined" &&
-				window.google &&
-				window.google.maps &&
-				window.google.maps.Geocoder &&
-				roastersWithLocations.length > 0
-			) {
-				try {
-					const geocoderInstance = new window.google.maps.Geocoder();
-
-					// Reverse geocode all roasters that don't have addresses yet
-					roastersWithLocations.forEach((roaster) => {
-						const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
-						const roasterId = roaster.sys.id;
-
-						// Skip if we already have an address or have already requested geocoding
-						setAddresses((prev) => {
-							if (prev[roasterId] || geocodingRequested.current.has(roasterId)) {
-								return prev;
-							}
-
-							// Mark as requested
-							geocodingRequested.current.add(roasterId);
-							geocoderInstance.geocode({ location: { lat: locationData.lat, lng: locationData.lon } }, (results, status) => {
-								if (status === "OK" && results && results[0]) {
-									setAddresses((current) => {
-										// Only update if we don't already have an address (avoid race conditions)
-										if (!current[roasterId]) {
-											return {
-												...current,
-												[roasterId]: results[0].formatted_address,
-											};
-										}
-										return current;
-									});
-								}
-							});
-
-							return prev;
-						});
-					});
-				} catch (error) {
-					console.error("Error initializing geocoder:", error);
-				}
-			}
-		};
-	}, [roastersWithLocations]);
+		return createGeocodingFunction({
+			roasters: roastersWithLocations,
+			onAddressUpdate: (roasterId: string, address: string) => {
+				setAddresses((current) => {
+					// Only update if we don't already have an address (avoid race conditions)
+					if (!current[roasterId]) {
+						return {
+							...current,
+							[roasterId]: address,
+						};
+					}
+					return current;
+				});
+			},
+			requestedIds: geocodingRequested.current,
+			existingAddresses: addresses,
+		});
+	}, [roastersWithLocations, addresses]);
 
 	// Initialize geocoder and reverse geocode addresses
 	useEffect(() => {
