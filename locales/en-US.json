@@ -51,7 +51,7 @@
 	"copy": {
 		"brewMethodsPageTitle": "Brew Methods",
 		"coffeeBrewsPageTitle": "Coffee Brews",
-		"roastersPageTitle": "Roasters/Shops Locator"
+		"roastersPageTitle": "Roasters and Shops Locator"
 	},
 	"addABrew": {
 		"title": "Add a brew",
@@ -133,6 +133,56 @@
 		"toggle": {
 			"map": "Map",
 			"grid": "Grid"
+		}
+	},
+	"footer": {
+		"contactInformation": "CONTACT INFORMATION:",
+		"copyright": "Copyright ©",
+		"privacyPolicy": "Privacy Policy"
+	},
+	"privacyPolicy": {
+		"title": "Privacy Policy Overview",
+		"intro": "This Privacy Policy describes how your personal information is collected, used, and shared when you visit or submit information to montanyecreative.com",
+		"sections": {
+			"whatWeCollect": "WHAT PERSONAL INFORMATION WE COLLECT",
+			"whatWeCollectDesc1": "When you visit the Site, we automatically collect certain information about your device, including information about your web browser, IP address, time zone, and some of the cookies that are installed on your device.",
+			"whatWeCollectDesc2": "Additionally, as you browse the Site, we collect information about the individual web pages or products that you view, what websites or search terms referred you to the Site, and information about how you interact with the Site. We refer to this automatically collected information as Device Information.",
+			"technologies": "We collect Device Information using the following technologies:",
+			"cookies": "Cookies are data files that are placed on your device or computer and often include an anonymous unique identifier.",
+			"logFiles": "Log files track actions occurring on the Site, and collect data including your IP address, browser type, Internet service provider, referring/exit pages, and date/time stamps.",
+			"orderInfo": "Also, when you make a purchase or attempt to make a purchase through the Site, we collect certain information from you, including your name, billing address, shipping address, payment information including credit card numbers Mention all types of accepted payments, email address, and phone number. This is called Order Information.",
+			"personalInfo": "By Personal Information in this Privacy Policy, we are talking both about Device Information and Order Information.",
+			"howWeUse": "HOW WE USE YOUR PERSONAL INFORMATION",
+			"howWeUseDesc": "We use the Order Information that we collect generally to fulfil any orders placed through the Site including processing your payment information, arranging for shipping, and providing you with invoices and/or order confirmations.",
+			"additionally": "Additionally, we use this Order Information to:",
+			"communicate": "Communicate with you.",
+			"screenOrders": "Screen our orders for potential risk or fraud.",
+			"advertising": "When in line with the preferences you have shared with us, provide you with information or advertising relating to our products or services.",
+			"deviceInfo": "We use the Device Information that we collect to help us screen for potential risk and fraud in particular, your IP address, and more generally to improve and optimize our Site.",
+			"sharing": "SHARING YOUR PERSONAL INFORMATION",
+			"sharingDesc1": "We share your Personal Information with third parties to help us use your Personal Information, as described above.",
+			"sharingDesc2": "We also use Vercel Analytics to help us understand how our customers use montanyecreative.com. How Vercel uses your Personal Information.",
+			"sharingDesc3": "Finally, we may also share your Personal Information to comply with applicable laws and regulations, to respond to a subpoena, search warrant or other lawful requests for information we receive, or to otherwise protect our rights.",
+			"behavioural": "BEHAVIOURAL ADVERTISING",
+			"behaviouralDesc": "We use your Personal Information to provide you with targeted advertisements or marketing communications we believe may be of interest to you.",
+			"optOut": "To opt out of targeted advertising please contact us",
+			"here": "here.",
+			"rights": "YOUR RIGHTS",
+			"rightsDesc1": "If you are a European resident, you have the right to access the personal information we hold about you and to ask that your personal information is corrected, updated, or deleted. If you would like to exercise this right, please",
+			"contactUs": "contact us",
+			"rightsDesc2": "Additionally, if you are a European resident we note that we are processing your information in order to fulfil contracts we might have with you for example if you make an order through the Site, or otherwise to pursue our legitimate business interests listed above.",
+			"rightsDesc3": "Please note that your information will be transferred outside of Europe, including to Canada and the United States.",
+			"dataRetention": "DATA RETENTION",
+			"dataRetentionDesc": "When you place an order through the Site, we will maintain your Order Information for our records unless and until you ask us to delete this information.",
+			"minors": "USE BY MINORS",
+			"minorsDesc": "The Site is not intended for individuals under the age of 16.",
+			"changes": "CHANGES",
+			"changesDesc": "We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal or regulatory reasons.",
+			"questions": "If you have questions and/or require more information, do not hesitate to",
+			"contactUsHere": "contact us here."
+		},
+		"ariaLabels": {
+			"contactUs": "Contact us here"
 		}
 	}
 }

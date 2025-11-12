@@ -66,15 +66,19 @@ export default function Footer() {
 				</Link>
 			</div>
 			<div className="contact-information grid md:flex items-center mx-auto mt-5 text-[12px]">
-				<span className="font-bold mx-1">CONTACT INFORMATION:</span>
+				<span className="font-bold mx-1">{translations("footer.contactInformation")}</span>
 				<Link className="underline" href="mailto:montanyecreative@outlook.com" aria-label="Email montanyecreative@outlook.com">
 					Montanye Creative
 				</Link>
 			</div>
 			<div className="copy-right grid md:flex items-center mx-auto mt-2 text-[12px]">
-				Copyright © {currentYear} Compounds Coffee |{" "}
-				<Link className="ml-1 underline hover:text-brown" href="/privacy-policy" aria-label="Go to Privacy Policy page">
-					Privacy Policy
+				{translations("footer.copyright")} {currentYear} Compounds Coffee |{" "}
+				<Link
+					className="ml-1 underline hover:text-brown"
+					href={buildHrefWithLang("/privacy-policy", currentLang)}
+					aria-label={`Go to ${translations("footer.privacyPolicy")} page`}
+				>
+					{translations("footer.privacyPolicy")}
 				</Link>
 			</div>
 			<script
