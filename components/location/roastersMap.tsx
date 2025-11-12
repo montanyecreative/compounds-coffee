@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Roaster } from "@/lib/contentful";
-import { ExternalLink, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from "@react-google-maps/api";
 import { useTranslations } from "@/lib/useTranslations";
@@ -299,8 +299,6 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								<div>
 									{roastersWithLocations.map((roaster) => {
 										const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
-										const website = roaster.fields.shopWebsite as string;
-										const websiteUrl = getRoasterWebsite(roaster);
 										const isSelected = selectedRoaster === roaster.sys.id;
 
 										return (
@@ -343,7 +341,6 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								onLoad={onLoad}
 								onUnmount={onUnmount}
 							>
-								{/* User Location Marker */}
 								{userLocation && (
 									<Marker
 										position={userLocation}

@@ -1,10 +1,10 @@
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { getRoasters } from "@/lib/contentful";
-import RoastersGrid from "@/components/roastersGrid";
-import RoastersMap from "@/components/roastersMap";
+import RoastersGrid from "@/components/location/roastersGrid";
+import RoastersMap from "@/components/location/roastersMap";
 import { getTranslations } from "@/lib/i18n";
-import RoastersViewToggle from "@/components/roastersViewToggle";
+import RoastersViewToggle from "@/components/location/roastersViewToggle";
 
 interface PageProps {
 	searchParams?: { [key: string]: string | string[] | undefined };
