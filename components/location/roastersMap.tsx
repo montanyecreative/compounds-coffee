@@ -12,6 +12,7 @@ import { defaultMapOptions, styledMapOptions } from "./googleMapStyles";
 
 interface RoastersMapProps {
 	roasters: Roaster[];
+	onLoadingChange?: (isLoading: boolean) => void;
 }
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
@@ -21,7 +22,7 @@ const mapContainerStyle = {
 	height: "100%",
 };
 
-export default function RoastersMap({ roasters }: RoastersMapProps) {
+export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapProps) {
 	const { translations, lang } = useTranslations();
 	const [selectedRoaster, setSelectedRoaster] = useState<string | null>(null);
 	const [mapView, setMapView] = useState<"map" | "list">("map");
@@ -33,6 +34,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	const [addressInput, setAddressInput] = useState<string>("");
 	const [useStyledMap, setUseStyledMap] = useState<boolean>(false); // Default to unstyled map
 	const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+	const [isMapLoading, setIsMapLoading] = useState<boolean>(true);
 
 	// Calculate distance between two coordinates in miles (Haversine formula)
 	const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -159,8 +161,10 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 		}
 	};
 
+	// Load map when map is loaded
 	const onLoad = (mapInstance: google.maps.Map) => {
 		setMap(mapInstance);
+		setIsMapLoading(false);
 		// Trigger geocoding once map is loaded (ensures API is ready)
 		performGeocoding();
 
@@ -205,6 +209,13 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 			}
 		}
 	}, [map, useStyledMap]);
+
+	// Notify parent component of loading state changes
+	useEffect(() => {
+		if (onLoadingChange) {
+			onLoadingChange(isMapLoading);
+		}
+	}, [isMapLoading, onLoadingChange]);
 
 	return (
 		<LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>

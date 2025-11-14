@@ -12,11 +12,12 @@ import { createGeocodingFunction } from "@/lib/geocoding";
 
 interface RoastersGridProps {
 	roasters: Roaster[];
+	onLoadingChange?: (isLoading: boolean) => void;
 }
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
 
-export default function RoastersGrid({ roasters }: RoastersGridProps) {
+export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGridProps) {
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
 	const { translations, lang } = useTranslations();
@@ -28,6 +29,7 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 	const [locationInput, setLocationInput] = useState<string>("");
 	const [locationDistance, setLocationDistance] = useState<number>(15);
 	const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+	const [isGridLoading, setIsGridLoading] = useState<boolean>(true);
 
 	// Calculate distance between two coordinates in miles (Haversine formula)
 	const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -98,12 +100,27 @@ export default function RoastersGrid({ roasters }: RoastersGridProps) {
 		const interval = setInterval(() => {
 			if (typeof window !== "undefined" && window.google && window.google.maps && window.google.maps.Geocoder) {
 				performGeocoding();
+				setIsGridLoading(false);
 				clearInterval(interval);
 			}
 		}, 500);
 
 		return () => clearInterval(interval);
 	}, [performGeocoding]);
+
+	// Check if API is already loaded on mount
+	useEffect(() => {
+		if (typeof window !== "undefined" && window.google && window.google.maps && window.google.maps.Geocoder) {
+			setIsGridLoading(false);
+		}
+	}, []);
+
+	// Notify parent component of loading state changes
+	useEffect(() => {
+		if (onLoadingChange) {
+			onLoadingChange(isGridLoading);
+		}
+	}, [isGridLoading, onLoadingChange]);
 
 	// Filter roasters based on search mode and query
 	const filteredRoasters = useMemo(() => {

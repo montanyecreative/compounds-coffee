@@ -1,10 +1,9 @@
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { getRoasters } from "@/lib/contentful";
-import RoastersGrid from "@/components/location/roastersGrid";
-import RoastersMap from "@/components/location/roastersMap";
 import { getTranslations } from "@/lib/i18n";
 import RoastersViewToggle from "@/components/location/roastersViewToggle";
+import RoastersPageContent from "@/components/location/roastersPageContent";
 
 interface PageProps {
 	searchParams?: { [key: string]: string | string[] | undefined };
@@ -33,15 +32,7 @@ export default async function RoastersPage({ searchParams }: PageProps) {
 							<p className="text-gray-600 mb-4">{translations("errors.noRoastersFound")}</p>
 						</div>
 					) : (
-						<>
-							<div id="roasters-map-view" className="hidden md:block">
-								<RoastersMap roasters={visibleRoasters} />
-							</div>
-
-							<div id="roasters-grid-view" className="block md:hidden">
-								<RoastersGrid roasters={visibleRoasters} />
-							</div>
-						</>
+						<RoastersPageContent roasters={visibleRoasters} />
 					)}
 				</div>
 			</div>
