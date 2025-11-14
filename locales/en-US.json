@@ -116,8 +116,8 @@
 			"miles": "miles",
 			"noStoresFound": "No roasters or shops found matching \"{query}\"",
 			"foundStores": "Found {count} store{plural} matching \"{query}\"",
-			"noStoresInRange": "No roasters or shops found within {distance} miles",
-			"foundStoresInRange": "Found {count} store{plural} within {distance} miles",
+			"noStoresInRange": "No roasters or shops found within {distance} {miles}",
+			"foundStoresInRange": "Found {count} store{plural} within {distance} {miles}",
 			"clear": "Clear"
 		},
 		"map": {

@@ -113,11 +113,11 @@
 			"toggleToLocation": "Basculer vers la recherche par localisation",
 			"toggleToStore": "Basculer vers la recherche par boutique",
 			"distance": "Distance :",
-			"miles": "miles",
+			"miles": "kilomètres",
 			"noStoresFound": "Aucune boutique trouvée correspondant à \"{query}\"",
 			"foundStores": "{count} boutique{plural} trouvée{plural2} correspondant à \"{query}\"",
-			"noStoresInRange": "Aucune boutique trouvée dans un rayon de {distance} miles",
-			"foundStoresInRange": "{count} boutique{plural} trouvée{plural2} dans un rayon de {distance} miles",
+			"noStoresInRange": "Aucune boutique trouvée dans un rayon de {distance} {miles}",
+			"foundStoresInRange": "{count} boutique{plural} trouvée{plural2} dans un rayon de {distance} {miles}",
 			"clear": "Effacer"
 		},
 		"map": {

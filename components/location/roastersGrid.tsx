@@ -269,7 +269,9 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 							<span>
 								{searchMode === "name"
 									? translations("roasters.search.noStoresFound").replace("{query}", searchQuery)
-									: translations("roasters.search.noStoresInRange").replace("{distance}", locationDistance.toString())}
+									: translations("roasters.search.noStoresInRange")
+											.replace("{distance}", locationDistance.toString())
+											.replace("{miles}", translations("roasters.search.miles"))}
 							</span>
 						) : (
 							<span>
@@ -307,7 +309,8 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 													? ""
 													: ""
 											)
-											.replace("{distance}", locationDistance.toString())}
+											.replace("{distance}", locationDistance.toString())
+											.replace("{miles}", translations("roasters.search.miles"))}
 							</span>
 						)}
 					</div>
