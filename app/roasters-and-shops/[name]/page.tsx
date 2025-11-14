@@ -7,7 +7,7 @@ import { getRoasterByName, getRoasters, Roaster } from "@/lib/contentful";
 import { getTranslations } from "@/lib/i18n";
 import { ExternalLink } from "lucide-react";
 import RoasterLocation from "@/components/location/geocodingClientSide";
-import SingleRoasterMap from "@/components/location/singleRoasterMap";
+import SingleRoasterMapWrapper from "@/components/location/singleRoasterMapWrapper";
 
 interface RoasterDetailPageProps {
 	params: {
@@ -101,7 +101,7 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 
 							{/* Right column: Map */}
 							<div className="w-full h-full">
-								<SingleRoasterMap locationData={locationData} shopName={roasterFields.shopName as string} />
+								<SingleRoasterMapWrapper locationData={locationData} shopName={roasterFields.shopName as string} />
 							</div>
 						</div>
 
