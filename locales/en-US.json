@@ -124,7 +124,11 @@
 			"locationsNearYou": "{count} locations found",
 			"noLocationData": "No roasters or shops with location data available",
 			"clear": "Clear",
-			"visitWebsite": "See location details"
+			"visitWebsite": "See location details",
+			"default": "Default",
+			"themed": "Themed",
+			"switchToDefault": "Switch to default map style",
+			"switchToThemed": "Switch to themed map"
 		},
 		"grid": {
 			"location": "Location:",

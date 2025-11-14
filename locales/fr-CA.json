@@ -124,7 +124,11 @@
 			"locationsNearYou": "{count} emplacements près de vous",
 			"noLocationData": "Aucun torréfacteur avec données de localisation disponibles",
 			"clear": "Effacer",
-			"visitWebsite": "Visiter le site Web"
+			"visitWebsite": "Visiter le site Web",
+			"default": "Par défaut",
+			"themed": "Thème",
+			"switchToDefault": "Basculer vers le style de carte par défaut",
+			"switchToThemed": "Basculer vers la carte à thème"
 		},
 		"grid": {
 			"location": "Emplacement :",

@@ -2,12 +2,13 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Roaster } from "@/lib/contentful";
-import { MapPin, Search, X } from "lucide-react";
+import { MapPin, Search, X, Palette } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from "@react-google-maps/api";
 import { useTranslations } from "@/lib/useTranslations";
 import { createGeocodingFunction } from "@/lib/geocoding";
 import Link from "next/link";
+import { defaultMapOptions, styledMapOptions } from "./googleMapStyles";
 
 interface RoastersMapProps {
 	roasters: Roaster[];
@@ -20,13 +21,6 @@ const mapContainerStyle = {
 	height: "100%",
 };
 
-const defaultMapOptions = {
-	zoomControl: true,
-	streetViewControl: false,
-	mapTypeControl: false,
-	fullscreenControl: true,
-};
-
 export default function RoastersMap({ roasters }: RoastersMapProps) {
 	const { translations, lang } = useTranslations();
 	const [selectedRoaster, setSelectedRoaster] = useState<string | null>(null);
@@ -37,6 +31,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 	const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
 	const [distanceFilter, setDistanceFilter] = useState<number>(15); // Default 15 miles
 	const [addressInput, setAddressInput] = useState<string>("");
+	const [useStyledMap, setUseStyledMap] = useState<boolean>(false); // Default to unstyled map
 	const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
 	// Calculate distance between two coordinates in miles (Haversine formula)
@@ -196,17 +191,27 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 		}
 	}, [map, roastersWithLocations, userLocation]);
 
-	const getRoasterWebsite = (roaster: Roaster) => {
-		const website = roaster.fields.shopWebsite as string;
-		return website.startsWith("http") ? website : `https://${website}`;
-	};
+	// Update map styles when useStyledMap changes
+	useEffect(() => {
+		if (map) {
+			if (useStyledMap) {
+				map.setOptions(styledMapOptions);
+			} else {
+				// Explicitly clear styles by setting them to null
+				map.setOptions({
+					...defaultMapOptions,
+					styles: null,
+				});
+			}
+		}
+	}, [map, useStyledMap]);
 
 	return (
 		<LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
 			<div className="w-full flex flex-col">
 				<div className="mb-4 p-4 bg-gray-50 border rounded-lg">
 					<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-						<div className="flex items-center gap-3 flex-wrap">
+						<div className="flex items-center gap-3 flex-wrap flex-1">
 							<div className="flex-1 min-w-[400px] relative">
 								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brown" />
 								<Autocomplete
@@ -253,6 +258,16 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								<option value={5000}>5000 {translations("roasters.search.miles")}</option>
 							</select>
 						</div>
+						<button
+							onClick={() => setUseStyledMap(!useStyledMap)}
+							className="px-3 py-2 bg-gray-200 text-gray-700 rounded-sm hover:bg-gray-300 transition-colors text-sm whitespace-nowrap flex items-center gap-2"
+							title={
+								useStyledMap ? translations("roasters.map.switchToDefault") : translations("roasters.map.switchToThemed")
+							}
+						>
+							<Palette className="h-4 w-4 text-brown" />
+							{useStyledMap ? translations("roasters.map.default") : translations("roasters.map.themed")}
+						</button>
 					</div>
 				</div>
 
@@ -321,7 +336,7 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								mapContainerStyle={mapContainerStyle}
 								center={mapCenter}
 								zoom={userLocation ? 10 : roastersWithLocations.length === 1 ? 12 : 8}
-								options={defaultMapOptions}
+								options={useStyledMap ? styledMapOptions : defaultMapOptions}
 								onLoad={onLoad}
 								onUnmount={onUnmount}
 							>
@@ -342,8 +357,6 @@ export default function RoastersMap({ roasters }: RoastersMapProps) {
 								{roastersWithLocations.map((roaster) => {
 									const locationData = roaster.fields.shopLocation as { lat: number; lon: number };
 									const isSelected = selectedRoaster === roaster.sys.id;
-									const website = roaster.fields.shopWebsite as string;
-									const websiteUrl = getRoasterWebsite(roaster);
 
 									return (
 										<Marker
