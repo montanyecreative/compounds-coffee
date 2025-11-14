@@ -4,7 +4,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCoffeeBrewByName, getCoffeeBrews, Roaster } from "@/lib/contentful";
-import { gramsToFluidOunces } from "@/lib/utils";
+import { gramsToFluidOunces, createRoasterSlug } from "@/lib/utils";
 import { getTranslations } from "@/lib/i18n";
 
 interface BrewDetailPageProps {
@@ -70,16 +70,17 @@ export default async function BrewDetailPage({ params, searchParams }: BrewDetai
 											<span className="font-medium">{translations("labels.roaster")}:</span>
 											{(() => {
 												const roaster = brew.fields.roaster as Roaster | undefined;
-												if (roaster?.fields?.shopName) {
+												if (roaster?.fields?.shopName && roaster?.sys?.id) {
 													const shopName = roaster.fields.shopName;
+													const roasterSlug = createRoasterSlug(shopName, roaster.sys.id);
 													return (
 														<Link
 															href={
 																langParam
 																	? `/roasters-and-shops/${encodeURIComponent(
-																			shopName
+																			roasterSlug
 																	  )}?lang=${encodeURIComponent(langParam)}`
-																	: `/roasters-and-shops/${encodeURIComponent(shopName)}`
+																	: `/roasters-and-shops/${encodeURIComponent(roasterSlug)}`
 															}
 															className="text-brown hover:underline"
 														>

@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { Autocomplete, LoadScript } from "@react-google-maps/api";
 import { useTranslations } from "@/lib/useTranslations";
 import { createGeocodingFunction } from "@/lib/geocoding";
+import { createRoasterSlug } from "@/lib/utils";
 
 interface RoastersGridProps {
 	roasters: Roaster[];
@@ -71,7 +72,21 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 		});
 	}, [roasters]);
 
+	// Track if we should force a fresh geocoding (e.g., when navigating back)
+	const [forceRefresh, setForceRefresh] = useState(0);
+
+	// Reset geocoding state when roasters change
+	useEffect(() => {
+		// Clear the requested IDs and addresses when roasters change
+		geocodingRequested.current.clear();
+		setAddresses({});
+		setForceRefresh((prev) => prev + 1); // Force refresh
+	}, [roasters]);
+
 	const performGeocoding = useMemo(() => {
+		// Create a fresh Set for this geocoding session
+		const freshRequestedIds = new Set<string>();
+
 		return createGeocodingFunction({
 			roasters: roastersWithLocations,
 			onAddressUpdate: (roasterId: string, address: string) => {
@@ -86,10 +101,11 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 					return current;
 				});
 			},
-			requestedIds: geocodingRequested.current,
-			existingAddresses: addresses,
+			requestedIds: freshRequestedIds,
+			existingAddresses: {}, // Always start fresh - don't use cached addresses
 		});
-	}, [roastersWithLocations, addresses]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [roastersWithLocations, forceRefresh]); // Include forceRefresh to recreate function
 
 	// Initialize geocoder and reverse geocode addresses
 	useEffect(() => {
@@ -326,10 +342,11 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 							? `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}`
 							: "N/A";
 
+						const roasterSlug = createRoasterSlug(roaster.fields.shopName as string, roaster.sys.id);
 						const roasterDetailUrl =
 							lang && lang !== "en-US"
-								? `/roasters-and-shops/${encodeURIComponent(roaster.fields.shopName)}?lang=${encodeURIComponent(lang)}`
-								: `/roasters-and-shops/${encodeURIComponent(roaster.fields.shopName)}`;
+								? `/roasters-and-shops/${encodeURIComponent(roasterSlug)}?lang=${encodeURIComponent(lang)}`
+								: `/roasters-and-shops/${encodeURIComponent(roasterSlug)}`;
 
 						return (
 							<Card key={roaster.sys.id} className="p-5 border rounded hover:shadow-lg transition-shadow">

@@ -3,28 +3,32 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getRoasterByName, getRoasters, Roaster } from "@/lib/contentful";
+import { getRoasterById, getRoasters, Roaster } from "@/lib/contentful";
 import { getTranslations } from "@/lib/i18n";
 import { ExternalLink } from "lucide-react";
 import RoasterLocation from "@/components/location/geocodingClientSide";
 import SingleRoasterMapWrapper from "@/components/location/singleRoasterMapWrapper";
+import { createRoasterSlug, parseRoasterSlug } from "@/lib/utils";
 
 interface RoasterDetailPageProps {
 	params: {
-		name: string;
+		slug: string;
 	};
 	searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateStaticParams() {
 	const roasters = await getRoasters();
-	return roasters.map((roaster) => ({ name: encodeURIComponent(roaster.fields.shopName) }));
+	return roasters.map((roaster) => ({
+		slug: createRoasterSlug(roaster.fields.shopName as string, roaster.sys.id),
+	}));
 }
 
 export default async function RoasterDetailPage({ params, searchParams }: RoasterDetailPageProps) {
-	const decodedName = decodeURIComponent(params.name);
+	const slug = decodeURIComponent(params.slug);
+	const roasterId = parseRoasterSlug(slug);
 	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
-	const roaster = await getRoasterByName(decodedName, langParam);
+	const roaster = await getRoasterById(roasterId, langParam);
 	const translations = getTranslations(langParam);
 	const roastersHref = langParam ? `/roasters-and-shops?lang=${encodeURIComponent(langParam)}` : "/roasters-and-shops";
 
@@ -71,7 +75,17 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 									<div className="space-y-3">
 										<div className="flex flex-col md:flex-row md:justify-between border-b pb-2 gap-1 md:gap-0">
 											<span className="font-medium">Address:</span>
-											<RoasterLocation locationData={locationData} roasterId={roasterTyped.sys.id} />
+											<RoasterLocation
+												key={
+													locationData && locationData.lat && locationData.lon
+														? `${roasterTyped.sys.id}-${locationData.lat.toFixed(6)}-${locationData.lon.toFixed(
+																6
+														  )}`
+														: roasterTyped.sys.id
+												}
+												locationData={locationData}
+												roasterId={roasterTyped.sys.id}
+											/>
 										</div>
 										<div className="flex flex-col md:flex-row md:justify-between border-b pb-2 gap-1 md:gap-0">
 											<span className="font-medium">Phone Number:</span>

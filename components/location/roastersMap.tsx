@@ -9,6 +9,7 @@ import { useTranslations } from "@/lib/useTranslations";
 import { createGeocodingFunction } from "@/lib/geocoding";
 import Link from "next/link";
 import { defaultMapOptions, styledMapOptions } from "./googleMapStyles";
+import { createRoasterSlug } from "@/lib/utils";
 
 interface RoastersMapProps {
 	roasters: Roaster[];
@@ -127,7 +128,21 @@ export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapPr
 		};
 	}, [roastersWithLocations, userLocation]);
 
+	// Track if we should force a fresh geocoding (e.g., when navigating back)
+	const [forceRefresh, setForceRefresh] = useState(0);
+
+	// Reset geocoding state when roasters change
+	useEffect(() => {
+		// Clear the requested IDs and addresses when roasters change
+		geocodingRequested.current.clear();
+		setAddresses({});
+		setForceRefresh((prev) => prev + 1); // Force refresh
+	}, [roasters]);
+
 	const performGeocoding = useMemo(() => {
+		// Create a fresh Set for this geocoding session
+		const freshRequestedIds = new Set<string>();
+
 		return createGeocodingFunction({
 			roasters: roastersWithLocations,
 			onAddressUpdate: (roasterId: string, address: string) => {
@@ -142,10 +157,11 @@ export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapPr
 					return current;
 				});
 			},
-			requestedIds: geocodingRequested.current,
-			existingAddresses: addresses,
+			requestedIds: freshRequestedIds,
+			existingAddresses: {}, // Always start fresh - don't use cached addresses
 		});
-	}, [roastersWithLocations, addresses]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [roastersWithLocations, forceRefresh]); // Include forceRefresh to recreate function
 
 	// Initialize geocoder and reverse geocode addresses
 	useEffect(() => {
@@ -398,9 +414,17 @@ export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapPr
 															href={
 																lang && lang !== "en-US"
 																	? `/roasters-and-shops/${encodeURIComponent(
-																			roaster.fields.shopName
+																			createRoasterSlug(
+																				roaster.fields.shopName as string,
+																				roaster.sys.id
+																			)
 																	  )}?lang=${encodeURIComponent(lang)}`
-																	: `/roasters-and-shops/${encodeURIComponent(roaster.fields.shopName)}`
+																	: `/roasters-and-shops/${encodeURIComponent(
+																			createRoasterSlug(
+																				roaster.fields.shopName as string,
+																				roaster.sys.id
+																			)
+																	  )}`
 															}
 															className="text-xs text-blue-600 hover:underline"
 														>
