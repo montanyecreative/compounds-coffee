@@ -117,10 +117,11 @@
 			"noStoresFound": "No roasters or shops found matching \"{query}\"",
 			"foundStores": "Found {count} store{plural} matching \"{query}\"",
 			"noStoresInRange": "No roasters or shops found within {distance} miles",
-			"foundStoresInRange": "Found {count} store{plural} within {distance} miles"
+			"foundStoresInRange": "Found {count} store{plural} within {distance} miles",
+			"clear": "Clear"
 		},
 		"map": {
-			"locationsNearYou": "{count} locations near you",
+			"locationsNearYou": "{count} locations found",
 			"noLocationData": "No roasters or shops with location data available",
 			"clear": "Clear",
 			"visitWebsite": "See location details"

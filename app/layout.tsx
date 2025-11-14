@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Compounds Coffee",
-	description: "Digital resume and services portfolio for Montanye Creative",
+	description: "Coffee website for exploring coffee brews, recipes, and roasters.",
 	icons: {
 		icon: "/icon.webp",
 	},
