@@ -3,7 +3,7 @@
 		"coffeeBrews": "Coffee Brews",
 		"brewMethods": "Brew Methods",
 		"contact": "Contact Us",
-		"roasters": "Roasters/Shops"
+		"roasters": "Roasters & Shops"
 	},
 	"brewMethods": {
 		"title": "Brew Methods",
@@ -109,7 +109,7 @@
 		"search": {
 			"storeNamePlaceholder": "Search by store name...",
 			"zipcodePlaceholder": "Enter your zipcode...",
-			"zipcodeMapPlaceholder": "Enter your Zipcode to Find Shops Near You",
+			"zipcodeMapPlaceholder": "Enter your zipcode or city to find shops near you",
 			"toggleToLocation": "Toggle to Location Search",
 			"toggleToStore": "Toggle to Store Search",
 			"distance": "Distance:",
@@ -132,7 +132,7 @@
 		},
 		"grid": {
 			"location": "Location:",
-			"website": "Website:",
+			"website": "Details:",
 			"notAvailable": "N/A"
 		},
 		"toggle": {
