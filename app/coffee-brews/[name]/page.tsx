@@ -76,10 +76,10 @@ export default async function BrewDetailPage({ params, searchParams }: BrewDetai
 														<Link
 															href={
 																langParam
-																	? `/roasters/${encodeURIComponent(shopName)}?lang=${encodeURIComponent(
-																			langParam
-																	  )}`
-																	: `/roasters/${encodeURIComponent(shopName)}`
+																	? `/roasters-and-shops/${encodeURIComponent(
+																			shopName
+																	  )}?lang=${encodeURIComponent(langParam)}`
+																	: `/roasters-and-shops/${encodeURIComponent(shopName)}`
 															}
 															className="text-brown hover:underline"
 														>
