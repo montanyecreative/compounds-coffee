@@ -3,7 +3,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCoffeeBrews } from "@/lib/contentful";
-import BrewsTable from "@/components/brewsTable";
+import BrewsFilters from "@/components/brewsFilters";
 import { getTranslations } from "@/lib/i18n";
 
 interface CoffeeBrewsPageProps {
@@ -34,7 +34,7 @@ export default async function CoffeeBrews({ searchParams }: CoffeeBrewsPageProps
 							</Link>
 						</div>
 					) : (
-						<BrewsTable brews={brews} />
+						<BrewsFilters brews={brews} />
 					)}
 				</div>
 			</div>

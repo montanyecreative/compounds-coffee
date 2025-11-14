@@ -92,7 +92,18 @@
 		"tastingHighlights": "Points forts de dégustation",
 		"tastingNotes": "Notes de dégustation",
 		"additionalNotes": "Notes supplémentaires",
-		"viewProduct": "Voir le produit →"
+		"viewProduct": "Voir le produit →",
+		"filters": {
+			"title": "Filtres",
+			"clear": "Effacer les filtres",
+			"all": "Tous",
+			"min": "Min",
+			"max": "Max",
+			"namePlaceholder": "Rechercher par nom...",
+			"datePlaceholder": "Rechercher par date...",
+			"tastingPlaceholder": "Rechercher les points forts...",
+			"resultsCount": "Affichage de {count} sur {total} infusions"
+		}
 	},
 	"home": {
 		"title": "Pour l'amour du café",

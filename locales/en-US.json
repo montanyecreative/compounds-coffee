@@ -92,7 +92,18 @@
 		"tastingHighlights": "Tasting Highlights",
 		"tastingNotes": "Tasting Notes",
 		"additionalNotes": "Additional Notes",
-		"viewProduct": "View Product →"
+		"viewProduct": "View Product →",
+		"filters": {
+			"title": "Filters",
+			"clear": "Clear Filters",
+			"all": "All",
+			"min": "Min",
+			"max": "Max",
+			"namePlaceholder": "Search by name...",
+			"datePlaceholder": "Search by date...",
+			"tastingPlaceholder": "Search tasting highlights...",
+			"resultsCount": "Showing {count} of {total} brews"
+		}
 	},
 	"home": {
 		"title": "For the love of coffee",
