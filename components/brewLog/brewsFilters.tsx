@@ -282,8 +282,11 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 							</div>
 
 							<div className="space-y-2">
-								<label className="text-sm font-medium text-gray-700">{translations("labels.region")}</label>
+								<label htmlFor="region-filter" className="text-sm font-medium text-gray-700">
+									{translations("labels.region")}
+								</label>
 								<select
+									id="region-filter"
 									value={regionFilter}
 									onChange={(e) => setRegionFilter(e.target.value)}
 									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -298,8 +301,11 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 							</div>
 
 							<div className="space-y-2">
-								<label className="text-sm font-medium text-gray-700">{translations("labels.roastLevel")}</label>
+								<label htmlFor="roast-level-filter" className="text-sm font-medium text-gray-700">
+									{translations("labels.roastLevel")}
+								</label>
 								<select
+									id="roast-level-filter"
 									value={roastLevelFilter}
 									onChange={(e) => setRoastLevelFilter(e.target.value)}
 									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -314,8 +320,11 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 							</div>
 
 							<div className="space-y-2">
-								<label className="text-sm font-medium text-gray-700">{translations("labels.process")}</label>
+								<label htmlFor="process-filter" className="text-sm font-medium text-gray-700">
+									{translations("labels.process")}
+								</label>
 								<select
+									id="process-filter"
 									value={processFilter}
 									onChange={(e) => setProcessFilter(e.target.value)}
 									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -330,8 +339,11 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 							</div>
 
 							<div className="space-y-2">
-								<label className="text-sm font-medium text-gray-700">{translations("labels.brewMethod")}</label>
+								<label htmlFor="brew-method-filter" className="text-sm font-medium text-gray-700">
+									{translations("labels.brewMethod")}
+								</label>
 								<select
+									id="brew-method-filter"
 									value={brewMethodFilter}
 									onChange={(e) => setBrewMethodFilter(e.target.value)}
 									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
