@@ -5,7 +5,8 @@ import { CoffeeBrewPost } from "@/lib/contentful";
 import { useTranslations } from "@/lib/useTranslations";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Filter, ChevronDown, ChevronUp } from "lucide-react";
+import { Filter } from "lucide-react";
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import BrewsTable from "@/components/brewsTable";
 
 interface BrewsFiltersProps {
@@ -59,22 +60,18 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 				}
 			}
 
-			// Region filter
 			if (regionFilter && brew.fields.region !== regionFilter) {
 				return false;
 			}
 
-			// Roast level filter
 			if (roastLevelFilter && brew.fields.roastLevel !== roastLevelFilter) {
 				return false;
 			}
 
-			// Process filter
 			if (processFilter && brew.fields.process !== processFilter) {
 				return false;
 			}
 
-			// Brew method filter
 			if (brewMethodFilter && brew.fields.brewMethod !== brewMethodFilter) {
 				return false;
 			}
@@ -87,7 +84,6 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 				}
 			}
 
-			// Coffee dose range filter
 			if (coffeeDoseMin && (!brew.fields.coffeeDose || brew.fields.coffeeDose < Number(coffeeDoseMin))) {
 				return false;
 			}
@@ -95,7 +91,6 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 				return false;
 			}
 
-			// Coffee yield range filter
 			if (coffeeYieldMin && (!brew.fields.coffeeYield || brew.fields.coffeeYield < Number(coffeeYieldMin))) {
 				return false;
 			}
@@ -162,196 +157,181 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 		<div className="pb-10">
 			{/* Toggle Button */}
 			<div className="mb-4">
-				<Button
-					onClick={() => setShowFilters(!showFilters)}
-					variant="outline"
-					className="w-full md:w-auto flex items-center justify-between gap-2"
-				>
-					<div className="flex items-center gap-2">
-						<Filter className="h-4 w-4" />
-						<span>{translations("coffeeBrews.filters.title")}</span>
-						{hasActiveFilters && (
-							<span className="ml-2 px-2 py-0.5 text-xs bg-brown text-white rounded-full">
-								{
-									Object.values({
-										nameFilter,
-										regionFilter,
-										roastLevelFilter,
-										processFilter,
-										brewMethodFilter,
-										brewDateFilter,
-										coffeeDoseMin,
-										coffeeDoseMax,
-										coffeeYieldMin,
-										coffeeYieldMax,
-										tastingHighlightsFilter,
-									}).filter(Boolean).length
-								}
-							</span>
-						)}
-					</div>
-					{showFilters ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+				<Button onClick={() => setShowFilters(!showFilters)} variant="outline" className="w-full md:w-auto flex items-center gap-2">
+					<Filter className="h-4 w-4" />
+					<span>{translations("coffeeBrews.filters.title")}</span>
+					{hasActiveFilters && (
+						<span className="ml-2 px-2 py-0.5 text-xs bg-brown text-white rounded-full">
+							{
+								Object.values({
+									nameFilter,
+									regionFilter,
+									roastLevelFilter,
+									processFilter,
+									brewMethodFilter,
+									brewDateFilter,
+									coffeeDoseMin,
+									coffeeDoseMax,
+									coffeeYieldMin,
+									coffeeYieldMax,
+									tastingHighlightsFilter,
+								}).filter(Boolean).length
+							}
+						</span>
+					)}
 				</Button>
 			</div>
 
-			{/* Filters Section */}
-			{showFilters && (
-				<div className="mb-6 space-y-4 border rounded-lg p-4 bg-gray-50">
-					<div className="flex items-center justify-between mb-4">
-						<h3 className="text-lg font-semibold">{translations("coffeeBrews.filters.title")}</h3>
+			{/* Drawer */}
+			<Drawer open={showFilters} onOpenChange={setShowFilters}>
+				<DrawerContent onClose={() => setShowFilters(false)} title={translations("coffeeBrews.filters.title")} isOpen={showFilters}>
+					<div className="space-y-6">
 						{hasActiveFilters && (
-							<Button onClick={clearFilters} variant="outline" size="sm">
-								{translations("coffeeBrews.filters.clear")}
-							</Button>
+							<div className="flex justify-end">
+								<Button onClick={clearFilters} variant="outline" size="sm">
+									{translations("coffeeBrews.filters.clear")}
+								</Button>
+							</div>
 						)}
-					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						{/* Name Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.name")}</label>
-							<Input
-								type="text"
-								placeholder={translations("coffeeBrews.filters.namePlaceholder")}
-								value={nameFilter}
-								onChange={(e) => setNameFilter(e.target.value)}
-							/>
-						</div>
-
-						{/* Region Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.region")}</label>
-							<select
-								value={regionFilter}
-								onChange={(e) => setRegionFilter(e.target.value)}
-								className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-							>
-								<option value="">{translations("coffeeBrews.filters.all")}</option>
-								{uniqueRegions.map((region) => (
-									<option key={region} value={region}>
-										{region}
-									</option>
-								))}
-							</select>
-						</div>
-
-						{/* Roast Level Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.roastLevel")}</label>
-							<select
-								value={roastLevelFilter}
-								onChange={(e) => setRoastLevelFilter(e.target.value)}
-								className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-							>
-								<option value="">{translations("coffeeBrews.filters.all")}</option>
-								{uniqueRoastLevels.map((level) => (
-									<option key={level} value={level}>
-										{level}
-									</option>
-								))}
-							</select>
-						</div>
-
-						{/* Process Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.process")}</label>
-							<select
-								value={processFilter}
-								onChange={(e) => setProcessFilter(e.target.value)}
-								className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-							>
-								<option value="">{translations("coffeeBrews.filters.all")}</option>
-								{uniqueProcesses.map((process) => (
-									<option key={process} value={process}>
-										{process}
-									</option>
-								))}
-							</select>
-						</div>
-
-						{/* Brew Method Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.brewMethod")}</label>
-							<select
-								value={brewMethodFilter}
-								onChange={(e) => setBrewMethodFilter(e.target.value)}
-								className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-							>
-								<option value="">{translations("coffeeBrews.filters.all")}</option>
-								{uniqueBrewMethods.map((method) => (
-									<option key={method} value={method}>
-										{method}
-									</option>
-								))}
-							</select>
-						</div>
-
-						{/* Brew Date Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.brewDate")}</label>
-							<Input
-								type="text"
-								placeholder={translations("coffeeBrews.filters.datePlaceholder")}
-								value={brewDateFilter}
-								onChange={(e) => setBrewDateFilter(e.target.value)}
-							/>
-						</div>
-
-						{/* Coffee Dose Range */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.coffeeDose")} (g)</label>
-							<div className="flex gap-2">
+						<div className="space-y-4">
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.name")}</label>
 								<Input
-									type="number"
-									placeholder={translations("coffeeBrews.filters.min")}
-									value={coffeeDoseMin}
-									onChange={(e) => setCoffeeDoseMin(e.target.value)}
-									className="flex-1"
+									type="text"
+									placeholder={translations("coffeeBrews.filters.namePlaceholder")}
+									value={nameFilter}
+									onChange={(e) => setNameFilter(e.target.value)}
 								/>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.region")}</label>
+								<select
+									value={regionFilter}
+									onChange={(e) => setRegionFilter(e.target.value)}
+									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+								>
+									<option value="">{translations("coffeeBrews.filters.all")}</option>
+									{uniqueRegions.map((region) => (
+										<option key={region} value={region}>
+											{region}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.roastLevel")}</label>
+								<select
+									value={roastLevelFilter}
+									onChange={(e) => setRoastLevelFilter(e.target.value)}
+									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+								>
+									<option value="">{translations("coffeeBrews.filters.all")}</option>
+									{uniqueRoastLevels.map((level) => (
+										<option key={level} value={level}>
+											{level}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.process")}</label>
+								<select
+									value={processFilter}
+									onChange={(e) => setProcessFilter(e.target.value)}
+									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+								>
+									<option value="">{translations("coffeeBrews.filters.all")}</option>
+									{uniqueProcesses.map((process) => (
+										<option key={process} value={process}>
+											{process}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.brewMethod")}</label>
+								<select
+									value={brewMethodFilter}
+									onChange={(e) => setBrewMethodFilter(e.target.value)}
+									className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+								>
+									<option value="">{translations("coffeeBrews.filters.all")}</option>
+									{uniqueBrewMethods.map((method) => (
+										<option key={method} value={method}>
+											{method}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.brewDate")}</label>
 								<Input
-									type="number"
-									placeholder={translations("coffeeBrews.filters.max")}
-									value={coffeeDoseMax}
-									onChange={(e) => setCoffeeDoseMax(e.target.value)}
-									className="flex-1"
+									type="text"
+									placeholder={translations("coffeeBrews.filters.datePlaceholder")}
+									value={brewDateFilter}
+									onChange={(e) => setBrewDateFilter(e.target.value)}
+								/>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.coffeeDose")} (g)</label>
+								<div className="flex gap-2">
+									<Input
+										type="number"
+										placeholder={translations("coffeeBrews.filters.min")}
+										value={coffeeDoseMin}
+										onChange={(e) => setCoffeeDoseMin(e.target.value)}
+										className="flex-1"
+									/>
+									<Input
+										type="number"
+										placeholder={translations("coffeeBrews.filters.max")}
+										value={coffeeDoseMax}
+										onChange={(e) => setCoffeeDoseMax(e.target.value)}
+										className="flex-1"
+									/>
+								</div>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.coffeeYield")} (g)</label>
+								<div className="flex gap-2">
+									<Input
+										type="number"
+										placeholder={translations("coffeeBrews.filters.min")}
+										value={coffeeYieldMin}
+										onChange={(e) => setCoffeeYieldMin(e.target.value)}
+										className="flex-1"
+									/>
+									<Input
+										type="number"
+										placeholder={translations("coffeeBrews.filters.max")}
+										value={coffeeYieldMax}
+										onChange={(e) => setCoffeeYieldMax(e.target.value)}
+										className="flex-1"
+									/>
+								</div>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-sm font-medium text-gray-700">{translations("labels.tastingHighlights")}</label>
+								<Input
+									type="text"
+									placeholder={translations("coffeeBrews.filters.tastingPlaceholder")}
+									value={tastingHighlightsFilter}
+									onChange={(e) => setTastingHighlightsFilter(e.target.value)}
 								/>
 							</div>
 						</div>
-
-						{/* Coffee Yield Range */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.coffeeYield")} (g)</label>
-							<div className="flex gap-2">
-								<Input
-									type="number"
-									placeholder={translations("coffeeBrews.filters.min")}
-									value={coffeeYieldMin}
-									onChange={(e) => setCoffeeYieldMin(e.target.value)}
-									className="flex-1"
-								/>
-								<Input
-									type="number"
-									placeholder={translations("coffeeBrews.filters.max")}
-									value={coffeeYieldMax}
-									onChange={(e) => setCoffeeYieldMax(e.target.value)}
-									className="flex-1"
-								/>
-							</div>
-						</div>
-
-						{/* Tasting Highlights Filter */}
-						<div className="space-y-2">
-							<label className="text-sm font-medium">{translations("labels.tastingHighlights")}</label>
-							<Input
-								type="text"
-								placeholder={translations("coffeeBrews.filters.tastingPlaceholder")}
-								value={tastingHighlightsFilter}
-								onChange={(e) => setTastingHighlightsFilter(e.target.value)}
-							/>
-						</div>
 					</div>
-				</div>
-			)}
+				</DrawerContent>
+			</Drawer>
 
 			<BrewsTable brews={filteredBrews} />
 		</div>
