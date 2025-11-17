@@ -3,6 +3,7 @@ import Footer from "@/components/footer";
 import { getBrewMethods } from "@/lib/contentful";
 import BrewMethodsGrid from "@/components/brewLog/brewMethodsGrid";
 import { getTranslations } from "@/lib/i18n";
+import Image from "next/image";
 
 interface PageProps {
 	searchParams?: { [key: string]: string | string[] | undefined };
@@ -21,8 +22,9 @@ export default async function BrewMethodsPage({ searchParams }: PageProps) {
 	return (
 		<main>
 			<Navbar />
-			<div className="banner-brew-methods">
-				<div className="container sm:mx-auto md:mx-auto flex banner-brew-methods-copy items-center"></div>
+			<div className="relative banner-brew-methods h-[600px]">
+				<Image src="/banner-brew-methods.webp" alt="" fill priority className="object-cover object-top" sizes="100vw" />
+				<div className="container sm:mx-auto md:mx-auto flex banner-brew-methods-copy items-center relative z-10 h-full"></div>
 			</div>
 			<div className="container-fluid">
 				<div className="container sm:mx-auto md:mx-auto copy text-black">
