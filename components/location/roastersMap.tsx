@@ -272,18 +272,24 @@ export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapPr
 									</button>
 								)}
 							</div>
-							<select
-								value={distanceFilter}
-								onChange={(e) => setDistanceFilter(Number(e.target.value))}
-								className="px-3 py-2 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-brown"
-							>
-								<option value={5}>5 {translations("roasters.search.miles")}</option>
-								<option value={10}>10 {translations("roasters.search.miles")}</option>
-								<option value={15}>15 {translations("roasters.search.miles")}</option>
-								<option value={25}>25 {translations("roasters.search.miles")}</option>
-								<option value={300}>300 {translations("roasters.search.miles")}</option>
-								<option value={5000}>5000 {translations("roasters.search.miles")}</option>
-							</select>
+							<div className="flex items-center gap-2">
+								<label htmlFor="distance-filter" className="text-sm font-medium text-gray-700 whitespace-nowrap">
+									{translations("roasters.search.distance")}
+								</label>
+								<select
+									id="distance-filter"
+									value={distanceFilter}
+									onChange={(e) => setDistanceFilter(Number(e.target.value))}
+									className="px-3 py-2 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-brown"
+								>
+									<option value={5}>5 {translations("roasters.search.miles")}</option>
+									<option value={10}>10 {translations("roasters.search.miles")}</option>
+									<option value={15}>15 {translations("roasters.search.miles")}</option>
+									<option value={25}>25 {translations("roasters.search.miles")}</option>
+									<option value={300}>300 {translations("roasters.search.miles")}</option>
+									<option value={5000}>5000 {translations("roasters.search.miles")}</option>
+								</select>
+							</div>
 						</div>
 						<button
 							onClick={() => setUseStyledMap(!useStyledMap)}

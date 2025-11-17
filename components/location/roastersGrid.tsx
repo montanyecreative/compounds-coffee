@@ -261,8 +261,11 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 					</div>
 					{searchMode === "location" && locationSearch && (
 						<div className="mt-3 flex items-center gap-3">
-							<label className="text-sm text-gray-600">{translations("roasters.search.distance")}</label>
+							<label htmlFor="location-distance-filter" className="text-sm text-gray-600">
+								{translations("roasters.search.distance")}
+							</label>
 							<select
+								id="location-distance-filter"
 								value={locationDistance}
 								onChange={(e) => setLocationDistance(Number(e.target.value))}
 								className="px-3 py-1 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-brown"
