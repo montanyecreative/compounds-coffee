@@ -27,6 +27,8 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 	const [coffeeYieldMin, setCoffeeYieldMin] = useState("");
 	const [coffeeYieldMax, setCoffeeYieldMax] = useState("");
 	const [tastingHighlightsFilter, setTastingHighlightsFilter] = useState("");
+	const [sortColumn, setSortColumn] = useState<string | null>(null);
+	const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
 	// Get unique values for dropdown filters
 	const uniqueRegions = useMemo(() => {
@@ -48,6 +50,17 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 		const methods = brews.map((brew) => brew.fields.brewMethod).filter(Boolean);
 		return Array.from(new Set(methods)).sort();
 	}, [brews]);
+
+	const handleSort = (column: string) => {
+		if (sortColumn === column) {
+			// Toggle direction if clicking the same column
+			setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+		} else {
+			// Set new column and default to ascending
+			setSortColumn(column);
+			setSortDirection("asc");
+		}
+	};
 
 	// Filter brews based on all filter criteria
 	const filteredBrews = useMemo(() => {
@@ -125,6 +138,69 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 		coffeeYieldMax,
 		tastingHighlightsFilter,
 	]);
+
+	const sortedBrews = useMemo(() => {
+		if (!sortColumn) return filteredBrews;
+
+		return [...filteredBrews].sort((a, b) => {
+			let aValue: any;
+			let bValue: any;
+
+			switch (sortColumn) {
+				case "name":
+					aValue = (a.fields.name as string) || "";
+					bValue = (b.fields.name as string) || "";
+					break;
+				case "region":
+					aValue = a.fields.region || "";
+					bValue = b.fields.region || "";
+					break;
+				case "roastLevel":
+					aValue = a.fields.roastLevel || "";
+					bValue = b.fields.roastLevel || "";
+					break;
+				case "process":
+					aValue = a.fields.process || "";
+					bValue = b.fields.process || "";
+					break;
+				case "brewMethod":
+					aValue = a.fields.brewMethod || "";
+					bValue = b.fields.brewMethod || "";
+					break;
+				case "brewDate":
+					aValue = (a.fields.brewDate as string) || "";
+					bValue = (b.fields.brewDate as string) || "";
+					break;
+				case "coffeeDose":
+					aValue = a.fields.coffeeDose ?? 0;
+					bValue = b.fields.coffeeDose ?? 0;
+					break;
+				case "coffeeYield":
+					aValue = a.fields.coffeeYield ?? 0;
+					bValue = b.fields.coffeeYield ?? 0;
+					break;
+				case "tastingHighlights":
+					aValue = (a.fields.tastingHighlights as string) || "";
+					bValue = (b.fields.tastingHighlights as string) || "";
+					break;
+				default:
+					return 0;
+			}
+
+			// Handle string comparison
+			if (typeof aValue === "string" && typeof bValue === "string") {
+				const comparison = aValue.localeCompare(bValue);
+				return sortDirection === "asc" ? comparison : -comparison;
+			}
+
+			// Handle number comparison
+			if (typeof aValue === "number" && typeof bValue === "number") {
+				return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+			}
+
+			return 0;
+		});
+	}, [filteredBrews, sortColumn, sortDirection]);
 
 	const clearFilters = () => {
 		setNameFilter("");
@@ -333,7 +409,7 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 				</DrawerContent>
 			</Drawer>
 
-			<BrewsTable brews={filteredBrews} />
+			<BrewsTable brews={sortedBrews} sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} />
 		</div>
 	);
 }
