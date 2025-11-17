@@ -3,7 +3,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCoffeeBrews } from "@/lib/contentful";
-import BrewsFilters from "@/components/brewsFilters";
+import BrewsFilters from "@/components/brewLog/brewsFilters";
 import { getTranslations } from "@/lib/i18n";
 
 interface CoffeeBrewsPageProps {

@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { getBrewMethods } from "@/lib/contentful";
-import BrewMethodsGrid from "@/components/brewMethodsGrid";
+import BrewMethodsGrid from "@/components/brewLog/brewMethodsGrid";
 import { getTranslations } from "@/lib/i18n";
 
 interface PageProps {

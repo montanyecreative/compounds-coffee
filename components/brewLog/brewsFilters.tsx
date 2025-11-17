@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
-import BrewsTable from "@/components/brewsTable";
+import BrewsTable from "@/components/brewLog/brewsTable";
 
 interface BrewsFiltersProps {
 	brews: CoffeeBrewPost[];

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import AltBrewMethodDetail from "@/components/altBrewMethodDetail";
+import AltBrewMethodDetail from "@/components/brewLog/altBrewMethodDetail";
 import { getBrewMethodByName, getBrewMethods } from "@/lib/contentful";
 import { gramsToFluidOunces } from "@/lib/utils";
 import { getTranslations } from "@/lib/i18n";
