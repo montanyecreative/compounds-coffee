@@ -3,7 +3,10 @@
 		"coffeeBrews": "Coffee Brews",
 		"brewMethods": "Brew Methods",
 		"contact": "Contact Us",
-		"roasters": "Roasters & Shops"
+		"roasters": "Roasters & Shops",
+		"admin": "Admin",
+		"login": "Login",
+		"logout": "Logout"
 	},
 	"brewMethods": {
 		"title": "Brew Methods",
@@ -81,6 +84,30 @@
 			"phone": "Please enter a valid phone number.",
 			"messageMin": "Message must be at least 1 character."
 		}
+	},
+	"login": {
+		"title": "Sign In",
+		"subtitle": "Access your Compounds Coffee account",
+		"labels": {
+			"email": "Email",
+			"password": "Password"
+		},
+		"placeholders": {
+			"email": "you@example.com",
+			"password": "Enter your password"
+		},
+		"button": {
+			"signIn": "Sign In",
+			"signingIn": "Signing in..."
+		},
+		"errors": {
+			"emailRequired": "Please enter a valid email address",
+			"passwordRequired": "Password is required",
+			"invalidCredentials": "Invalid email or password",
+			"unexpected": "An unexpected error occurred. Please try again."
+		},
+		"noAccount": "Don't have an account?",
+		"contactUs": "Contact us"
 	},
 	"errors": {
 		"noBrewMethodsFound": "No brew methods found in Contentful.",

@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { useTranslations } from "@/lib/useTranslations";
 import { navLinks } from "@/lib/navLinks";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 
 const logo = "/logo.webp";
 
@@ -17,12 +19,20 @@ export default function Navbar() {
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang") || "en-US";
 	const { translations } = useTranslations();
+	const { data: session, status } = useSession();
+	const router = useRouter();
 
 	const buildHrefWithLang = (pathname: string, lang: string) => {
 		const params = new URLSearchParams(searchParams?.toString() || "");
 		params.set("lang", lang);
 		const query = params.toString();
 		return query ? `${pathname}?${query}` : pathname;
+	};
+
+	const handleLogout = async () => {
+		await signOut({ redirect: false });
+		router.push("/");
+		router.refresh();
 	};
 
 	const [show, setShow] = useState(true);
@@ -71,7 +81,30 @@ export default function Navbar() {
 							</li>
 						))}
 					</ul>
-					<div className="hidden md:flex ml-2 items-center gap-2 text-white text-[12px]">
+					<div className="hidden md:flex ml-2 items-center gap-3 text-white text-[12px]">
+						{status === "authenticated" ? (
+							<span className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5">
+								<Link href="/admin" className={`hover:custom-hover ${currentRoute === "/admin" ? "custom-underline" : ""}`}>
+									{translations("nav.admin")}
+								</Link>
+								<Button
+									variant="ghost"
+									onClick={handleLogout}
+									className="text-white cursor-pointer text-[12px] lg:text-[13px]"
+								>
+									{translations("nav.logout")}
+								</Button>
+							</span>
+						) : (
+							<span className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5 lg:mr-8">
+								<Link
+									href={buildHrefWithLang("/login", currentLang)}
+									className={`hover:custom-hover ${currentRoute === "/login" ? "custom-underline" : ""}`}
+								>
+									{translations("nav.login")}
+								</Link>
+							</span>
+						)}
 						<a
 							href={buildHrefWithLang(currentRoute || "/", "en-US")}
 							className={`uppercase ${currentLang === "en-US" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"}`}
@@ -119,25 +152,41 @@ export default function Navbar() {
 									</li>
 								))}
 							</ul>
-							<div className="mt-auto pt-4 text-[14px] border-t border-white">
-								<a
-									href={buildHrefWithLang(currentRoute || "/", "en-US")}
-									className={`uppercase mr-2 ${
-										currentLang === "en-US" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"
-									}`}
-								>
-									EN
-								</a>
-								<span className="mr-2">|</span>
+							<div className="mt-auto pt-4 text-[14px] border-t border-white space-y-3">
+								{status === "authenticated" ? (
+									<>
+										<Link href="/admin" className="block uppercase mb-2">
+											{translations("nav.admin")}
+										</Link>
+										<button onClick={handleLogout} className="block uppercase text-left">
+											{translations("nav.logout")}
+										</button>
+									</>
+								) : (
+									<Link href={buildHrefWithLang("/login", currentLang)} className="block uppercase mb-2">
+										{translations("nav.login")}
+									</Link>
+								)}
+								<div>
+									<a
+										href={buildHrefWithLang(currentRoute || "/", "en-US")}
+										className={`uppercase mr-2 ${
+											currentLang === "en-US" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"
+										}`}
+									>
+										EN
+									</a>
+									<span className="mr-2">|</span>
 
-								<a
-									href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
-									className={`uppercase ${
-										currentLang === "fr-CA" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"
-									}`}
-								>
-									FR
-								</a>
+									<a
+										href={buildHrefWithLang(currentRoute || "/", "fr-CA")}
+										className={`uppercase ${
+											currentLang === "fr-CA" ? "font-bold text-brown hover:cursor-pointer" : "opacity-80"
+										}`}
+									>
+										FR
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>

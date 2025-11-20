@@ -1,9 +1,12 @@
 {
 	"nav": {
 		"coffeeBrews": "Infusions de café",
-		"brewMethods": "Méthodes d’infusion",
+		"brewMethods": "Méthodes d'infusion",
 		"contact": "Nous joindre",
-		"roasters": "Torréfacteurs/Boutiques"
+		"roasters": "Torréfacteurs/Boutiques",
+		"admin": "Admin",
+		"login": "Connexion",
+		"logout": "Déconnexion"
 	},
 	"brewMethods": {
 		"title": "Méthodes d’infusion",
@@ -81,6 +84,30 @@
 			"phone": "Veuillez saisir un numéro de téléphone valide.",
 			"messageMin": "Le message doit contenir au moins 1 caractère."
 		}
+	},
+	"login": {
+		"title": "Se connecter",
+		"subtitle": "Accédez à votre compte Compounds Coffee",
+		"labels": {
+			"email": "Courriel",
+			"password": "Mot de passe"
+		},
+		"placeholders": {
+			"email": "vous@exemple.com",
+			"password": "Entrez votre mot de passe"
+		},
+		"button": {
+			"signIn": "Se connecter",
+			"signingIn": "Connexion en cours..."
+		},
+		"errors": {
+			"emailRequired": "Veuillez saisir une adresse courriel valide",
+			"passwordRequired": "Le mot de passe est requis",
+			"invalidCredentials": "Courriel ou mot de passe invalide",
+			"unexpected": "Une erreur inattendue s'est produite. Veuillez réessayer."
+		},
+		"noAccount": "Vous n'avez pas de compte?",
+		"contactUs": "Contactez-nous"
 	},
 	"errors": {
 		"noBrewMethodsFound": "Aucune méthode d'infusion trouvée dans Contentful.",
