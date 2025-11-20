@@ -46,7 +46,10 @@
 		"coffeeMade": "coffee made"
 	},
 	"alt": {
-		"specsTitle": "Specifications"
+		"specsTitle": "Specifications",
+		"homeBanner": "Home page banner image",
+		"brewMethodsBanner": "Brew methods page banner image",
+		"coffeeBrewsBanner": "Coffee brews page banner image"
 	},
 	"copy": {
 		"brewMethodsPageTitle": "Brew Methods",

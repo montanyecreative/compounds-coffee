@@ -46,7 +46,10 @@
 		"coffeeMade": "de café préparé"
 	},
 	"alt": {
-		"specsTitle": "Spécifications"
+		"specsTitle": "Spécifications",
+		"homeBanner": "Image de bannière de la page d'accueil",
+		"brewMethodsBanner": "Image de bannière de la page des méthodes d'infusion",
+		"coffeeBrewsBanner": "Image de bannière de la page des infusions de café"
 	},
 	"copy": {
 		"brewMethodsPageTitle": "Méthodes d'infusion",

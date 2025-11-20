@@ -21,7 +21,14 @@ export default async function CoffeeBrews({ searchParams }: CoffeeBrewsPageProps
 		<main>
 			<Navbar />
 			<div className="relative banner-coffee-brews h-[600px]">
-				<Image src="/banner-coffee-brews.webp" alt="" fill priority className="object-cover object-center" sizes="100vw" />
+				<Image
+					src="/banner-coffee-brews.webp"
+					alt={translations("alt.coffeeBrewsBanner")}
+					fill
+					priority
+					className="object-cover object-center"
+					sizes="100vw"
+				/>
 				<div className="container sm:mx-auto md:mx-auto flex banner-coffee-brews-copy items-center relative z-10 h-full"></div>
 			</div>
 			<div className="container-fluid">

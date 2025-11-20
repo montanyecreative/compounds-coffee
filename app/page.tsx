@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/lib/useTranslations";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 export default function Home() {
 	const { translations } = useTranslations();
@@ -15,9 +16,17 @@ export default function Home() {
 	return (
 		<main>
 			<Navbar />
-			<div className="banner-home">
-				<div className="container sm:mx-auto md:mx-auto flex banner-home-copy items-center">
-					<h1 className="text-[42px] text-center">{translations("home.title")}</h1>
+			<div className="relative banner-home h-[600px]">
+				<Image
+					src="/banner-home.webp"
+					alt={translations("alt.homeBanner")}
+					fill
+					priority
+					className="object-cover object-center"
+					sizes="100vw"
+				/>
+				<div className="absolute inset-0 flex items-center justify-center z-10">
+					<h1 className="text-[42px] text-center text-white">{translations("home.title")}</h1>
 				</div>
 			</div>
 			<div className="container-fluid">

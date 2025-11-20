@@ -23,7 +23,14 @@ export default async function BrewMethodsPage({ searchParams }: PageProps) {
 		<main>
 			<Navbar />
 			<div className="relative banner-brew-methods h-[600px]">
-				<Image src="/banner-brew-methods.webp" alt="" fill priority className="object-cover object-top" sizes="100vw" />
+				<Image
+					src="/banner-brew-methods.webp"
+					alt={translations("alt.brewMethodsBanner")}
+					fill
+					priority
+					className="object-cover object-top"
+					sizes="100vw"
+				/>
 				<div className="container sm:mx-auto md:mx-auto flex banner-brew-methods-copy items-center relative z-10 h-full"></div>
 			</div>
 			<div className="container-fluid">
