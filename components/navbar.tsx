@@ -87,11 +87,7 @@ function NavbarContent() {
 								<Link href="/admin" className={`hover:custom-hover ${currentRoute === "/admin" ? "custom-underline" : ""}`}>
 									{translations("nav.admin")}
 								</Link>
-								<Button
-									variant="ghost"
-									onClick={handleLogout}
-									className="text-white cursor-pointer text-[12px] lg:text-[13px]"
-								>
+								<Button variant="ghost" onClick={handleLogout}>
 									{translations("nav.logout")}
 								</Button>
 							</span>
