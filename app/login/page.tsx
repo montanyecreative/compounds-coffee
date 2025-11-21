@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,7 @@ function createLoginSchema(translations: (key: string) => string) {
 	});
 }
 
-export default function LoginPage() {
+function LoginForm() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -129,5 +129,29 @@ export default function LoginPage() {
 			</div>
 			<Footer />
 		</main>
+	);
+}
+
+export const dynamic = "force-dynamic";
+
+export default function LoginPage() {
+	return (
+		<Suspense
+			fallback={
+				<main>
+					<Navbar />
+					<div className="container mx-auto px-4 py-16 min-h-[calc(100vh-200px)] flex items-center justify-center">
+						<div className="w-full max-w-md">
+							<div className="bg-white rounded-lg shadow-lg p-8">
+								<h1 className="text-3xl font-bold text-center mb-2 text-gray-900">Loading...</h1>
+							</div>
+						</div>
+					</div>
+					<Footer />
+				</main>
+			}
+		>
+			<LoginForm />
+		</Suspense>
 	);
 }

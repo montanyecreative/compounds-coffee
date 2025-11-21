@@ -1,12 +1,13 @@
 "use client";
 
+import { Suspense } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/useTranslations";
 
-export default function PrivacyPolicy() {
+function PrivacyPolicyContent() {
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang") || "en-US";
 	const { translations } = useTranslations();
@@ -92,5 +93,28 @@ export default function PrivacyPolicy() {
 			</div>
 			<Footer />
 		</main>
+	);
+}
+
+export const dynamic = "force-dynamic";
+
+export default function PrivacyPolicy() {
+	return (
+		<Suspense
+			fallback={
+				<main>
+					<Navbar />
+					<div className="page-banner-filler bg-black"></div>
+					<div className="container sm:mx-auto md:mx-auto privacy-page bg-black text-white">
+						<div className="grid grid-cols-1 pt-10 mx-auto md:mx-20 justify-center">
+							<h2 className="text-[34px] mb-2 text-white">Loading...</h2>
+						</div>
+					</div>
+					<Footer />
+				</main>
+			}
+		>
+			<PrivacyPolicyContent />
+		</Suspense>
 	);
 }

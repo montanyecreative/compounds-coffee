@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import { useTranslations } from "@/lib/useTranslations";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function Home() {
+function HomeContent() {
 	const { translations } = useTranslations();
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
@@ -60,5 +61,25 @@ export default function Home() {
 			</div>
 			<Footer />
 		</main>
+	);
+}
+
+export const dynamic = "force-dynamic";
+
+export default function Home() {
+	return (
+		<Suspense
+			fallback={
+				<main>
+					<Navbar />
+					<div className="container mx-auto px-4 py-16 min-h-[calc(100vh-200px)] flex items-center justify-center">
+						<div>Loading...</div>
+					</div>
+					<Footer />
+				</main>
+			}
+		>
+			<HomeContent />
+		</Suspense>
 	);
 }

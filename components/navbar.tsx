@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 const logo = "/logo.webp";
 
-export default function Navbar() {
+function NavbarContent() {
 	const [active, setActive] = useState("Home");
 	const [toggle, setToggle] = useState(false);
 	const currentRoute = usePathname();
@@ -193,5 +193,28 @@ export default function Navbar() {
 				</div>
 			</div>
 		</nav>
+	);
+}
+
+export default function Navbar() {
+	return (
+		<Suspense
+			fallback={
+				<nav className="w-full flex py-6 justify-between items-center navbar nav-show" id="navbar">
+					<div className="container mx-auto">
+						<div className="flex">
+							<div className="logo">
+								<Link href="/" className="flex">
+									<Image src={logo} alt="logo" width="50" height="35" />
+									<span className="text-white ml-2 text-[20px]">Compounds Coffee</span>
+								</Link>
+							</div>
+						</div>
+					</div>
+				</nav>
+			}
+		>
+			<NavbarContent />
+		</Suspense>
 	);
 }

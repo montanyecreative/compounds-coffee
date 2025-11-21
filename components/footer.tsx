@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ import { navLinks } from "@/lib/navLinks";
 
 const logo = "/logo.webp";
 
-export default function Footer() {
+function FooterContent() {
 	const date = new Date();
 	const currentYear = date.getFullYear();
 	const [active, setActive] = useState("Home");
@@ -95,5 +95,25 @@ export default function Footer() {
 				defer
 			></script>
 		</footer>
+	);
+}
+
+export default function Footer() {
+	return (
+		<Suspense
+			fallback={
+				<footer className="container sm:mx-auto md:mx-auto grid text-center py-10 bg-black text-white" id="footer">
+					<div className="logo mb-10">
+						<Link href="/" className="flex justify-center" aria-label="Go to Home page">
+							<Image src={logo} alt="logo" width="40" height="25" />
+							<span className="text-white ml-2 text-[20px]">Compounds Coffee</span>
+						</Link>
+					</div>
+					<div className="text-white text-[12px]">Loading...</div>
+				</footer>
+			}
+		>
+			<FooterContent />
+		</Suspense>
 	);
 }

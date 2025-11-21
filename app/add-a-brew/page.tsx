@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import AddABrewForm from "@/components/addABrewForm";
 import { useTranslations } from "@/lib/useTranslations";
 import { useSearchParams } from "next/navigation";
 
-export default function AddABrew() {
+function AddABrewContent() {
 	const { translations } = useTranslations();
 	const searchParams = useSearchParams();
 	const currentLang = searchParams.get("lang");
@@ -38,5 +39,28 @@ export default function AddABrew() {
 			</div>
 			<Footer />
 		</main>
+	);
+}
+
+export const dynamic = "force-dynamic";
+
+export default function AddABrew() {
+	return (
+		<Suspense
+			fallback={
+				<main>
+					<Navbar />
+					<div className="page-banner-filler bg-mediumRoast"></div>
+					<div className="container-fluid">
+						<div className="container sm:mx-auto md:mx-auto copy text-black">
+							<h2 className="mb-5 pt-10 md:pt-unset text-black">Loading...</h2>
+						</div>
+					</div>
+					<Footer />
+				</main>
+			}
+		>
+			<AddABrewContent />
+		</Suspense>
 	);
 }
