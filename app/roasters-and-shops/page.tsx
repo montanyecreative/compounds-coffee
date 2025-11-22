@@ -1,9 +1,10 @@
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { getRoasters } from "@/lib/contentful";
+import { getRoasters, getRoastersTest } from "@/lib/contentful";
 import { getTranslations } from "@/lib/i18n";
 import RoastersViewToggle from "@/components/location/roastersViewToggle";
 import RoastersPageContent from "@/components/location/roastersPageContent";
+import RoastersDataToggle from "@/components/location/roastersDataToggle";
 
 interface PageProps {
 	searchParams?: { [key: string]: string | string[] | undefined };
@@ -11,7 +12,10 @@ interface PageProps {
 
 export default async function RoastersPage({ searchParams }: PageProps) {
 	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
-	const roasters = await getRoasters(langParam);
+	const useTestData = searchParams?.test === "true";
+
+	// Fetch from appropriate content model
+	const roasters = useTestData ? await getRoastersTest(langParam) : await getRoasters(langParam);
 	const visibleRoasters = roasters.filter((roaster) => !roaster.metadata?.tags?.some((tag) => tag.sys.id === "ninetailTest"));
 
 	const translations = getTranslations(langParam);
@@ -24,7 +28,10 @@ export default async function RoastersPage({ searchParams }: PageProps) {
 				<div className="container-fluid mx-4 copy text-black">
 					<div className="flex items-center justify-between mb-6 pt-10 md:pt-unset">
 						<h1 className="text-3xl font-bold">{translations("copy.roastersPageTitle")}</h1>
-						<RoastersViewToggle />
+						<div className="flex items-center gap-3">
+							<RoastersDataToggle />
+							<RoastersViewToggle />
+						</div>
 					</div>
 
 					{visibleRoasters.length === 0 ? (

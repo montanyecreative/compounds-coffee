@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getRoasterById, getRoasters, Roaster } from "@/lib/contentful";
+import { getRoasterById, getRoasters, getRoastersTest, Roaster } from "@/lib/contentful";
 import { getTranslations } from "@/lib/i18n";
 import { ExternalLink } from "lucide-react";
 import RoasterLocation from "@/components/location/geocodingClientSide";
@@ -19,7 +19,9 @@ interface RoasterDetailPageProps {
 
 export async function generateStaticParams() {
 	const roasters = await getRoasters();
-	return roasters.map((roaster) => ({
+	const testRoasters = await getRoastersTest();
+	const allRoasters = [...roasters, ...testRoasters];
+	return allRoasters.map((roaster) => ({
 		slug: createRoasterSlug(roaster.fields.shopName as string, roaster.sys.id),
 	}));
 }
@@ -28,9 +30,17 @@ export default async function RoasterDetailPage({ params, searchParams }: Roaste
 	const slug = decodeURIComponent(params.slug);
 	const roasterId = parseRoasterSlug(slug);
 	const langParam = typeof searchParams?.lang === "string" ? searchParams?.lang : undefined;
+	const useTestData = searchParams?.test === "true";
 	const roaster = await getRoasterById(roasterId, langParam);
 	const translations = getTranslations(langParam);
-	const roastersHref = langParam ? `/roasters-and-shops?lang=${encodeURIComponent(langParam)}` : "/roasters-and-shops";
+
+	// Build back link with test parameter if needed
+	const testParam = useTestData ? "&test=true" : "";
+	const roastersHref = langParam
+		? `/roasters-and-shops?lang=${encodeURIComponent(langParam)}${testParam}`
+		: useTestData
+		? "/roasters-and-shops?test=true"
+		: "/roasters-and-shops";
 
 	if (!roaster) {
 		notFound();

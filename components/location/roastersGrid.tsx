@@ -346,10 +346,10 @@ export default function RoastersGrid({ roasters, onLoadingChange }: RoastersGrid
 							: "N/A";
 
 						const roasterSlug = createRoasterSlug(roaster.fields.shopName as string, roaster.sys.id);
-						const roasterDetailUrl =
-							lang && lang !== "en-US"
-								? `/roasters-and-shops/${encodeURIComponent(roasterSlug)}?lang=${encodeURIComponent(lang)}`
-								: `/roasters-and-shops/${encodeURIComponent(roasterSlug)}`;
+						const testParam = searchParams?.get("test") === "true" ? "&test=true" : "";
+						const langParam =
+							lang && lang !== "en-US" ? `?lang=${encodeURIComponent(lang)}${testParam}` : testParam ? `?test=true` : "";
+						const roasterDetailUrl = `/roasters-and-shops/${encodeURIComponent(roasterSlug)}${langParam}`;
 
 						return (
 							<Card key={roaster.sys.id} className="p-5 border rounded hover:shadow-lg transition-shadow">

@@ -79,7 +79,7 @@ interface BrewMethodSkeleton extends EntrySkeletonType {
 
 // -------------------- Roaster and Shop Content --------------------
 interface RoasterAndShopSkeleton extends EntrySkeletonType {
-	contentTypeId: "roastersAndShops";
+	contentTypeId: "roastersAndShops" | "roastersAndShopsTest";
 	fields: {
 		shopName: string;
 		shopLocation: {
@@ -279,11 +279,27 @@ export async function getRoasters(locale?: string): Promise<Roaster[]> {
 	}
 }
 
+// Fetch all roasters or shops from test content model
+export async function getRoastersTest(locale?: string): Promise<Roaster[]> {
+	try {
+		const entries = await client.getEntries<RoasterAndShopSkeleton>({
+			content_type: "roastersAndShopsTest",
+			...(locale ? { locale } : {}),
+		});
+		return entries.items as Roaster[];
+	} catch (error) {
+		console.error("Error fetching roasters or shops from test model:", error);
+		return [];
+	}
+}
+
 // Fetch a single roaster or shop by ID
 export async function getRoasterById(id: string, locale?: string): Promise<Roaster | null> {
 	try {
 		const entry = await client.getEntry<RoasterAndShopSkeleton>(id, locale ? { locale } : undefined);
-		if (entry.sys.contentType.sys.id === "roastersAndShops") return entry as Roaster;
+		if (entry.sys.contentType.sys.id === "roastersAndShops" || entry.sys.contentType.sys.id === "roastersAndShopsTest") {
+			return entry as Roaster;
+		}
 		return null;
 	} catch (error) {
 		console.error("Error fetching roaster or shop:", error);

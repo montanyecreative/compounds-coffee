@@ -8,6 +8,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from "@react-
 import { useTranslations } from "@/lib/useTranslations";
 import { createGeocodingFunction } from "@/lib/geocoding";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { defaultMapOptions, styledMapOptions } from "./googleMapStyles";
 import { createRoasterSlug } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ const mapContainerStyle = {
 
 export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapProps) {
 	const { translations, lang } = useTranslations();
+	const searchParams = useSearchParams();
 	const [selectedRoaster, setSelectedRoaster] = useState<string | null>(null);
 	const [mapView, setMapView] = useState<"map" | "list">("map");
 	const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -417,21 +419,20 @@ export default function RoastersMap({ roasters, onLoadingChange }: RoastersMapPr
 													<div className="p-2">
 														<h3 className="font-semibold text-sm mb-1">{roaster.fields.shopName}</h3>
 														<Link
-															href={
-																lang && lang !== "en-US"
-																	? `/roasters-and-shops/${encodeURIComponent(
-																			createRoasterSlug(
-																				roaster.fields.shopName as string,
-																				roaster.sys.id
-																			)
-																	  )}?lang=${encodeURIComponent(lang)}`
-																	: `/roasters-and-shops/${encodeURIComponent(
-																			createRoasterSlug(
-																				roaster.fields.shopName as string,
-																				roaster.sys.id
-																			)
-																	  )}`
-															}
+															href={(() => {
+																const roasterSlug = createRoasterSlug(
+																	roaster.fields.shopName as string,
+																	roaster.sys.id
+																);
+																const testParam = searchParams?.get("test") === "true" ? "&test=true" : "";
+																const langParam =
+																	lang && lang !== "en-US"
+																		? `?lang=${encodeURIComponent(lang)}${testParam}`
+																		: testParam
+																		? `?test=true`
+																		: "";
+																return `/roasters-and-shops/${encodeURIComponent(roasterSlug)}${langParam}`;
+															})()}
 															className="text-xs text-blue-600 hover:underline"
 														>
 															{translations("roasters.map.visitWebsite")}
