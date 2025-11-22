@@ -1,16 +1,24 @@
-import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export default async function middleware(req: NextRequest) {
-	const session = await auth();
+export default function middleware(req: NextRequest) {
 	const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
 
 	// Protect routes that start with /admin
-	if (isAdminRoute && !session) {
-		const loginUrl = new URL("/login", req.url);
-		loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
-		return NextResponse.redirect(loginUrl);
+	if (isAdminRoute) {
+		// Check for NextAuth session cookie (NextAuth v5 uses authjs.session-token)
+		// Also check for __Secure- prefix in production and other common patterns
+		const sessionToken =
+			req.cookies.get("authjs.session-token")?.value ||
+			req.cookies.get("__Secure-authjs.session-token")?.value ||
+			req.cookies.get("next-auth.session-token")?.value ||
+			req.cookies.get("__Secure-next-auth.session-token")?.value;
+
+		if (!sessionToken) {
+			const loginUrl = new URL("/login", req.url);
+			loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
+			return NextResponse.redirect(loginUrl);
+		}
 	}
 
 	return NextResponse.next();
