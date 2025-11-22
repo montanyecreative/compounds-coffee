@@ -1,10 +1,33 @@
 import { createClient, Entry, EntrySkeletonType } from "contentful";
+import { createClient as createManagementClient } from "contentful-management";
 
-// Create the Contentful client
+// Create the Contentful client (for reading)
 const client = createClient({
 	space: process.env.CONTENTFUL_SPACE_ID!,
 	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN!,
 });
+
+// Create the Contentful Management client (for writing)
+// Note: Management API token is different from Content Delivery API token
+// We create it lazily to avoid initialization errors at module load
+let managementClient: ReturnType<typeof createManagementClient> | null = null;
+
+const getManagementClient = () => {
+	if (!managementClient) {
+		const token = process.env.CONTENTFUL_MANAGEMENT_TOKEN;
+		if (!token) {
+			throw new Error(
+				"CONTENTFUL_MANAGEMENT_TOKEN is required for creating entries. Please set it in your environment variables. " +
+					"Get it from Contentful Settings > CMA tokens > Create personal access token. " +
+					"Note: This is different from Content Delivery API or Content Preview API tokens."
+			);
+		}
+		managementClient = createManagementClient({
+			accessToken: token,
+		});
+	}
+	return managementClient;
+};
 
 // Define types for your content
 interface CoffeeBrewSkeleton extends EntrySkeletonType {
@@ -282,5 +305,77 @@ export async function getRoasterByName(name: string, locale?: string): Promise<R
 	} catch (error) {
 		console.error("Error fetching roaster or shop by name:", error);
 		return null;
+	}
+}
+
+// Create a roaster entry in Contentful
+export interface CreateRoasterData {
+	shopName: string;
+	shopLocation?: {
+		lat: number;
+		lon: number;
+	};
+	shopWebsite?: string;
+	shopPhoneNumber?: string;
+}
+
+export async function createRoasterEntry(data: CreateRoasterData): Promise<Roaster | null> {
+	try {
+		const client = getManagementClient();
+		const space = await (client as any).getSpace(process.env.CONTENTFUL_SPACE_ID!);
+		const environment = await space.getEnvironment("master");
+
+		const entry = await environment.createEntry("roastersAndShopsTest", {
+			fields: {
+				shopName: {
+					"en-US": data.shopName,
+				},
+				...(data.shopLocation && {
+					shopLocation: {
+						"en-US": {
+							lat: data.shopLocation.lat,
+							lon: data.shopLocation.lon,
+						},
+					},
+				}),
+				...(data.shopWebsite && {
+					shopWebsite: {
+						"en-US": data.shopWebsite,
+					},
+				}),
+				...(data.shopPhoneNumber && {
+					shopPhoneNumber: {
+						"en-US": data.shopPhoneNumber,
+					},
+				}),
+			},
+		});
+
+		// Publish the entry
+		await entry.publish();
+
+		// Fetch the created entry using the read client to return it in the expected format
+		return await getRoasterById(entry.sys.id);
+	} catch (error: any) {
+		console.error("Error creating roaster entry:", error);
+
+		// Provide more helpful error messages
+		if (error?.name === "AccessTokenInvalid" || error?.status === 403) {
+			const token = process.env.CONTENTFUL_MANAGEMENT_TOKEN;
+			if (token) {
+				throw new Error(
+					"Invalid Contentful Management API token. Please verify that CONTENTFUL_MANAGEMENT_TOKEN is a valid Personal Access Token (PAT). " +
+						"Get a new token from Contentful Settings > CMA tokens > Create personal access token. " +
+						"Note: Personal Access Tokens are different from Content Delivery API or Content Preview API tokens."
+				);
+			} else {
+				throw new Error(
+					"CONTENTFUL_MANAGEMENT_TOKEN is not set. Please add it to your environment variables. " +
+						"Get it from Contentful Settings > CMA tokens > Create personal access token."
+				);
+			}
+		}
+
+		throw error;
 	}
 }

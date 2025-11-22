@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { RoasterUpload } from "@/components/admin/roasterUpload";
 
 export function DashboardTabs() {
 	return (
@@ -90,16 +93,43 @@ export function DashboardTabs() {
 						<CardDescription className="text-gray-600">Manage roasters and coffee shops</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<div className="space-y-4">
-							<p className="text-gray-600">This section will allow you to:</p>
-							<ul className="list-disc list-inside space-y-2 text-gray-600 ml-4">
-								<li>Add, edit, and remove roasters</li>
-								<li>Manage coffee shop locations</li>
-								<li>Update location information and hours</li>
-								<li>Moderate user-submitted roaster information</li>
-							</ul>
-							<div className="mt-6 p-4 bg-gray-50 rounded-md">
-								<p className="text-sm text-gray-500">Feature coming soon...</p>
+						<div className="space-y-6">
+							<div>
+								<h3 className="text-lg font-semibold text-gray-900 mb-2">Upload Roasters from Excel</h3>
+								<p className="text-sm text-gray-600 mb-4">
+									Upload an Excel file (.xlsx, .xls) or CSV file with roaster information. The file should include columns
+									for:
+								</p>
+								<ul className="list-disc list-inside space-y-1 text-sm text-gray-600 ml-4 mb-4">
+									<li>
+										<strong>Shop Name</strong> (required) - Column name should include &quot;name&quot; or
+										&quot;shop&quot;
+									</li>
+									<li>
+										<strong>Address</strong> (optional) - Column name should include &quot;address&quot; or
+										&quot;location&quot;. Will be automatically geocoded to coordinates.
+									</li>
+									<li>
+										<strong>Latitude</strong> (optional) - Column name should include &quot;lat&quot; or
+										&quot;latitude&quot;. Takes precedence over address if both are provided.
+									</li>
+									<li>
+										<strong>Longitude</strong> (optional) - Column name should include &quot;lon&quot;, &quot;lng&quot;,
+										or &quot;longitude&quot;. Takes precedence over address if both are provided.
+									</li>
+									<li>
+										<strong>Website</strong> (optional) - Column name should include &quot;website&quot;,
+										&quot;url&quot;, or &quot;web&quot;
+									</li>
+									<li>
+										<strong>Phone</strong> (optional) - Column name should include &quot;phone&quot; or &quot;tel&quot;
+									</li>
+								</ul>
+								<p className="text-xs text-gray-500 mb-4 italic">
+									Note: If you provide an address, it will be automatically converted to latitude and longitude
+									coordinates using Google Maps Geocoding API.
+								</p>
+								<RoasterUpload />
 							</div>
 						</div>
 					</CardContent>

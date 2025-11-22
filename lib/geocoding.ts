@@ -8,6 +8,42 @@ interface GeocodeOptions {
 }
 
 /**
+ * Geocodes an address to latitude and longitude coordinates using Google Maps Geocoding API
+ * @param address - The address string to geocode
+ * @returns Promise with lat/lon coordinates or null if geocoding fails
+ */
+export async function geocodeAddress(address: string): Promise<{ lat: number; lon: number } | null> {
+	try {
+		const apiKey = process.env.GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+		if (!apiKey) {
+			console.error("Google Maps API key not found");
+			return null;
+		}
+
+		const encodedAddress = encodeURIComponent(address);
+		const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+
+		const response = await fetch(url);
+		const data = await response.json();
+
+		if (data.status === "OK" && data.results && data.results.length > 0) {
+			const location = data.results[0].geometry.location;
+			return {
+				lat: location.lat,
+				lon: location.lng,
+			};
+		} else {
+			console.error("Geocoding failed:", data.status, data.error_message);
+			return null;
+		}
+	} catch (error) {
+		console.error("Error geocoding address:", error);
+		return null;
+	}
+}
+
+/**
  * Performs reverse geocoding for roaster locations to get formatted addresses.
  *
  * @param options - Configuration options for geocoding
