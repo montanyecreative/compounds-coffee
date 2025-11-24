@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getCoffeeBrews, getBrewMethods, getRoasters } from "@/lib/contentful";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const session = await auth();

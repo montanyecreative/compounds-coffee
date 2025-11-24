@@ -4,6 +4,8 @@ import { createRoasterEntry, CreateRoasterData } from "@/lib/contentful";
 import { geocodeAddress } from "@/lib/geocoding";
 import * as XLSX from "xlsx";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
 	try {
 		// Check authentication

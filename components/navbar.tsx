@@ -65,7 +65,7 @@ function NavbarContent() {
 						</Link>
 					</div>
 
-					<ul className="list-none sm:flex hidden justify-end flex-1 items-center">
+					<ul className="list-none lg:flex hidden justify-end flex-1 items-center">
 						{navLinks.map((nav, index) => (
 							<li
 								key={nav.id}
@@ -81,7 +81,7 @@ function NavbarContent() {
 							</li>
 						))}
 					</ul>
-					<div className="hidden md:flex ml-2 items-center gap-3 text-white text-[12px]">
+					<div className="hidden lg:flex ml-2 items-center gap-3 text-white text-[12px]">
 						{status === "authenticated" ? (
 							<span className="text-white uppercase cursor-pointer text-[12px] lg:text-[13px] mr-3 md:mr-5">
 								<Link href="/admin" className={`hover:custom-hover ${currentRoute === "/admin" ? "custom-underline" : ""}`}>
@@ -115,7 +115,7 @@ function NavbarContent() {
 							FR
 						</a>
 					</div>
-					<div className="sm:hidden flex flex-1 justify-end items-center">
+					<div className="lg:hidden flex flex-1 justify-end items-center">
 						<button
 							className="w-[28px] h-[28px] flex items-center justify-center"
 							onClick={() => setToggle(!toggle)}

@@ -4,6 +4,8 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { createCoffeeBrewEntry, CreateCoffeeBrewData } from "@/lib/contentful";
 
+export const dynamic = "force-dynamic";
+
 const numericField = z.preprocess((val) => {
 	if (typeof val === "string") {
 		const trimmed = val.trim();

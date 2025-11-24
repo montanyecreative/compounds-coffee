@@ -41,8 +41,12 @@ export default function RoastersDataToggle() {
 	};
 
 	return (
-		<Button onClick={toggleDataSource} variant={isTestMode ? "default" : "outline"} className="text-sm" size="sm">
-			{isTestMode ? "Using Test Data" : "Using Production Data"}
+		<Button
+			onClick={toggleDataSource}
+			variant="outline"
+			className="text-xs sm:text-sm px-5 sm:px-4 py-3 sm:py-2 whitespace-normal break-words w-full sm:w-auto min-h-[48px] sm:min-h-0 leading-normal"
+		>
+			{isTestMode ? "Test Data" : "Production Data"}
 		</Button>
 	);
 }
