@@ -4,7 +4,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCoffeeBrewByName, getCoffeeBrews, Roaster } from "@/lib/contentful";
-import { gramsToFluidOunces, createRoasterSlug } from "@/lib/utils";
+import { gramsToFluidOunces, createRoasterSlug, formatBrewDate } from "@/lib/utils";
 import { getTranslations } from "@/lib/i18n";
 
 interface BrewDetailPageProps {
@@ -113,7 +113,7 @@ export default async function BrewDetailPage({ params, searchParams }: BrewDetai
 									<div className="space-y-3">
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">{translations("labels.date")}:</span>
-											<span>{brew.fields.brewDate}</span>
+											<span>{formatBrewDate(brew.fields.brewDate as string)}</span>
 										</div>
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">{translations("labels.method")}:</span>

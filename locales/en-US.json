@@ -131,6 +131,10 @@
 			"max": "Max",
 			"namePlaceholder": "Search by name...",
 			"datePlaceholder": "Search by date...",
+			"dateModeSpecific": "Specific date",
+			"dateModeRange": "Date range",
+			"startDate": "Start date",
+			"endDate": "End date",
 			"tastingPlaceholder": "Search tasting highlights...",
 			"resultsCount": "Showing {count} of {total} brews"
 		}

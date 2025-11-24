@@ -131,6 +131,10 @@
 			"max": "Max",
 			"namePlaceholder": "Rechercher par nom...",
 			"datePlaceholder": "Rechercher par date...",
+			"dateModeSpecific": "Date précise",
+			"dateModeRange": "Plage de dates",
+			"startDate": "Date de début",
+			"endDate": "Date de fin",
 			"tastingPlaceholder": "Rechercher les points forts...",
 			"resultsCount": "Affichage de {count} sur {total} infusions"
 		}

@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { CoffeeBrewPost } from "@/lib/contentful";
 import { useTranslations } from "@/lib/useTranslations";
 import { ArrowUp, ArrowDown } from "lucide-react";
+import { formatBrewDate } from "@/lib/utils";
 
 interface BrewsTableProps {
 	brews: CoffeeBrewPost[];
@@ -68,7 +69,7 @@ export default function BrewsTable({ brews, sortColumn, sortDirection, onSort }:
 								<TableCell>{brew.fields.roastLevel}</TableCell>
 								<TableCell>{brew.fields.process}</TableCell>
 								<TableCell>{brew.fields.brewMethod}</TableCell>
-								<TableCell>{brew.fields.brewDate}</TableCell>
+								<TableCell>{formatBrewDate(brew.fields.brewDate as string)}</TableCell>
 								<TableCell>
 									{brew.fields.coffeeDose}
 									{brew.fields.coffeeDose ? "g" : ""}

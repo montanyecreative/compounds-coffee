@@ -21,7 +21,8 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 	const [roastLevelFilter, setRoastLevelFilter] = useState("");
 	const [processFilter, setProcessFilter] = useState("");
 	const [brewMethodFilter, setBrewMethodFilter] = useState("");
-	const [brewDateFilter, setBrewDateFilter] = useState("");
+	const [brewDateRangeStart, setBrewDateRangeStart] = useState("");
+	const [brewDateRangeEnd, setBrewDateRangeEnd] = useState("");
 	const [coffeeDoseMin, setCoffeeDoseMin] = useState("");
 	const [coffeeDoseMax, setCoffeeDoseMax] = useState("");
 	const [coffeeYieldMin, setCoffeeYieldMin] = useState("");
@@ -64,6 +65,15 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 
 	// Filter brews based on all filter criteria
 	const filteredBrews = useMemo(() => {
+		const parseDateSafely = (value?: string) => {
+			if (!value) return null;
+			const parsed = new Date(value);
+			return isNaN(parsed.getTime()) ? null : parsed;
+		};
+
+		const rangeStartValue = parseDateSafely(brewDateRangeStart);
+		const rangeEndValue = parseDateSafely(brewDateRangeEnd);
+
 		return brews.filter((brew) => {
 			// Name filter (case-insensitive partial match)
 			if (nameFilter) {
@@ -89,11 +99,27 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 				return false;
 			}
 
-			// Brew date filter (exact match or partial match)
-			if (brewDateFilter) {
-				const brewDate = brew.fields.brewDate as string | undefined;
-				if (typeof brewDate !== "string" || !brewDate.includes(brewDateFilter)) {
+			// Date range filter
+			if (rangeStartValue || rangeEndValue) {
+				const brewDateValue = parseDateSafely(brew.fields.brewDate as string | undefined);
+				if (!brewDateValue) {
 					return false;
+				}
+
+				if (rangeStartValue) {
+					const startOfDay = new Date(rangeStartValue);
+					startOfDay.setHours(0, 0, 0, 0);
+					if (brewDateValue < startOfDay) {
+						return false;
+					}
+				}
+
+				if (rangeEndValue) {
+					const endOfDay = new Date(rangeEndValue);
+					endOfDay.setHours(23, 59, 59, 999);
+					if (brewDateValue > endOfDay) {
+						return false;
+					}
 				}
 			}
 
@@ -131,7 +157,8 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 		roastLevelFilter,
 		processFilter,
 		brewMethodFilter,
-		brewDateFilter,
+		brewDateRangeStart,
+		brewDateRangeEnd,
 		coffeeDoseMin,
 		coffeeDoseMax,
 		coffeeYieldMin,
@@ -208,7 +235,8 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 		setRoastLevelFilter("");
 		setProcessFilter("");
 		setBrewMethodFilter("");
-		setBrewDateFilter("");
+		setBrewDateRangeStart("");
+		setBrewDateRangeEnd("");
 		setCoffeeDoseMin("");
 		setCoffeeDoseMax("");
 		setCoffeeYieldMin("");
@@ -216,18 +244,34 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 		setTastingHighlightsFilter("");
 	};
 
+	const dateFilterActive = Boolean(brewDateRangeStart || brewDateRangeEnd);
+
 	const hasActiveFilters =
 		nameFilter ||
 		regionFilter ||
 		roastLevelFilter ||
 		processFilter ||
 		brewMethodFilter ||
-		brewDateFilter ||
+		dateFilterActive ||
 		coffeeDoseMin ||
 		coffeeDoseMax ||
 		coffeeYieldMin ||
 		coffeeYieldMax ||
 		tastingHighlightsFilter;
+
+	const activeFilterCount =
+		Object.values({
+			nameFilter,
+			regionFilter,
+			roastLevelFilter,
+			processFilter,
+			brewMethodFilter,
+			coffeeDoseMin,
+			coffeeDoseMax,
+			coffeeYieldMin,
+			coffeeYieldMax,
+			tastingHighlightsFilter,
+		}).filter(Boolean).length + (dateFilterActive ? 1 : 0);
 
 	return (
 		<div className="pb-10">
@@ -237,23 +281,7 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 					<Filter className="h-4 w-4" />
 					<span>{translations("coffeeBrews.filters.title")}</span>
 					{hasActiveFilters && (
-						<span className="ml-2 px-2 py-0.5 text-xs bg-brown text-white rounded-full">
-							{
-								Object.values({
-									nameFilter,
-									regionFilter,
-									roastLevelFilter,
-									processFilter,
-									brewMethodFilter,
-									brewDateFilter,
-									coffeeDoseMin,
-									coffeeDoseMax,
-									coffeeYieldMin,
-									coffeeYieldMax,
-									tastingHighlightsFilter,
-								}).filter(Boolean).length
-							}
-						</span>
+						<span className="ml-2 px-2 py-0.5 text-xs bg-brown text-white rounded-full">{activeFilterCount}</span>
 					)}
 				</Button>
 			</div>
@@ -359,12 +387,24 @@ export default function BrewsFilters({ brews }: BrewsFiltersProps) {
 
 							<div className="space-y-2">
 								<label className="text-sm font-medium text-gray-700">{translations("labels.brewDate")}</label>
-								<Input
-									type="text"
-									placeholder={translations("coffeeBrews.filters.datePlaceholder")}
-									value={brewDateFilter}
-									onChange={(e) => setBrewDateFilter(e.target.value)}
-								/>
+								<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+									<div className="space-y-1">
+										<span className="text-xs font-medium text-gray-600">
+											{translations("coffeeBrews.filters.startDate")}
+										</span>
+										<Input
+											type="date"
+											value={brewDateRangeStart}
+											onChange={(e) => setBrewDateRangeStart(e.target.value)}
+										/>
+									</div>
+									<div className="space-y-1">
+										<span className="text-xs font-medium text-gray-600">
+											{translations("coffeeBrews.filters.endDate")}
+										</span>
+										<Input type="date" value={brewDateRangeEnd} onChange={(e) => setBrewDateRangeEnd(e.target.value)} />
+									</div>
+								</div>
 							</div>
 
 							<div className="space-y-2">
