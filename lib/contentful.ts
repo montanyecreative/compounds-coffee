@@ -395,3 +395,141 @@ export async function createRoasterEntry(data: CreateRoasterData): Promise<Roast
 		throw error;
 	}
 }
+
+export interface CreateCoffeeBrewData {
+	name: string;
+	slug?: string;
+	region: string;
+	roastLevel: string;
+	process: string;
+	brewMethod: string;
+	brewDate: string;
+	grinder: string;
+	grindSetting: number;
+	waterTemp: number;
+	coffeeDose: number;
+	bloomYield: number;
+	coffeeYield: number;
+	bloomTime: string;
+	brewTime: string;
+	tastingHighlights: string;
+	tastingNotes: string;
+	notes: string;
+	link: string;
+	price: number;
+	roasterId?: string;
+}
+
+export async function createCoffeeBrewEntry(data: CreateCoffeeBrewData): Promise<CoffeeBrewPost | null> {
+	try {
+		const management = getManagementClient();
+		const space = await (management as any).getSpace(process.env.CONTENTFUL_SPACE_ID!);
+		const environment = await space.getEnvironment("master");
+
+		const entry = await environment.createEntry("coffee", {
+			fields: {
+				name: {
+					"en-US": data.name,
+				},
+				...(data.slug && {
+					slug: {
+						"en-US": data.slug,
+					},
+				}),
+				region: {
+					"en-US": data.region,
+				},
+				roastLevel: {
+					"en-US": data.roastLevel,
+				},
+				process: {
+					"en-US": data.process,
+				},
+				brewMethod: {
+					"en-US": data.brewMethod,
+				},
+				brewDate: {
+					"en-US": data.brewDate,
+				},
+				grinder: {
+					"en-US": data.grinder,
+				},
+				grindSetting: {
+					"en-US": data.grindSetting,
+				},
+				waterTemp: {
+					"en-US": data.waterTemp,
+				},
+				coffeeDose: {
+					"en-US": data.coffeeDose,
+				},
+				bloomYield: {
+					"en-US": data.bloomYield,
+				},
+				coffeeYield: {
+					"en-US": data.coffeeYield,
+				},
+				bloomTime: {
+					"en-US": data.bloomTime,
+				},
+				brewTime: {
+					"en-US": data.brewTime,
+				},
+				tastingHighlights: {
+					"en-US": data.tastingHighlights,
+				},
+				tastingNotes: {
+					"en-US": data.tastingNotes,
+				},
+				notes: {
+					"en-US": data.notes,
+				},
+				link: {
+					"en-US": data.link,
+				},
+				price: {
+					"en-US": data.price,
+				},
+				...(data.roasterId && {
+					roaster: {
+						"en-US": {
+							sys: {
+								type: "Link",
+								linkType: "Entry",
+								id: data.roasterId,
+							},
+						},
+					},
+				}),
+			},
+		});
+
+		await entry.publish();
+
+		const created = await client.getEntry<CoffeeBrewSkeleton>(entry.sys.id, {
+			include: 2,
+		} as any);
+
+		return created as CoffeeBrewPost;
+	} catch (error: any) {
+		console.error("Error creating coffee brew entry:", error);
+
+		if (error?.name === "AccessTokenInvalid" || error?.status === 403) {
+			const token = process.env.CONTENTFUL_MANAGEMENT_TOKEN;
+			if (token) {
+				throw new Error(
+					"Invalid Contentful Management API token. Please verify that CONTENTFUL_MANAGEMENT_TOKEN is a valid Personal Access Token (PAT). " +
+						"Get a new token from Contentful Settings > CMA tokens > Create personal access token. " +
+						"Note: Personal Access Tokens are different from Content Delivery API or Content Preview API tokens."
+				);
+			} else {
+				throw new Error(
+					"CONTENTFUL_MANAGEMENT_TOKEN is not set. Please add it to your environment variables. " +
+						"Get it from Contentful Settings > CMA tokens > Create personal access token."
+				);
+			}
+		}
+
+		throw error;
+	}
+}

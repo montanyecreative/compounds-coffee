@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { RoasterUpload } from "@/components/admin/roasterUpload";
+import { CreateBrewForm } from "@/components/admin/createBrewForm";
 
 export function DashboardTabs() {
 	return (
 		<Tabs defaultValue="overview" className="w-full">
 			<TabsList className="mb-6">
 				<TabsTrigger value="overview">Overview</TabsTrigger>
-				{/* <TabsTrigger value="brews">Brews</TabsTrigger> */}
+				<TabsTrigger value="brews">Brews</TabsTrigger>
 				<TabsTrigger value="roasters">Roasters</TabsTrigger>
 				{/* <TabsTrigger value="users">Users</TabsTrigger> */}
 			</TabsList>
@@ -63,28 +62,19 @@ export function DashboardTabs() {
 				</Card>
 			</TabsContent>
 
-			{/* <TabsContent value="brews">
+			<TabsContent value="brews">
 				<Card className="bg-white">
 					<CardHeader>
-						<CardTitle className="text-gray-900">Brew Management</CardTitle>
-						<CardDescription className="text-gray-600">Manage coffee brews and brewing methods</CardDescription>
+						<CardTitle className="text-gray-900">Add a Brew</CardTitle>
+						<CardDescription className="text-gray-600">Add new coffee brews directly to Contentful</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<div className="space-y-4">
-							<p className="text-gray-600">This section will allow you to:</p>
-							<ul className="list-disc list-inside space-y-2 text-gray-600 ml-4">
-								<li>View and manage all coffee brews</li>
-								<li>Edit brew details and information</li>
-								<li>Approve or reject user-submitted brews</li>
-								<li>Manage brewing methods and categories</li>
-							</ul>
-							<div className="mt-6 p-4 bg-gray-50 rounded-md">
-								<p className="text-sm text-gray-500">Feature coming soon...</p>
-							</div>
+						<div className="space-y-6">
+							<CreateBrewForm />
 						</div>
 					</CardContent>
 				</Card>
-			</TabsContent> */}
+			</TabsContent>
 
 			<TabsContent value="roasters">
 				<Card className="bg-white">

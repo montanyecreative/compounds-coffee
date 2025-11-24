@@ -90,7 +90,11 @@ export function RoasterUpload() {
 			{file && (
 				<div className="flex items-center gap-4 p-3 bg-gray-50 rounded-md">
 					<span className="text-sm text-gray-700 flex-1">{file.name}</span>
-					<Button onClick={handleUpload} disabled={uploading} className="min-w-[120px]">
+					<Button
+						onClick={handleUpload}
+						disabled={uploading}
+						className="min-w-[120px] rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]"
+					>
 						{uploading ? "Uploading..." : "Upload"}
 					</Button>
 				</div>
