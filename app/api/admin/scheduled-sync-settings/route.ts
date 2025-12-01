@@ -12,14 +12,19 @@ export async function GET() {
 			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}
 
-		// Get or create settings
-		let settings = await prisma.settings.findUnique({
+		// Get or create settings (using type assertion for Prisma client)
+		const settingsModel = (prisma as any).settings;
+		if (!settingsModel) {
+			return NextResponse.json({ error: "Settings model not available. Please run migrations." }, { status: 500 });
+		}
+
+		let settings = await settingsModel.findUnique({
 			where: { id: "settings" },
 		});
 
 		if (!settings) {
 			// Create default settings if they don't exist
-			settings = await prisma.settings.create({
+			settings = await settingsModel.create({
 				data: {
 					id: "settings",
 					scheduledSyncEnabled: false,
@@ -55,8 +60,13 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json({ error: "scheduledSyncTime must be a string" }, { status: 400 });
 		}
 
-		// Update or create settings
-		const settings = await prisma.settings.upsert({
+		// Update or create settings (using type assertion for Prisma client)
+		const settingsModel = (prisma as any).settings;
+		if (!settingsModel) {
+			return NextResponse.json({ error: "Settings model not available. Please run migrations." }, { status: 500 });
+		}
+
+		const settings = await settingsModel.upsert({
 			where: { id: "settings" },
 			update: {
 				scheduledSyncEnabled,

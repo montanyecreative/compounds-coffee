@@ -33,27 +33,29 @@ export async function GET(request: NextRequest) {
 			return NextResponse.json({ error: "Database connection not available" }, { status: 500 });
 		}
 
-		// Verify prisma.settings exists
-		if (!prisma.settings) {
-			console.error("Prisma Settings model is not available. Make sure the migration was run and Prisma client was regenerated.");
-			return NextResponse.json(
-				{
-					error: "Database model not available",
-					message: "Settings model not found. Please run migrations and regenerate Prisma client.",
-				},
-				{ status: 500 }
-			);
-		}
-
+		// Access settings model with type safety
 		let settings;
 		try {
-			settings = await prisma.settings.findUnique({
+			// Type assertion to handle Prisma client types
+			const settingsModel = (prisma as any).settings;
+			if (!settingsModel) {
+				console.error("Prisma Settings model is not available. Make sure the migration was run and Prisma client was regenerated.");
+				return NextResponse.json(
+					{
+						error: "Database model not available",
+						message: "Settings model not found. Please run migrations and regenerate Prisma client.",
+					},
+					{ status: 500 }
+				);
+			}
+
+			settings = await settingsModel.findUnique({
 				where: { id: "settings" },
 			});
 
 			// If settings don't exist, create default (disabled)
 			if (!settings) {
-				settings = await prisma.settings.create({
+				settings = await (prisma as any).settings.create({
 					data: {
 						id: "settings",
 						scheduledSyncEnabled: false,
