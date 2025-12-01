@@ -335,6 +335,71 @@ export interface CreateRoasterData {
 	shopPhoneNumber?: string;
 }
 
+// Delete all entries of type roastersAndShopsTest
+export async function deleteAllRoastersTest(): Promise<number> {
+	try {
+		const management = getManagementClient();
+		const space = await (management as any).getSpace(process.env.CONTENTFUL_SPACE_ID!);
+		const environment = await space.getEnvironment("master");
+
+		// Get all entries of type roastersAndShopsTest
+		const entries = await environment.getEntries({
+			content_type: "roastersAndShopsTest",
+			limit: 1000, // Contentful has a limit, but we'll handle pagination if needed
+		});
+
+		let deletedCount = 0;
+
+		// Delete each entry (must unpublish first if published)
+		for (const entry of entries.items) {
+			try {
+				// Unpublish if published
+				if (entry.isPublished()) {
+					await entry.unpublish();
+				}
+				// Delete the entry
+				await entry.delete();
+				deletedCount++;
+			} catch (error: any) {
+				console.error(`Error deleting entry ${entry.sys.id}:`, error.message);
+				// Continue with other entries even if one fails
+			}
+		}
+
+		// Handle pagination if there are more than 1000 entries
+		if (entries.total > entries.items.length) {
+			let skip = entries.items.length;
+			while (skip < entries.total) {
+				const moreEntries = await environment.getEntries({
+					content_type: "roastersAndShopsTest",
+					limit: 1000,
+					skip: skip,
+				});
+
+				for (const entry of moreEntries.items) {
+					try {
+						if (entry.isPublished()) {
+							await entry.unpublish();
+						}
+						await entry.delete();
+						deletedCount++;
+					} catch (error: any) {
+						console.error(`Error deleting entry ${entry.sys.id}:`, error.message);
+					}
+				}
+
+				skip += moreEntries.items.length;
+			}
+		}
+
+		console.log(`Deleted ${deletedCount} roastersAndShopsTest entries`);
+		return deletedCount;
+	} catch (error: any) {
+		console.error("Error deleting roastersAndShopsTest entries:", error);
+		throw error;
+	}
+}
+
 export async function createRoasterEntry(data: CreateRoasterData): Promise<Roaster | null> {
 	try {
 		const client = getManagementClient();

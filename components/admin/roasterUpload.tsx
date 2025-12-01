@@ -1,14 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 interface UploadResult {
 	message: string;
 	successCount: number;
 	errorCount: number;
+	deletedCount?: number;
 	success: string[];
 	errors: string[];
+}
+
+interface ScheduledSyncSettings {
+	scheduledSyncEnabled: boolean;
+	scheduledSyncTime: string;
 }
 
 export function RoasterUpload() {
@@ -16,6 +22,58 @@ export function RoasterUpload() {
 	const [uploading, setUploading] = useState(false);
 	const [result, setResult] = useState<UploadResult | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [scheduledSyncEnabled, setScheduledSyncEnabled] = useState(false);
+	const [scheduledSyncTime, setScheduledSyncTime] = useState("13:10");
+	const [loadingSettings, setLoadingSettings] = useState(true);
+	const [updatingSettings, setUpdatingSettings] = useState(false);
+
+	// Load scheduled sync settings on mount
+	useEffect(() => {
+		const loadSettings = async () => {
+			try {
+				const response = await fetch("/api/admin/scheduled-sync-settings");
+				if (response.ok) {
+					const settings: ScheduledSyncSettings = await response.json();
+					setScheduledSyncEnabled(settings.scheduledSyncEnabled);
+					setScheduledSyncTime(settings.scheduledSyncTime || "13:10");
+				}
+			} catch (err) {
+				console.error("Error loading settings:", err);
+			} finally {
+				setLoadingSettings(false);
+			}
+		};
+		loadSettings();
+	}, []);
+
+	const handleToggleScheduledSync = async (enabled: boolean) => {
+		setUpdatingSettings(true);
+		try {
+			const response = await fetch("/api/admin/scheduled-sync-settings", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					scheduledSyncEnabled: enabled,
+					scheduledSyncTime: scheduledSyncTime,
+				}),
+			});
+
+			if (response.ok) {
+				const settings: ScheduledSyncSettings = await response.json();
+				setScheduledSyncEnabled(settings.scheduledSyncEnabled);
+				setScheduledSyncTime(settings.scheduledSyncTime);
+			} else {
+				const error = await response.json();
+				setError(error.error || "Failed to update settings");
+			}
+		} catch (err: any) {
+			setError(err.message || "An error occurred while updating settings");
+		} finally {
+			setUpdatingSettings(false);
+		}
+	};
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files?.[0];
@@ -54,6 +112,30 @@ export function RoasterUpload() {
 			setResult(data);
 		} catch (err: any) {
 			setError(err.message || "An error occurred while uploading the file");
+		} finally {
+			setUploading(false);
+		}
+	};
+
+	const handleSyncFromSFTP = async () => {
+		setUploading(true);
+		setError(null);
+		setResult(null);
+
+		try {
+			const response = await fetch("/api/admin/sync-roasters-sftp", {
+				method: "POST",
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || "Failed to sync from SFTP");
+			}
+
+			setResult(data);
+		} catch (err: any) {
+			setError(err.message || "An error occurred while syncing from SFTP");
 		} finally {
 			setUploading(false);
 		}
@@ -100,6 +182,40 @@ export function RoasterUpload() {
 				</div>
 			)}
 
+			<div className="mt-4 space-y-4">
+				<Button
+					onClick={handleSyncFromSFTP}
+					disabled={uploading}
+					className="min-w-[120px] rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]"
+				>
+					{uploading ? "Syncing..." : "Sync from SFTP"}
+				</Button>
+
+				<div className="p-4 bg-gray-50 border border-gray-200 rounded-md">
+					<div className="flex items-center justify-between">
+						<div className="flex-1">
+							<h3 className="text-sm font-semibold text-gray-900 mb-1">Scheduled Daily Sync</h3>
+							<p className="text-xs text-gray-600">Automatically sync from SFTP at {scheduledSyncTime} (1:10 PM) every day</p>
+						</div>
+						<label className="relative inline-flex items-center cursor-pointer">
+							<input
+								type="checkbox"
+								checked={scheduledSyncEnabled}
+								onChange={(e) => handleToggleScheduledSync(e.target.checked)}
+								disabled={loadingSettings || updatingSettings}
+								className="sr-only peer"
+							/>
+							<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brown/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brown"></div>
+						</label>
+					</div>
+					{scheduledSyncEnabled && (
+						<div className="mt-2 text-xs text-green-700">
+							✓ Scheduled sync is enabled. Next sync will run at {scheduledSyncTime} today.
+						</div>
+					)}
+				</div>
+			</div>
+
 			{error && (
 				<div className="p-4 bg-red-50 border border-red-200 rounded-md">
 					<p className="text-sm text-red-800">{error}</p>
@@ -110,7 +226,10 @@ export function RoasterUpload() {
 				<div className="space-y-4">
 					<div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
 						<p className="text-sm font-semibold text-blue-900 mb-2">{result.message}</p>
-						<div className="flex gap-4 text-sm">
+						<div className="flex gap-4 text-sm flex-wrap">
+							{result.deletedCount !== undefined && (
+								<span className="text-gray-700 font-medium">🗑️ {result.deletedCount} deleted</span>
+							)}
 							<span className="text-green-700 font-medium">✓ {result.successCount} successful</span>
 							{result.errorCount > 0 && <span className="text-red-700 font-medium">✗ {result.errorCount} errors</span>}
 						</div>

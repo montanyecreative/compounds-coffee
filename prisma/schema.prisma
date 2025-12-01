@@ -15,3 +15,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Settings {
+  id                      String   @id @default("settings")
+  scheduledSyncEnabled     Boolean  @default(false)
+  scheduledSyncTime        String   @default("13:10") // 1:10 PM in 24-hour format
+  updatedAt                DateTime @updatedAt
+}

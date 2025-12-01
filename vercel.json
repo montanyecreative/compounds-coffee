@@ -1,0 +1,8 @@
+{
+	"crons": [
+		{
+			"path": "/api/cron/sync-roasters",
+			"schedule": "10 13 * * *"
+		}
+	]
+}
