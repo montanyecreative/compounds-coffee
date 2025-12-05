@@ -144,6 +144,7 @@
 		"aboutTitle": "À propos de ce site",
 		"aboutBody": "Ce site a été créé pour les amateurs de café afin que nous puissions mieux apprécier, comprendre et savourer le café. À la quête sans fin de la tasse parfaite.",
 		"githubButton": "Voir comment je suis fait",
+		"githubButton2": "Voir sur GitHub",
 		"githubAria": "Aller à la page GitHub",
 		"ctaTitle": "Infusions de café",
 		"ctaDesc": "Vers la page des infusions de café.",
@@ -188,7 +189,8 @@
 	"footer": {
 		"contactInformation": "INFORMATIONS DE CONTACT :",
 		"copyright": "Droit d'auteur ©",
-		"privacyPolicy": "Politique de confidentialité"
+		"privacyPolicy": "Politique de confidentialité",
+		"howImMade": "Comment je suis fait"
 	},
 	"privacyPolicy": {
 		"title": "Aperçu de la politique de confidentialité",
@@ -233,6 +235,44 @@
 		},
 		"ariaLabels": {
 			"contactUs": "Nous contacter ici"
+		}
+	},
+	"howImMade": {
+		"title": "Comment je suis fait",
+		"subtitle": "Un regard transparent sur la technologie, l'architecture et les décisions derrière Compounds Coffee",
+		"lastUpdated": "Dernière mise à jour : 5 décembre 2025",
+		"notTranslated": "Cette page est intentionnellement en grande partie non traduite.",
+		"nav": {
+			"technicalArchitecture": "Architecture technique",
+			"applicationStructure": "Structure de l'application",
+			"keyFeatures": "Fonctionnalités clés et implémentation",
+			"helpfulLinks": "Liens utiles",
+			"deployment": "Déploiement"
+		},
+		"sections": {
+			"technicalArchitecture": "Architecture technique (la partie technique)",
+			"frontend": "Frontend",
+			"backendData": "Backend et données",
+			"mapsLocation": "Cartes et localisation",
+			"analyticsMonitoring": "Analytique et surveillance",
+			"applicationStructure": "Structure de l'application",
+			"frontendStructure": "Structure frontend",
+			"dataManagement": "Gestion des données",
+			"apiLayer": "Couche API",
+			"keyFeatures": "Fonctionnalités clés et implémentation",
+			"coffeeBrewsMethods": "Infusions de café et méthodes d'infusion",
+			"roastersShopsLocator": "Localisateur de torréfacteurs et boutiques",
+			"internationalization": "Internationalisation (i18n)",
+			"adminDashboard": "Tableau de bord administrateur",
+			"automatedDataSync": "Synchronisation automatique des données",
+			"helpfulLinks": "Liens utiles",
+			"deployment": "Déploiement",
+			"aboutGitHub": "À propos de l'utilisation de GitHub",
+			"repositoryDisclaimers": "Dépôt/Avertissements"
+		},
+		"disclaimers": {
+			"notPwaKit": "Ceci n'est pas censé être une ressource 1-1 sur la façon de construire sur pwa-kit. Ceci est un exemple de la façon dont Contentful peut communiquer avec React et Next.js.",
+			"frontendLeaning": "Mes connaissances technologiques sont plus orientées front-end. En ce qui concerne le développement backend, je suis sûr qu'il y a beaucoup de refactorisation que je pourrais faire ou des façons de mieux faire les choses. J'ai définitivement favorisé \"faire un PoC\" pour que ça fonctionne là où c'était nécessaire. Je suis toujours ouvert aux commentaires et à la façon de m'améliorer."
 		}
 	}
 }

@@ -27,32 +27,31 @@ function HowImMadeContent() {
 			<div className="container-fluid md:mx-auto how-im-made-page bg-black text-white flex justify-center">
 				<div className="grid grid-cols-1 pt-10 mx-5 md:mx-20 justify-center max-w-4xl">
 					<div className="mb-12">
-						<h1 className="text-[42px] md:text-[48px] mb-4 text-white font-bold">How I&apos;m Made</h1>
-						<p className="text-lg text-gray-300 italic">
-							A transparent look at the technology, architecture, and decisions behind Compounds Coffee
-						</p>
-						<p className="text-sm text-gray-400 italic mt-2">Last Updated: December 5th, 2025</p>
+						<h1 className="text-[42px] md:text-[48px] mb-4 text-white font-bold">{translations("howImMade.title")}</h1>
+						<p className="text-lg text-gray-300 italic">{translations("howImMade.subtitle")}</p>
+						<p className="text-sm text-gray-400 italic mt-2">{translations("howImMade.lastUpdated")}</p>
+						<p className="text-sm text-gray-400 italic mt-2">{translations("howImMade.notTranslated")}</p>
 					</div>
 
 					<div className="mb-10 flex flex-wrap items-center justify-center text-center gap-2 text-gray-300">
 						<a href="#technical-architecture" className="underline text-brown hover:text-white">
-							Technical Architecture
+							{translations("howImMade.nav.technicalArchitecture")}
 						</a>
 						<span>|</span>
 						<a href="#application-structure" className="underline text-brown hover:text-white">
-							Application Structure
+							{translations("howImMade.nav.applicationStructure")}
 						</a>
 						<span>|</span>
 						<a href="#key-features-implementation" className="underline text-brown hover:text-white">
-							Key Features & Implementation
+							{translations("howImMade.nav.keyFeatures")}
 						</a>
 						<span>|</span>
 						<a href="#helpful-links" className="underline text-brown hover:text-white">
-							Helpful Links
+							{translations("howImMade.nav.helpfulLinks")}
 						</a>
 						<span>|</span>
 						<a href="#deployment" className="underline text-brown hover:text-white">
-							Deployment
+							{translations("howImMade.nav.deployment")}
 						</a>
 					</div>
 
@@ -105,11 +104,11 @@ function HowImMadeContent() {
 					<section className="mb-16">
 						<div className="mb-10">
 							<h3 className="text-[24px] mb-8 text-white font-semibold scroll-mt-[100px]" id="technical-architecture">
-								Technical Architecture (the nerdy part)
+								{translations("howImMade.sections.technicalArchitecture")}
 							</h3>
 							<div className="grid md:grid-cols-2 gap-6">
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Frontend</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">{translations("howImMade.sections.frontend")}</h4>
 									<ul className="space-y-2 text-gray-300 text-sm">
 										<li>
 											<strong className="text-white">Next.js 14</strong> - React framework with App Router
@@ -136,7 +135,9 @@ function HowImMadeContent() {
 									</ul>
 								</div>
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Backend & Data</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.backendData")}
+									</h4>
 									<ul className="space-y-2 text-gray-300 text-sm">
 										<li>
 											<strong className="text-white">Next.js API Routes</strong> - Serverless API endpoints
@@ -162,7 +163,9 @@ function HowImMadeContent() {
 									</ul>
 								</div>
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Maps & Location</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.mapsLocation")}
+									</h4>
 									<ul className="space-y-2 text-gray-300 text-sm">
 										<li>
 											<strong className="text-white">Google Maps API</strong> - Interactive maps
@@ -173,7 +176,9 @@ function HowImMadeContent() {
 									</ul>
 								</div>
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Analytics & Monitoring</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.analyticsMonitoring")}
+									</h4>
 									<ul className="space-y-2 text-gray-300 text-sm">
 										<li>
 											<strong className="text-white">Google Analytics 4</strong> - Web analytics
@@ -188,12 +193,14 @@ function HowImMadeContent() {
 
 						<div className="mb-10">
 							<h3 className="text-[24px] mb-4 text-white font-semibold scroll-mt-[100px]" id="application-structure">
-								Application Structure
+								{translations("howImMade.sections.applicationStructure")}
 							</h3>
 							<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
 								<div className="space-y-4 text-gray-300">
 									<div>
-										<h4 className="text-lg font-semibold mb-2 text-white">Frontend Structure</h4>
+										<h4 className="text-lg font-semibold mb-2 text-white">
+											{translations("howImMade.sections.frontendStructure")}
+										</h4>
 										<p className="mb-3">
 											The application uses Next.js 14&apos;s App Router, which provides a file-based routing system.
 											Pages are located in the <code className="bg-gray-800 px-2 py-1 rounded text-brown">app/</code>{" "}
@@ -251,7 +258,9 @@ function HowImMadeContent() {
 										</ul>
 									</div>
 									<div>
-										<h4 className="text-lg font-semibold mb-2 text-white">Data Management</h4>
+										<h4 className="text-lg font-semibold mb-2 text-white">
+											{translations("howImMade.sections.dataManagement")}
+										</h4>
 										<p className="mb-3">The application uses a hybrid approach to data management:</p>
 										<ul className="list-disc list-inside space-y-1 ml-4 text-sm">
 											<li>
@@ -269,7 +278,9 @@ function HowImMadeContent() {
 										</ul>
 									</div>
 									<div>
-										<h4 className="text-lg font-semibold mb-2 text-white">API Layer</h4>
+										<h4 className="text-lg font-semibold mb-2 text-white">
+											{translations("howImMade.sections.apiLayer")}
+										</h4>
 										<p className="mb-3">
 											API routes are located in{" "}
 											<code className="bg-gray-800 px-2 py-1 rounded text-brown">app/api/</code> and handle:
@@ -287,11 +298,13 @@ function HowImMadeContent() {
 
 						<div className="mb-10">
 							<h3 className="text-[24px] mb-4 text-white font-semibold scroll-mt-[100px]" id="key-features-implementation">
-								Key Features & Implementation
+								{translations("howImMade.sections.keyFeatures")}
 							</h3>
 							<div className="space-y-6">
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Coffee Brews and Brew Methods</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.coffeeBrewsMethods")}
+									</h4>
 									<p className="text-gray-300 mb-3">
 										Comprehensive information for different coffee brews and brewing methods. Content is managed through
 										Contentful and pulled in through Contentful&apos;s API.
@@ -304,7 +317,9 @@ function HowImMadeContent() {
 									className="bg-gray-900 rounded-lg p-6 border border-gray-800 scroll-mt-[100px]"
 									id="roasters-and-shops-locator-key-feature"
 								>
-									<h4 className="text-lg font-semibold mb-3 text-brown">Roasters & Shops Locator</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.roastersShopsLocator")}
+									</h4>
 									<p className="text-gray-300 mb-3">
 										Interactive{" "}
 										<a href="/roasters-and-shops" className="underline text-brown hover:text-white">
@@ -359,7 +374,9 @@ function HowImMadeContent() {
 									</p>
 								</div>
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Internationalization (i18n)</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.internationalization")}
+									</h4>
 									<p className="text-gray-300 mb-3">
 										Full bilingual support for English and French with language switching and persistent preferences via
 										URL parameters. (Contentful free plan only supports two languages). JSON translation storage
@@ -370,7 +387,9 @@ function HowImMadeContent() {
 									</p>
 								</div>
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Admin Dashboard</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.adminDashboard")}
+									</h4>
 									<p className="text-gray-300 mb-3">
 										Protected admin area for managing brews, uploading roaster data via Excel, configuring scheduled
 										syncs, and managing SFTP connections. Prisma database is used to store user accounts through Vercel.
@@ -384,7 +403,9 @@ function HowImMadeContent() {
 									</p>
 								</div>
 								<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-									<h4 className="text-lg font-semibold mb-3 text-brown">Automated Data Sync</h4>
+									<h4 className="text-lg font-semibold mb-3 text-brown">
+										{translations("howImMade.sections.automatedDataSync")}
+									</h4>
 									<p className="text-gray-300 mb-3">
 										Scheduled cron jobs that sync roaster data from AWS S3 SFTP servers and update Contentful entries
 										automatically.
@@ -404,7 +425,7 @@ function HowImMadeContent() {
 
 						<div className="mb-10">
 							<h3 className="text-[24px] mb-4 text-white font-semibold scroll-mt-[100px]" id="helpful-links">
-								Helpful Links
+								{translations("howImMade.sections.helpfulLinks")}
 							</h3>
 							<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
 								<ul className="list-disc list-inside space-y-1 ml-4">
@@ -425,12 +446,14 @@ function HowImMadeContent() {
 
 						<div className="mb-10">
 							<h3 className="text-[24px] mb-4 text-white font-semibold scroll-mt-[100px]" id="deployment">
-								Deployment
+								{translations("howImMade.sections.deployment")}
 							</h3>
 							<div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
 								<div className="space-y-4 text-gray-300">
 									<div>
-										<h4 className="text-lg font-semibold mb-2 text-white">Deployment</h4>
+										<h4 className="text-lg font-semibold mb-2 text-white">
+											{translations("howImMade.sections.deployment")}
+										</h4>
 										<p className="mb-3 text-sm">
 											The application is deployed on <strong className="text-white">Vercel</strong>, which provides:
 										</p>
@@ -445,7 +468,9 @@ function HowImMadeContent() {
 								</div>
 								<div className="space-y-4 text-gray-300">
 									<div>
-										<h4 className="text-lg font-semibold my-2 text-white">About GitHub Usage</h4>
+										<h4 className="text-lg font-semibold my-2 text-white">
+											{translations("howImMade.sections.aboutGitHub")}
+										</h4>
 										<ul className="list-disc list-inside space-y-1 ml-4 text-sm">
 											<li>
 												There is only one branch, main, that I commit all the features to. I know this is not best
@@ -471,18 +496,11 @@ function HowImMadeContent() {
 								className="text-[24px] mb-4 text-white text-center font-semibold scroll-mt-[100px]"
 								id="repository-disclaimers"
 							>
-								Respository/Disclaimers
+								{translations("howImMade.sections.repositoryDisclaimers")}
 							</h3>
 							<div className="bg-gray-900 text-center">
-								<p className="text-lg leading-relaxed font-bold mb-3">
-									This is not meant to be a 1-1 resource on how to build on pwa-kit. This is an example of how Contentful
-									can talk to React and Next.js.
-								</p>
-								<p className="text-lg leading-relaxed mb-7">
-									My technological knowledge is more front-end leaning. Regarding backend development, I&apos;m sure there
-									is a lot of refactoring I could do or ways I could do things better. I definitely favored &quot;making a
-									PoC&quot; getting it to work where necessary. I&apos;m always open to feedback and how to improve.
-								</p>
+								<p className="text-lg leading-relaxed font-bold mb-3">{translations("howImMade.disclaimers.notPwaKit")}</p>
+								<p className="text-lg leading-relaxed mb-7">{translations("howImMade.disclaimers.frontendLeaning")}</p>
 								<Link
 									href="https://github.com/montanyecreative/compounds-coffee"
 									aria-label={translations("home.githubAria")}

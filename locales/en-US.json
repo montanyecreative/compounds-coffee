@@ -189,7 +189,8 @@
 	"footer": {
 		"contactInformation": "CONTACT INFORMATION:",
 		"copyright": "Copyright ©",
-		"privacyPolicy": "Privacy Policy"
+		"privacyPolicy": "Privacy Policy",
+		"howImMade": "How I'm Made"
 	},
 	"privacyPolicy": {
 		"title": "Privacy Policy Overview",
@@ -234,6 +235,44 @@
 		},
 		"ariaLabels": {
 			"contactUs": "Contact us here"
+		}
+	},
+	"howImMade": {
+		"title": "How I'm Made",
+		"subtitle": "A transparent look at the technology, architecture, and decisions behind Compounds Coffee",
+		"lastUpdated": "Last Updated: December 5th, 2025",
+		"notTranslated": "This page is intentionally mostly not translated and the design is not optimized for translation.",
+		"nav": {
+			"technicalArchitecture": "Technical Architecture",
+			"applicationStructure": "Application Structure",
+			"keyFeatures": "Key Features & Implementation",
+			"helpfulLinks": "Helpful Links",
+			"deployment": "Deployment"
+		},
+		"sections": {
+			"technicalArchitecture": "Technical Architecture (the nerdy part)",
+			"frontend": "Frontend",
+			"backendData": "Backend & Data",
+			"mapsLocation": "Maps & Location",
+			"analyticsMonitoring": "Analytics & Monitoring",
+			"applicationStructure": "Application Structure",
+			"frontendStructure": "Frontend Structure",
+			"dataManagement": "Data Management",
+			"apiLayer": "API Layer",
+			"keyFeatures": "Key Features & Implementation",
+			"coffeeBrewsMethods": "Coffee Brews and Brew Methods",
+			"roastersShopsLocator": "Roasters & Shops Locator",
+			"internationalization": "Internationalization (i18n)",
+			"adminDashboard": "Admin Dashboard",
+			"automatedDataSync": "Automated Data Sync",
+			"helpfulLinks": "Helpful Links",
+			"deployment": "Deployment",
+			"aboutGitHub": "About GitHub Usage",
+			"repositoryDisclaimers": "Respository/Disclaimers"
+		},
+		"disclaimers": {
+			"notPwaKit": "This is not meant to be a 1-1 resource on how to build on pwa-kit. This is an example of how Contentful can talk to React and Next.js.",
+			"frontendLeaning": "My technological knowledge is more front-end leaning. Regarding backend development, I'm sure there is a lot of refactoring I could do or ways I could do things better. I definitely favored \"making a PoC\" getting it to work where necessary. I'm always open to feedback and how to improve."
 		}
 	}
 }
