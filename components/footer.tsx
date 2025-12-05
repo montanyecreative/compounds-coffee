@@ -81,6 +81,15 @@ function FooterContent() {
 					{translations("footer.privacyPolicy")}
 				</Link>
 			</div>
+			<div className="how-im-made-link grid md:flex items-center mx-auto mt-2 text-[12px]">
+				<Link
+					className="underline hover:text-brown"
+					href={buildHrefWithLang("/how-im-made", currentLang)}
+					aria-label="Go to See How I'm Made page"
+				>
+					See How I'm Made
+				</Link>
+			</div>
 			<script
 				data-name="BMC-Widget"
 				data-cfasync="false"

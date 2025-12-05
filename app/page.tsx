@@ -34,12 +34,7 @@ function HomeContent() {
 				<div className="container sm:mx-auto md:mx-auto text-center copy text-black">
 					<h2 className="mb-5 pt-10 md:pt-unset text-black">{translations("home.aboutTitle")}</h2>
 					<p className="mb-5">{translations("home.aboutBody")}</p>
-					<Link
-						href="https://github.com/montanyecreative/compounds-coffee"
-						aria-label={translations("home.githubAria")}
-						target="_blank"
-						rel="noopener"
-					>
+					<Link href="/how-im-made" aria-label={translations("home.githubAria")}>
 						<Button className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]">
 							{translations("home.githubButton")}
 						</Button>
