@@ -151,7 +151,7 @@ export default async function BrewDetailPage({ params, searchParams }: BrewDetai
 										<div className="flex justify-between border-b pb-2">
 											<span className="font-medium">{translations("labels.coffeeYield")}:</span>
 											<span>
-												{brew.fields.coffeeYield}
+												{brew.fields.coffeeYield}g{" "}
 												{brew.fields.coffeeYield ? `${gramsToFluidOunces(brew.fields.coffeeYield)} fl oz` : ""}
 											</span>
 										</div>

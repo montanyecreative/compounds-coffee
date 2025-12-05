@@ -42,14 +42,8 @@ export default function BrewMethodsGrid({ brewMethods, defaultLocaleMethods }: B
 								variant="outline"
 								className="bg-white text-black border-black rounded hover:bg-black hover:text-white hover:cursor-pointer"
 								onClick={() => {
-									// 50% chance to show alt view using a simple math check
-									const showAlt = Math.random() < 0.5;
-									if (showAlt) {
-										const hasQuery = to.includes("?");
-										router.push(`${to}${hasQuery ? "&" : "?"}alt=1`);
-									} else {
-										router.push(to);
-									}
+									const hasQuery = to.includes("?");
+									router.push(`${to}${hasQuery ? "&" : "?"}alt=1`);
 								}}
 							>
 								{translations("labels.view")}
