@@ -27,7 +27,7 @@ function HowImMadeContent() {
 			<div className="container-fluid md:mx-auto how-im-made-page bg-black text-white flex justify-center">
 				<div className="grid grid-cols-1 pt-10 mx-5 md:mx-20 justify-center max-w-4xl">
 					<div className="mb-12">
-						<h1 className="text-[42px] md:text-[48px] mb-4 text-white font-bold">How I'm Made</h1>
+						<h1 className="text-[42px] md:text-[48px] mb-4 text-white font-bold">How I&apos;m Made</h1>
 						<p className="text-lg text-gray-300 italic">
 							A transparent look at the technology, architecture, and decisions behind Compounds Coffee
 						</p>
@@ -65,9 +65,9 @@ function HowImMadeContent() {
 								</p>
 								<p className="text-lg leading-relaxed">
 									The application is designed to be used on an iPad (6th generation) or similar screen size (as this is
-									what I use in my kitchen) but works well on phones, tablets, laptops, and desktops. It's feature rich
-									including supporting multiple languages (English and French), analytics, content management, Google Maps
-									API, geocoding, and much more.
+									what I use in my kitchen) but works well on phones, tablets, laptops, and desktops. It&apos;s feature
+									rich including supporting multiple languages (English and French), analytics, content management, Google
+									Maps API, geocoding, and much more.
 								</p>
 								<p className="text-lg leading-relaxed">
 									The site is built using{" "}
@@ -92,7 +92,7 @@ function HowImMadeContent() {
 										Contentful
 									</Link>
 									. A password protected admin dashboard is available to add, update, and delete data through
-									communication with Contentful's API. Please see the{" "}
+									communication with Contentful&apos;s API. Please see the{" "}
 									<a href="#technical-architecture" className="underline text-brown hover:text-white">
 										tech stack section
 									</a>{" "}
@@ -121,8 +121,8 @@ function HowImMadeContent() {
 											<strong className="text-white">React 18</strong> - UI library
 										</li>
 										<li>
-											<strong className="text-white">Tailwind CSS</strong> - Utility-first styling (although I'm not a
-											fan of it)
+											<strong className="text-white">Tailwind CSS</strong> - Utility-first styling (although I&apos;m
+											not a fan of it)
 										</li>
 										<li>
 											<strong className="text-white">Radix UI</strong> - Accessible component primitives
@@ -195,8 +195,8 @@ function HowImMadeContent() {
 									<div>
 										<h4 className="text-lg font-semibold mb-2 text-white">Frontend Structure</h4>
 										<p className="mb-3">
-											The application uses Next.js 14's App Router, which provides a file-based routing system. Pages
-											are located in the <code className="bg-gray-800 px-2 py-1 rounded text-brown">app/</code>{" "}
+											The application uses Next.js 14&apos;s App Router, which provides a file-based routing system.
+											Pages are located in the <code className="bg-gray-800 px-2 py-1 rounded text-brown">app/</code>{" "}
 											directory, and components are organized in the{" "}
 											<code className="bg-gray-800 px-2 py-1 rounded text-brown">components/</code> directory.
 										</p>
@@ -220,12 +220,12 @@ function HowImMadeContent() {
 											</li>
 											<li>
 												<code className="bg-gray-800 px-2 py-1 rounded text-brown">lib/contentful.ts</code> -
-												Contentful main file for communication with Contentful's API.
+												Contentful main file for communication with Contentful&apos;s API.
 											</li>
 											<li>
 												<code className="bg-gray-800 px-2 py-1 rounded text-brown">lib/geocoding.ts</code> -
 												Contentful does not accept addresses so I had to add functions that would turn addresses
-												into lat/long to send to Contentful's API. Also has functions for Google Maps API and
+												into lat/long to send to Contentful&apos;s API. Also has functions for Google Maps API and
 												Geocoding API. Please refer to the{" "}
 												<a
 													href="#roasters-and-shops-locator-key-feature"
@@ -294,7 +294,7 @@ function HowImMadeContent() {
 									<h4 className="text-lg font-semibold mb-3 text-brown">Coffee Brews and Brew Methods</h4>
 									<p className="text-gray-300 mb-3">
 										Comprehensive information for different coffee brews and brewing methods. Content is managed through
-										Contentful and pulled in through Contentful's API.
+										Contentful and pulled in through Contentful&apos;s API.
 									</p>
 									<p className="text-sm text-gray-400">
 										<strong>Tech:</strong> Contentful CMS, Next.js dynamic routes, responsive design
@@ -311,7 +311,8 @@ function HowImMadeContent() {
 											map showing roasters and coffee shops
 										</a>{" "}
 										with two way geocoding, map themeing, search functionality, and a toggle between map and grid views.
-										Content is managed through AWS S3, a cron job, and Contentful, pulled in through Contentful's API.
+										Content is managed through AWS S3, a cron job, and Contentful, pulled in through Contentful&apos;s
+										API.
 									</p>
 									<p className="text-gray-300 mb-3">
 										As noted above in the{" "}
@@ -319,13 +320,13 @@ function HowImMadeContent() {
 											application structure section
 										</a>
 										, Contentful does not accept addresses so functions were added that turn addresses into lat/long to
-										send to Contentful's API. Once the content pages are built in Contentful, the store locator page
-										grabs the locations and geocodes the lat/long back into addresses to display if the lat/long do not
-										exist already, using Google Maps API.
+										send to Contentful&apos;s API. Once the content pages are built in Contentful, the store locator
+										page grabs the locations and geocodes the lat/long back into addresses to display if the lat/long do
+										not exist already, using Google Maps API.
 									</p>
 									<p className="text-gray-300 mb-3">
-										Here is an example of the object expected to be sent to Contentful's API for the roasters and shop
-										locations:
+										Here is an example of the object expected to be sent to Contentful&apos;s API for the roasters and
+										shop locations:
 									</p>
 									<pre className="bg-gray-800 p-4 rounded text-brown overflow-x-auto">
 										<code>{`interface RoasterAndShopSkeleton extends EntrySkeletonType {
@@ -388,7 +389,7 @@ function HowImMadeContent() {
 										Scheduled cron jobs that sync roaster data from AWS S3 SFTP servers and update Contentful entries
 										automatically.
 									</p>
-									<p className="text-gray-300 mb-3">Scheduled cron jobs are set to run every day at 1:00 PM CST.</p>
+									<p className="text-gray-300 mb-3">Scheduled cron jobs are set to run every day at 1:10 PM CST.</p>
 									<p className="text-gray-300 mb-3">
 										Once the cron job is run, the roaster data that existed in Contentful is deleted and the new data is
 										added. I am unsure if there are quota limits within Contentful that could prevent this from being
@@ -452,11 +453,12 @@ function HowImMadeContent() {
 												this strategy for simplicity and speed.
 											</li>
 											<li>
-												Sometimes the builds may appear that they've failed in GitHub. This is a false positive I've
-												noticed. I currently have builds automatically functioning in tandem with Contentful content
-												updates using hooks. Anytime a new content entry is added in Contentful, the build redeploys
-												to factor in the content update. At this point of exploring, I'm unsure if this is the best
-												way of handling this or if there is a less resource heavy way to handle it via the builds.
+												Sometimes the builds may appear that they&apos;ve failed in GitHub. This is a false positive
+												I&apos;ve noticed. I currently have builds automatically functioning in tandem with
+												Contentful content updates using hooks. Anytime a new content entry is added in Contentful,
+												the build redeploys to factor in the content update. At this point of exploring, I&apos;m
+												unsure if this is the best way of handling this or if there is a less resource heavy way to
+												handle it via the builds.
 											</li>
 										</ul>
 									</div>
@@ -477,9 +479,9 @@ function HowImMadeContent() {
 									can talk to React and Next.js.
 								</p>
 								<p className="text-lg leading-relaxed mb-7">
-									My technological knowledge is more front-end leaning. Regarding backend development, I'm sure there is a
-									lot of refactoring I could do or ways I could do things better. I definitely favored "making a PoC"
-									getting it to work where necessary. I'm always open to feedback and how to improve.
+									My technological knowledge is more front-end leaning. Regarding backend development, I&apos;m sure there
+									is a lot of refactoring I could do or ways I could do things better. I definitely favored &quot;making a
+									PoC&quot; getting it to work where necessary. I&apos;m always open to feedback and how to improve.
 								</p>
 								<Link
 									href="https://github.com/montanyecreative/compounds-coffee"

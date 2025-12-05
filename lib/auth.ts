@@ -46,6 +46,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 						id: user.id,
 						email: user.email,
 						name: user.name || user.email,
+						role: user.role,
 					};
 				} catch (error) {
 					console.error("Auth error:", error);
@@ -66,6 +67,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			if (user) {
 				token.id = user.id;
 				token.email = user.email;
+				token.role = user.role;
+				console.log("JWT callback - New login:", { email: user.email, role: user.role });
+			} else if (token.id) {
+				// Always refresh role from database to ensure it's up-to-date
+				try {
+					const dbUser = await prisma.user.findUnique({
+						where: { id: token.id as string },
+						select: { role: true },
+					});
+					if (dbUser) {
+						const oldRole = token.role;
+						token.role = dbUser.role;
+						console.log("JWT callback - Role refreshed:", {
+							userId: token.id,
+							oldRole,
+							newRole: dbUser.role,
+							changed: oldRole !== dbUser.role,
+						});
+					}
+				} catch (error) {
+					console.error("Error refreshing user role:", error);
+				}
 			}
 			return token;
 		},
@@ -73,9 +96,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			if (session.user) {
 				session.user.id = token.id as string;
 				session.user.email = token.email as string;
+				session.user.role = token.role as string;
+				console.log("Session callback - Role in session:", {
+					email: session.user.email,
+					role: session.user.role,
+					tokenRole: token.role,
+				});
 			}
 			return session;
 		},
 	},
 	secret: authSecret,
 });
+
+/**
+ * Check if the current session user has admin role
+ * @param session - The session object from auth()
+ * @returns true if user is admin, false otherwise
+ */
+export function isAdmin(session: { user?: { role?: string } } | null): boolean {
+	return session?.user?.role === "admin";
+}

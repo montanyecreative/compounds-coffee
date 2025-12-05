@@ -17,7 +17,11 @@ interface ScheduledSyncSettings {
 	scheduledSyncTime: string;
 }
 
-export function RoasterUpload() {
+interface RoasterUploadProps {
+	isAdmin?: boolean;
+}
+
+export function RoasterUpload({ isAdmin = true }: RoasterUploadProps) {
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const [result, setResult] = useState<UploadResult | null>(null);
@@ -47,6 +51,7 @@ export function RoasterUpload() {
 	}, []);
 
 	const handleToggleScheduledSync = async (enabled: boolean) => {
+		if (!isAdmin) return;
 		setUpdatingSettings(true);
 		try {
 			const response = await fetch("/api/admin/scheduled-sync-settings", {
@@ -76,6 +81,7 @@ export function RoasterUpload() {
 	};
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!isAdmin) return;
 		const selectedFile = e.target.files?.[0];
 		if (selectedFile) {
 			setFile(selectedFile);
@@ -85,6 +91,7 @@ export function RoasterUpload() {
 	};
 
 	const handleUpload = async () => {
+		if (!isAdmin) return;
 		if (!file) {
 			setError("Please select a file first");
 			return;
@@ -118,6 +125,7 @@ export function RoasterUpload() {
 	};
 
 	const handleSyncFromSFTP = async () => {
+		if (!isAdmin) return;
 		setUploading(true);
 		setError(null);
 		setResult(null);
@@ -143,8 +151,19 @@ export function RoasterUpload() {
 
 	return (
 		<div className="space-y-4">
+			{!isAdmin && (
+				<div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md mb-4">
+					<p className="text-sm text-yellow-800">
+						⚠️ You don&apos;t have permission to upload roasters. Only administrators can perform this action.
+					</p>
+				</div>
+			)}
 			<div className="flex items-center gap-4">
-				<label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+				<label
+					className={`flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg ${
+						isAdmin ? "cursor-pointer bg-gray-50 hover:bg-gray-100" : "cursor-not-allowed bg-gray-100 opacity-60"
+					}`}
+				>
 					<div className="flex flex-col items-center justify-center pt-5 pb-6">
 						<svg
 							className="w-10 h-10 mb-3 text-gray-400"
@@ -165,7 +184,13 @@ export function RoasterUpload() {
 						</p>
 						<p className="text-xs text-gray-500">Excel (.xlsx, .xls) or CSV</p>
 					</div>
-					<input type="file" className="hidden" accept=".xlsx,.xls,.csv" onChange={handleFileChange} disabled={uploading} />
+					<input
+						type="file"
+						className="hidden"
+						accept=".xlsx,.xls,.csv"
+						onChange={handleFileChange}
+						disabled={uploading || !isAdmin}
+					/>
 				</label>
 			</div>
 
@@ -174,7 +199,7 @@ export function RoasterUpload() {
 					<span className="text-sm text-gray-700 flex-1">{file.name}</span>
 					<Button
 						onClick={handleUpload}
-						disabled={uploading}
+						disabled={uploading || !isAdmin}
 						className="min-w-[120px] rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]"
 					>
 						{uploading ? "Uploading..." : "Upload"}
@@ -185,7 +210,7 @@ export function RoasterUpload() {
 			<div className="mt-4 space-y-4">
 				<Button
 					onClick={handleSyncFromSFTP}
-					disabled={uploading}
+					disabled={uploading || !isAdmin}
 					className="min-w-[120px] rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]"
 				>
 					{uploading ? "Syncing..." : "Sync from SFTP"}
@@ -202,7 +227,7 @@ export function RoasterUpload() {
 								type="checkbox"
 								checked={scheduledSyncEnabled}
 								onChange={(e) => handleToggleScheduledSync(e.target.checked)}
-								disabled={loadingSettings || updatingSettings}
+								disabled={loadingSettings || updatingSettings || !isAdmin}
 								className="sr-only peer"
 							/>
 							<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brown/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brown"></div>

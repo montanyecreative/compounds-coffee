@@ -5,17 +5,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { RoasterUpload } from "@/components/admin/roasterUpload";
 import { CreateBrewForm } from "@/components/admin/createBrewForm";
 
-export function DashboardTabs() {
+interface DashboardTabsProps {
+	userRole: string;
+}
+
+export function DashboardTabs({ userRole }: DashboardTabsProps) {
+	const isAdmin = userRole === "admin";
 	return (
-		<Tabs defaultValue="overview" className="w-full">
+		<Tabs defaultValue="brews" className="w-full">
 			<TabsList className="mb-6">
-				<TabsTrigger value="overview">Overview</TabsTrigger>
+				{/* <TabsTrigger value="overview">Overview</TabsTrigger> */}
 				<TabsTrigger value="brews">Brews</TabsTrigger>
 				<TabsTrigger value="roasters">Roasters</TabsTrigger>
 				{/* <TabsTrigger value="users">Users</TabsTrigger> */}
 			</TabsList>
 
-			<TabsContent value="overview">
+			{/* <TabsContent value="overview">
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 					<Card className="bg-white">
 						<CardHeader>
@@ -60,7 +65,7 @@ export function DashboardTabs() {
 						<p className="text-gray-500 text-center py-8">No recent activity to display</p>
 					</CardContent>
 				</Card>
-			</TabsContent>
+			</TabsContent> */}
 
 			<TabsContent value="brews">
 				<Card className="bg-white">
@@ -70,7 +75,7 @@ export function DashboardTabs() {
 					</CardHeader>
 					<CardContent>
 						<div className="space-y-6">
-							<CreateBrewForm />
+							<CreateBrewForm isAdmin={isAdmin} />
 						</div>
 					</CardContent>
 				</Card>
@@ -119,7 +124,7 @@ export function DashboardTabs() {
 									Note: If you provide an address, it will be automatically converted to latitude and longitude
 									coordinates using Google Maps Geocoding API.
 								</p>
-								<RoasterUpload />
+								<RoasterUpload isAdmin={isAdmin} />
 							</div>
 						</div>
 					</CardContent>

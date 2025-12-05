@@ -11,6 +11,13 @@ export default async function AdminPage() {
 		redirect("/login?callbackUrl=/admin");
 	}
 
+	// Debug: Log session data
+	console.log("Admin Page - Session data:", {
+		email: session.user?.email,
+		role: session.user?.role,
+		fullSession: JSON.stringify(session, null, 2),
+	});
+
 	return (
 		<main>
 			<Navbar />
@@ -20,9 +27,13 @@ export default async function AdminPage() {
 					<div className="mb-8">
 						<h1 className="text-4xl font-bold mb-2 text-gray-900">Dashboard</h1>
 						<p className="text-gray-600">Welcome back, {session.user?.email}!</p>
+						{/* Debug info - remove after fixing */}
+						<p className="text-xs text-gray-500 mt-1">
+							Current role: <strong>{session.user?.role || "none"}</strong>
+						</p>
 					</div>
 
-					<DashboardTabs />
+					<DashboardTabs userRole={session.user?.role || "user"} />
 				</div>
 			</div>
 			<Footer />

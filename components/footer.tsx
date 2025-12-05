@@ -87,7 +87,7 @@ function FooterContent() {
 					href={buildHrefWithLang("/how-im-made", currentLang)}
 					aria-label="Go to See How I'm Made page"
 				>
-					See How I'm Made
+					See How I&apos;m Made
 				</Link>
 			</div>
 			<script

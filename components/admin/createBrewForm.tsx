@@ -48,7 +48,11 @@ interface BrewOptions {
 	roasters: { id: string; name: string }[];
 }
 
-export function CreateBrewForm() {
+interface CreateBrewFormProps {
+	isAdmin?: boolean;
+}
+
+export function CreateBrewForm({ isAdmin = true }: CreateBrewFormProps) {
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
 	const [options, setOptions] = useState<BrewOptions>({
@@ -105,6 +109,7 @@ export function CreateBrewForm() {
 	});
 
 	const onSubmit = async (values: FormValues) => {
+		if (!isAdmin) return;
 		setSubmitting(true);
 		setStatus(null);
 
@@ -158,6 +163,13 @@ export function CreateBrewForm() {
 
 	return (
 		<Form {...form}>
+			{!isAdmin && (
+				<div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md mb-6">
+					<p className="text-sm text-yellow-800">
+						⚠️ You don&apos;t have permission to add brews. Only administrators can perform this action.
+					</p>
+				</div>
+			)}
 			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="space-y-4">
 					<FormField
@@ -167,7 +179,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Coffee Name</FormLabel>
 								<FormControl>
-									<Input placeholder="Ethiopia Guji..." {...field} />
+									<Input placeholder="Ethiopia Guji..." {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -180,7 +192,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Slug</FormLabel>
 								<FormControl>
-									<Input placeholder="ethiopia-guji" {...field} />
+									<Input placeholder="ethiopia-guji" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -193,7 +205,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Region</FormLabel>
 								<FormControl>
-									<Input placeholder="Guji, Ethiopia" {...field} />
+									<Input placeholder="Guji, Ethiopia" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -208,7 +220,7 @@ export function CreateBrewForm() {
 								<FormControl>
 									<select
 										{...field}
-										disabled={loadingOptions}
+										disabled={loadingOptions || !isAdmin}
 										className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									>
 										<option value="">Select roast level...</option>
@@ -232,7 +244,7 @@ export function CreateBrewForm() {
 								<FormControl>
 									<select
 										{...field}
-										disabled={loadingOptions}
+										disabled={loadingOptions || !isAdmin}
 										className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									>
 										<option value="">Select process...</option>
@@ -256,7 +268,7 @@ export function CreateBrewForm() {
 								<FormControl>
 									<select
 										{...field}
-										disabled={loadingOptions}
+										disabled={loadingOptions || !isAdmin}
 										className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									>
 										<option value="">Select brew method...</option>
@@ -278,7 +290,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Brew Date</FormLabel>
 								<FormControl>
-									<Input type="date" {...field} />
+									<Input type="date" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -291,7 +303,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Grinder</FormLabel>
 								<FormControl>
-									<Input placeholder="DF64" {...field} />
+									<Input placeholder="DF64" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -304,7 +316,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Grind Setting</FormLabel>
 								<FormControl>
-									<Input type="number" step="any" {...field} />
+									<Input type="number" step="any" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -317,7 +329,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Water Temp (°F)</FormLabel>
 								<FormControl>
-									<Input type="number" {...field} />
+									<Input type="number" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -330,7 +342,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Coffee Dose (g)</FormLabel>
 								<FormControl>
-									<Input type="number" step="any" {...field} />
+									<Input type="number" step="any" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -343,7 +355,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Bloom Yield (g)</FormLabel>
 								<FormControl>
-									<Input type="number" step="any" {...field} />
+									<Input type="number" step="any" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -356,7 +368,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Total Yield (g)</FormLabel>
 								<FormControl>
-									<Input type="number" step="any" {...field} />
+									<Input type="number" step="any" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -369,7 +381,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Bloom Time</FormLabel>
 								<FormControl>
-									<Input placeholder="0:45" {...field} />
+									<Input placeholder="0:45" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -382,7 +394,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Total Brew Time</FormLabel>
 								<FormControl>
-									<Input placeholder="3:15" {...field} />
+									<Input placeholder="3:15" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -395,7 +407,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Link</FormLabel>
 								<FormControl>
-									<Input placeholder="https://example.com" {...field} />
+									<Input placeholder="https://example.com" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -408,7 +420,7 @@ export function CreateBrewForm() {
 							<FormItem>
 								<FormLabel>Price</FormLabel>
 								<FormControl>
-									<Input type="number" step="any" {...field} />
+									<Input type="number" step="any" {...field} disabled={!isAdmin} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -423,7 +435,7 @@ export function CreateBrewForm() {
 						<FormItem>
 							<FormLabel>Tasting Highlights</FormLabel>
 							<FormControl>
-								<Textarea rows={2} placeholder="Strawberry, honey, florals..." {...field} />
+								<Textarea rows={2} placeholder="Strawberry, honey, florals..." {...field} disabled={!isAdmin} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -436,7 +448,7 @@ export function CreateBrewForm() {
 						<FormItem>
 							<FormLabel>Tasting Notes</FormLabel>
 							<FormControl>
-								<Textarea rows={3} placeholder="Detailed notes..." {...field} />
+								<Textarea rows={3} placeholder="Detailed notes..." {...field} disabled={!isAdmin} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -449,7 +461,7 @@ export function CreateBrewForm() {
 						<FormItem>
 							<FormLabel>Additional Notes</FormLabel>
 							<FormControl>
-								<Textarea rows={4} placeholder="Anything else to capture..." {...field} />
+								<Textarea rows={4} placeholder="Anything else to capture..." {...field} disabled={!isAdmin} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -495,7 +507,7 @@ export function CreateBrewForm() {
 				<Button
 					className="rounded-full px-10 mb-10 md:mb-unset text-mediumRoast border hover:bg-brown hover:border-brown hover:text-white cursor-pointer uppercase text-[12px]"
 					type="submit"
-					disabled={submitting}
+					disabled={submitting || !isAdmin}
 				>
 					{submitting ? "Saving..." : "Add Brew"}
 				</Button>

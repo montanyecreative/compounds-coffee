@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { auth } from "@/lib/auth";
+import { auth, isAdmin } from "@/lib/auth";
 import { createCoffeeBrewEntry, CreateCoffeeBrewData } from "@/lib/contentful";
 
 export const dynamic = "force-dynamic";
@@ -42,6 +42,11 @@ export async function POST(request: NextRequest) {
 	const session = await auth();
 	if (!session) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	}
+
+	// Check if user is admin
+	if (!isAdmin(session)) {
+		return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
 	}
 
 	let payload: unknown;
