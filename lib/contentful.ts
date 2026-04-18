@@ -461,6 +461,162 @@ export async function createRoasterEntry(data: CreateRoasterData): Promise<Roast
 	}
 }
 
+// Update an existing roaster entry
+export async function updateRoasterEntry(entryId: string, data: CreateRoasterData): Promise<Roaster | null> {
+	try {
+		const client = getManagementClient();
+		const space = await (client as any).getSpace(process.env.CONTENTFUL_SPACE_ID!);
+		const environment = await space.getEnvironment("master");
+
+		// Get existing entry
+		const entry = await environment.getEntry(entryId);
+
+		// Update fields
+		entry.fields.shopName = {
+			"en-US": data.shopName,
+		};
+
+		if (data.shopLocation) {
+			entry.fields.shopLocation = {
+				"en-US": {
+					lat: data.shopLocation.lat,
+					lon: data.shopLocation.lon,
+				},
+			};
+		} else {
+			// Remove location if not provided
+			entry.fields.shopLocation = {
+				"en-US": null,
+			};
+		}
+
+		if (data.shopWebsite) {
+			entry.fields.shopWebsite = {
+				"en-US": data.shopWebsite,
+			};
+		} else {
+			entry.fields.shopWebsite = {
+				"en-US": null,
+			};
+		}
+
+		if (data.shopPhoneNumber) {
+			entry.fields.shopPhoneNumber = {
+				"en-US": data.shopPhoneNumber,
+			};
+		} else {
+			entry.fields.shopPhoneNumber = {
+				"en-US": null,
+			};
+		}
+
+		// Update and publish
+		const updated = await entry.update();
+		await updated.publish();
+
+		// Fetch the updated entry using the read client
+		return await getRoasterById(entryId);
+	} catch (error: any) {
+		console.error("Error updating roaster entry:", error);
+
+		if (error?.name === "AccessTokenInvalid" || error?.status === 403) {
+			const token = process.env.CONTENTFUL_MANAGEMENT_TOKEN;
+			if (token) {
+				throw new Error(
+					"Invalid Contentful Management API token. Please verify that CONTENTFUL_MANAGEMENT_TOKEN is a valid Personal Access Token (PAT). " +
+						"Get a new token from Contentful Settings > CMA tokens > Create personal access token. " +
+						"Note: Personal Access Tokens are different from Content Delivery API or Content Preview API tokens."
+				);
+			} else {
+				throw new Error(
+					"CONTENTFUL_MANAGEMENT_TOKEN is not set. Please add it to your environment variables. " +
+						"Get it from Contentful Settings > CMA tokens > Create personal access token."
+				);
+			}
+		}
+
+		throw error;
+	}
+}
+
+// Delete a single roaster entry
+export async function deleteRoasterEntry(entryId: string): Promise<void> {
+	try {
+		const client = getManagementClient();
+		const space = await (client as any).getSpace(process.env.CONTENTFUL_SPACE_ID!);
+		const environment = await space.getEnvironment("master");
+
+		const entry = await environment.getEntry(entryId);
+
+		// Unpublish if published
+		if (entry.isPublished()) {
+			await entry.unpublish();
+		}
+
+		// Delete the entry
+		await entry.delete();
+	} catch (error: any) {
+		console.error(`Error deleting roaster entry ${entryId}:`, error);
+		throw error;
+	}
+}
+
+/**
+ * Maps free-text brew method (e.g. "Kalita Wave 155") to a Contentful `coffee.brewMethod`
+ * short-text value, which must match the content model's allowed list (synced with brewMethod entries).
+ */
+function matchBrewMethodToAllowedList(input: string, allowed: string[]): string {
+	const trimmed = input.trim();
+	if (!trimmed) {
+		throw new Error("Brew method is required");
+	}
+
+	const unique = [...new Set(allowed.map((a) => a.trim()).filter(Boolean))];
+	if (unique.length === 0) {
+		throw new Error("No brew method options are configured in Contentful.");
+	}
+
+	const lower = trimmed.toLowerCase();
+	const exact = unique.find((a) => a.toLowerCase() === lower);
+	if (exact) return exact;
+
+	const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+	const ni = norm(trimmed);
+	const normHit = unique.find((a) => norm(a) === ni);
+	if (normHit) return normHit;
+
+	const sorted = [...unique].sort((a, b) => {
+		const ta = a.split(/[^a-zA-Z0-9]+/).filter(Boolean).length;
+		const tb = b.split(/[^a-zA-Z0-9]+/).filter(Boolean).length;
+		if (tb !== ta) return tb - ta;
+		return b.length - a.length;
+	});
+
+	const hay = lower.replace(/[^a-z0-9]/g, " ");
+	for (const canonical of sorted) {
+		const tokens = canonical
+			.toLowerCase()
+			.split(/[^a-zA-Z0-9]+/)
+			.filter((t) => t.length > 0);
+		if (tokens.length === 0) continue;
+		if (tokens.every((t) => hay.includes(t))) {
+			return canonical;
+		}
+	}
+
+	throw new Error(
+		`Brew method "${trimmed}" does not match any configured option. Use one of: ${[...unique].sort().join(", ")}`
+	);
+}
+
+async function resolveCoffeeBrewMethodForEntry(input: string): Promise<string> {
+	const methods = await getBrewMethods();
+	const allowed = methods
+		.map((m) => String(m.fields.brewMethod ?? "").trim())
+		.filter((name) => name.length > 0);
+	return matchBrewMethodToAllowedList(input, allowed);
+}
+
 export interface CreateCoffeeBrewData {
 	name: string;
 	slug?: string;
@@ -487,6 +643,8 @@ export interface CreateCoffeeBrewData {
 
 export async function createCoffeeBrewEntry(data: CreateCoffeeBrewData): Promise<CoffeeBrewPost | null> {
 	try {
+		const brewMethod = await resolveCoffeeBrewMethodForEntry(data.brewMethod);
+
 		const management = getManagementClient();
 		const space = await (management as any).getSpace(process.env.CONTENTFUL_SPACE_ID!);
 		const environment = await space.getEnvironment("master");
@@ -511,7 +669,7 @@ export async function createCoffeeBrewEntry(data: CreateCoffeeBrewData): Promise
 					"en-US": data.process,
 				},
 				brewMethod: {
-					"en-US": data.brewMethod,
+					"en-US": brewMethod,
 				},
 				brewDate: {
 					"en-US": data.brewDate,

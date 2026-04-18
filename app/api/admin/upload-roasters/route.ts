@@ -40,12 +40,13 @@ export async function POST(request: NextRequest) {
 		const results = await processRoastersFile(buffer, file.name);
 
 		return NextResponse.json({
-			message: `Processed ${file.name}${
-				results.deletedCount !== undefined ? ` (deleted ${results.deletedCount} existing entries)` : ""
-			}`,
+			message: `Processed ${file.name}`,
 			successCount: results.success.length,
 			errorCount: results.errors.length,
+			createdCount: results.createdCount,
+			updatedCount: results.updatedCount,
 			deletedCount: results.deletedCount,
+			skippedCount: results.skippedCount,
 			success: results.success,
 			errors: results.errors,
 		});

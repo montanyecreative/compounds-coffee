@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextAuthRequest } from "next-auth";
 import { z } from "zod";
 
 import { auth, isAdmin } from "@/lib/auth";
@@ -38,13 +39,12 @@ const createBrewSchema = z.object({
 	roasterId: z.string().trim().optional(),
 });
 
-export async function POST(request: NextRequest) {
-	const session = await auth();
+async function postHandler(request: NextAuthRequest) {
+	const session = request.auth;
 	if (!session) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	// Check if user is admin
 	if (!isAdmin(session)) {
 		return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 });
 	}
@@ -80,11 +80,14 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json(
 			{
 				message: "Coffee brew created successfully",
-				entry,
+				entry: entry ? { id: entry.sys.id } : null,
 			},
 			{ status: 201 }
 		);
-	} catch (error: any) {
-		return NextResponse.json({ error: error.message || "Failed to create coffee brew" }, { status: 500 });
+	} catch (error: unknown) {
+		const message = error instanceof Error ? error.message : "Failed to create coffee brew";
+		return NextResponse.json({ error: message }, { status: 500 });
 	}
 }
+
+export const POST = auth(postHandler);

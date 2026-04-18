@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
+import type { NextAuthRequest } from "next-auth";
+
 import { auth } from "@/lib/auth";
 import { getCoffeeBrews, getBrewMethods, getRoasters } from "@/lib/contentful";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+async function getHandler(request: NextAuthRequest) {
 	try {
-		const session = await auth();
+		const session = request.auth;
 		if (!session) {
 			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}
@@ -34,8 +36,11 @@ export async function GET() {
 			brewMethods: brewMethodNames,
 			roasters: roastersList,
 		});
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Error fetching brew options:", error);
-		return NextResponse.json({ error: error.message || "Failed to fetch brew options" }, { status: 500 });
+		const message = error instanceof Error ? error.message : "Failed to fetch brew options";
+		return NextResponse.json({ error: message }, { status: 500 });
 	}
 }
+
+export const GET = auth(getHandler);

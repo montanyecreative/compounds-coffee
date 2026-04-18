@@ -171,7 +171,10 @@ export async function GET(request: NextRequest) {
 				success: true,
 				successCount: results.success.length,
 				errorCount: results.errors.length,
+				createdCount: results.createdCount,
+				updatedCount: results.updatedCount,
 				deletedCount: results.deletedCount,
+				skippedCount: results.skippedCount,
 				timestamp: now.toISOString(),
 			});
 		} catch (s3Error: any) {

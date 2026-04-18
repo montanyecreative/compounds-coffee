@@ -38,8 +38,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 To learn more about Next.js, take a look at the following resources:
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
@@ -51,18 +51,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Resources
 
--   https://www.radix-ui.com/icons
--   https://animate.style/
--   https://gsap.com/docs/v3/
--   https://ui.shadcn.com/docs
--   https://tailwindcss.com/docs/installation
--   https://nextjs.org/docs
--   https://react.dev/
--   https://www.contentful.com/nextjs-starter/
+- https://www.radix-ui.com/icons
+- https://animate.style/
+- https://gsap.com/docs/v3/
+- https://ui.shadcn.com/docs
+- https://tailwindcss.com/docs/installation
+- https://nextjs.org/docs
+- https://react.dev/
+- https://www.contentful.com/nextjs-starter/
 
 ## To Do List
 
--   Add brew method toggle via icon
--   Add grind size calculator
--   Fix mobile filter dropdown positions
--   Fix bug where once entered name on brew log page, can no longer scroll down filter drawer properly
+- Add brew method toggle via icon
+- Add grind size calculator
+- Fix mobile filter dropdown positions
+- Fix bug where once entered name on brew log page, can no longer scroll down filter drawer properly

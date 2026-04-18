@@ -66,7 +66,7 @@ export function CreateBrewForm({ isAdmin = true }: CreateBrewFormProps) {
 	useEffect(() => {
 		const fetchOptions = async () => {
 			try {
-				const response = await fetch("/api/admin/brew-options");
+				const response = await fetch("/api/admin/brew-options", { credentials: "include" });
 				if (response.ok) {
 					const data = await response.json();
 					setOptions(data);
@@ -140,15 +140,26 @@ export function CreateBrewForm({ isAdmin = true }: CreateBrewFormProps) {
 		try {
 			const response = await fetch("/api/admin/brews", {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(payload),
 			});
 
-			const result = await response.json();
+			let result: { error?: string; details?: { fieldErrors?: Record<string, string[]>; formErrors?: string[] } };
+			try {
+				result = await response.json();
+			} catch {
+				throw new Error(`Create brew failed (${response.status}). The server did not return JSON.`);
+			}
 
 			if (!response.ok) {
+				const fieldErrors = result.details?.fieldErrors;
+				if (fieldErrors && Object.keys(fieldErrors).length > 0) {
+					const first = Object.entries(fieldErrors)[0];
+					throw new Error(first ? `${first[0]}: ${first[1].join(", ")}` : result.error || "Validation failed");
+				}
 				throw new Error(result.error || "Failed to create brew");
 			}
 
